@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UI Library Test</title>
+
+  <!-- Generierte CSS-Datei einbinden -->
+  <link rel="stylesheet" href="../../../packages/css/ui.css" />
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: var(--colors-color5);
+      color: var(--colors-text1);
+      padding: 40px;
+    }
+
+    h1 {
+      margin-bottom: 24px;
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .ui-btn + .ui-btn {
+      margin-left: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>UI Library Test</h1>
+
+  <div class="section">
+    <h2>Buttons</h2>
+    <button class="ui-btn">Primary</button>
+    <button class="ui-btn-secondary ui-btn">Secondary</button>
+    <button class="ui-btn-danger ui-btn">Danger</button>
+  </div>
+
+  <div class="section">
+    <h2>Interaktion</h2>
+    <button class="ui-btn" onclick="alert('Button geklickt!')">
+      Klick mich
+    </button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+/* AUTO-GENERATED FROM tokens.json — DO NOT EDIT */
+
+:root {
+  --colors-color1: #EA9D3C;
+  --colors-color2: #B96C69;
+  --colors-color3: #EA9D6F;
+  --colors-color4: #F1CC9F;
+  --colors-color5: #FDFEE3;
+  --colors-color6: #9C9DF7;
+  --colors-color7: #C29DC9;
+  --colors-text1: #000000;
+  --colors-text2: #FFFFFF;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --fontSize-sm: 14px;
+  --fontSize-md: 16px;
+  --fontSize-lg: 18px;
+}
+
+
+.ui-btn {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--fontSize-md);
+  color: var(--colors-text2);
+  background: var(--colors-color1);
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ui-btn:hover {
+  background: var(--colors-color2);
+}
+
+.ui-btn-secondary {
+  background: var(--colors-color3);
+  color: var(--colors-text1);
+}
+
+.ui-btn-danger {
+  background: var(--colors-color4);
+  color: var(--colors-text1);
+}
