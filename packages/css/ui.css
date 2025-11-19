@@ -2,49 +2,63 @@
 
 :root {
   --colors-color1: #EA9D3C;
+  --colors-color1hover: #EFB46B;
   --colors-color2: #B96C69;
+  --colors-color2hover: #C98F8D;
   --colors-color3: #EA9D6F;
+  --colors-color3hover: #F4CB9A;
   --colors-color4: #F1CC9F;
+  --colors-color4hover: #F7E3C9;
   --colors-color5: #FDFEE3;
+  --colors-color5hover: #FFFFFF;
   --colors-color6: #9C9DF7;
+  --colors-color6hover: #CBCCFB;
   --colors-color7: #C29DC9;
+  --colors-color7hover: #D6BDDB;
   --colors-text1: #000000;
   --colors-text2: #FFFFFF;
+  --colors-background: #000000;
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 12px;
   --spacing-lg: 16px;
   --spacing-xl: 24px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-btn-std: 24px;
   --fontSize-sm: 14px;
   --fontSize-md: 16px;
   --fontSize-lg: 18px;
 }
 
 
-.ui-btn {
+@font-face {
+  font-family: 'HelveticaUltraCompressed';
+  src: url('../utils/fonts/HelveticaUltraCompressed/HelveticaUltraCompressed.woff2') format('woff2'),
+       url('../utils/fonts/HelveticaUltraCompressed/HelveticaUltraCompressed.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.lcar-btn-std[data-color="1"] { --btn-bg: var(--colors-color1); --btn-bg-hover: var(--colors-color1hover); }
+.lcar-btn-std[data-color="2"] { --btn-bg: var(--colors-color2); --btn-bg-hover: var(--colors-color2hover); }
+.lcar-btn-std[data-color="3"] { --btn-bg: var(--colors-color3); --btn-bg-hover: var(--colors-color3hover); }
+.lcar-btn-std[data-color="4"] { --btn-bg: var(--colors-color4); --btn-bg-hover: var(--colors-color4hover); }
+.lcar-btn-std[data-color="5"] { --btn-bg: var(--colors-color5); --btn-bg-hover: var(--colors-color5hover); }
+.lcar-btn-std[data-color="6"] { --btn-bg: var(--colors-color6); --btn-bg-hover: var(--colors-color6hover); }
+.lcar-btn-std[data-color="7"] { --btn-bg: var(--colors-color7); --btn-bg-hover: var(--colors-color7hover); }
+
+.lcar-btn-std {
   padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--fontSize-md);
   color: var(--colors-text2);
-  background: var(--colors-color1);
-  border-radius: var(--radius-md);
+  background: var(--btn-bg, var(--colors-color1));
+  border-radius: var(--radius-btn-std);
   border: none;
   cursor: pointer;
   transition: background 0.2s ease;
-}
-
-.ui-btn:hover {
-  background: var(--colors-color2);
-}
-
-.ui-btn-secondary {
-  background: var(--colors-color3);
+  font-family: 'HelveticaUltraCompressed', Helvetica, Arial, sans-serif;
   color: var(--colors-text1);
 }
 
-.ui-btn-danger {
-  background: var(--colors-color4);
-  color: var(--colors-text1);
+.lcar-btn-std:hover {
+  background: var(--btn-bg-hover, var(--colors-color1hover));
 }

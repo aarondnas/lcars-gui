@@ -26,29 +26,37 @@ function generateCssVars() {
 // Beispiel: Button-Komponente
 function generateComponentStyles() {
   return `
-.ui-btn {
+@font-face {
+  font-family: 'HelveticaUltraCompressed';
+  src: url('../utils/fonts/HelveticaUltraCompressed/HelveticaUltraCompressed.woff2') format('woff2'),
+       url('../utils/fonts/HelveticaUltraCompressed/HelveticaUltraCompressed.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.lcar-btn-std[data-color="1"] { --btn-bg: var(--colors-color1); --btn-bg-hover: var(--colors-color1hover); }
+.lcar-btn-std[data-color="2"] { --btn-bg: var(--colors-color2); --btn-bg-hover: var(--colors-color2hover); }
+.lcar-btn-std[data-color="3"] { --btn-bg: var(--colors-color3); --btn-bg-hover: var(--colors-color3hover); }
+.lcar-btn-std[data-color="4"] { --btn-bg: var(--colors-color4); --btn-bg-hover: var(--colors-color4hover); }
+.lcar-btn-std[data-color="5"] { --btn-bg: var(--colors-color5); --btn-bg-hover: var(--colors-color5hover); }
+.lcar-btn-std[data-color="6"] { --btn-bg: var(--colors-color6); --btn-bg-hover: var(--colors-color6hover); }
+.lcar-btn-std[data-color="7"] { --btn-bg: var(--colors-color7); --btn-bg-hover: var(--colors-color7hover); }
+
+.lcar-btn-std {
   padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--fontSize-md);
   color: var(--colors-text2);
-  background: var(--colors-color1);
-  border-radius: var(--radius-md);
+  background: var(--btn-bg, var(--colors-color1));
+  border-radius: var(--radius-btn-std);
   border: none;
   cursor: pointer;
   transition: background 0.2s ease;
-}
-
-.ui-btn:hover {
-  background: var(--colors-color2);
-}
-
-.ui-btn-secondary {
-  background: var(--colors-color3);
+  font-family: 'HelveticaUltraCompressed', Helvetica, Arial, sans-serif;
   color: var(--colors-text1);
 }
 
-.ui-btn-danger {
-  background: var(--colors-color4);
-  color: var(--colors-text1);
+.lcar-btn-std:hover {
+  background: var(--btn-bg-hover, var(--colors-color1hover));
 }
 `;
 }
