@@ -34,6 +34,7 @@ function generateComponentStyles() {
   font-style: normal;
 }
 
+/* Colors */
 .lcar-btn-std[data-color="1"] { --btn-bg: var(--colors-color1); --btn-bg-hover: var(--colors-color1hover); }
 .lcar-btn-std[data-color="2"] { --btn-bg: var(--colors-color2); --btn-bg-hover: var(--colors-color2hover); }
 .lcar-btn-std[data-color="3"] { --btn-bg: var(--colors-color3); --btn-bg-hover: var(--colors-color3hover); }
@@ -42,10 +43,8 @@ function generateComponentStyles() {
 .lcar-btn-std[data-color="6"] { --btn-bg: var(--colors-color6); --btn-bg-hover: var(--colors-color6hover); }
 .lcar-btn-std[data-color="7"] { --btn-bg: var(--colors-color7); --btn-bg-hover: var(--colors-color7hover); }
 
+/* Base style */
 .lcar-btn-std {
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--fontSize-md);
-  color: var(--colors-text2);
   background: var(--btn-bg, var(--colors-color1));
   border-radius: var(--radius-btn-std);
   border: none;
@@ -53,12 +52,25 @@ function generateComponentStyles() {
   transition: background 0.2s ease;
   font-family: 'HelveticaUltraCompressed', Helvetica, Arial, sans-serif;
   color: var(--colors-text1);
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* Size Variants */
+.lcar-btn-std[data-size="s"]  { width: var(--width-btn-std); height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-s); }
+.lcar-btn-std[data-size="m"]  { width: var(--width-btn-std); height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-m); }
+.lcar-btn-std[data-size="l"]  { width: var(--width-btn-std); height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-l); }
+.lcar-btn-std[data-size="xl"] { width: var(--width-btn-std); height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-xl); }
 
 .lcar-btn-std:hover {
   background: var(--btn-bg-hover, var(--colors-color1hover));
 }
-`;
+
+
+`
 }
 
 // Zusammenbauen und schreiben
