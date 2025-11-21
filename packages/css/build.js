@@ -1,15 +1,15 @@
 import fs from "fs";
 import path from "path";
 
-// Pfad zu deinen Tokens
+// Path to tokens
 const tokensPath = path.resolve("../tokens/tokens.json");
 const tokens = JSON.parse(fs.readFileSync(tokensPath, "utf8"));
 
-// Hilfsfunktion: camelCase → kebab-case
+// Helper function: camelCase → kebab-case
 const kebab = (str) =>
   str.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
 
-// Generiere CSS-Variablen aus allen Tokens
+// Generate css-variables from all tokens
 function generateCssVars() {
   let css = ":root {\n";
 
@@ -23,7 +23,7 @@ function generateCssVars() {
   return css;
 }
 
-// Beispiel: Button-Komponente
+// Buttons
 function generateComponentStyles() {
   return `
 @font-face {
@@ -34,14 +34,7 @@ function generateComponentStyles() {
   font-style: normal;
 }
 
-/* Colors */
-.lcar-btn-std[data-color="1"] { --btn-bg: var(--colors-color1); --btn-bg-hover: var(--colors-color1hover); }
-.lcar-btn-std[data-color="2"] { --btn-bg: var(--colors-color2); --btn-bg-hover: var(--colors-color2hover); }
-.lcar-btn-std[data-color="3"] { --btn-bg: var(--colors-color3); --btn-bg-hover: var(--colors-color3hover); }
-.lcar-btn-std[data-color="4"] { --btn-bg: var(--colors-color4); --btn-bg-hover: var(--colors-color4hover); }
-.lcar-btn-std[data-color="5"] { --btn-bg: var(--colors-color5); --btn-bg-hover: var(--colors-color5hover); }
-.lcar-btn-std[data-color="6"] { --btn-bg: var(--colors-color6); --btn-bg-hover: var(--colors-color6hover); }
-.lcar-btn-std[data-color="7"] { --btn-bg: var(--colors-color7); --btn-bg-hover: var(--colors-color7hover); }
+/* #################### CAPSULE #################### */
 
 /* Base style */
 .lcar-btn-std {
@@ -59,21 +52,37 @@ function generateComponentStyles() {
   text-overflow: ellipsis;
 }
 
-/* Size Variants */
-.lcar-btn-std[data-size="s"]  { width: var(--width-btn-std); height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-s); }
-.lcar-btn-std[data-size="m"]  { width: var(--width-btn-std); height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-m); }
-.lcar-btn-std[data-size="l"]  { width: var(--width-btn-std); height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-l); }
-.lcar-btn-std[data-size="xl"] { width: var(--width-btn-std); height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-xl); }
-
 .lcar-btn-std:hover {
   background: var(--btn-bg-hover, var(--colors-color1hover));
 }
 
+/* Colors */
+.lcar-btn-std[data-color="1"] { --btn-bg: var(--colors-color1); --btn-bg-hover: var(--colors-color1hover); }
+.lcar-btn-std[data-color="2"] { --btn-bg: var(--colors-color2); --btn-bg-hover: var(--colors-color2hover); }
+.lcar-btn-std[data-color="3"] { --btn-bg: var(--colors-color3); --btn-bg-hover: var(--colors-color3hover); }
+.lcar-btn-std[data-color="4"] { --btn-bg: var(--colors-color4); --btn-bg-hover: var(--colors-color4hover); }
+.lcar-btn-std[data-color="5"] { --btn-bg: var(--colors-color5); --btn-bg-hover: var(--colors-color5hover); }
+.lcar-btn-std[data-color="6"] { --btn-bg: var(--colors-color6); --btn-bg-hover: var(--colors-color6hover); }
+.lcar-btn-std[data-color="7"] { --btn-bg: var(--colors-color7); --btn-bg-hover: var(--colors-color7hover); }
+
+/* Size Variants */
+.lcar-btn-std[data-size="xs"]  { height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-xs); }
+.lcar-btn-std[data-size="s"]  { height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-s); }
+.lcar-btn-std[data-size="m"]  { height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-m); }
+.lcar-btn-std[data-size="l"]  { height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-l); }
+.lcar-btn-std[data-size="xl"] { height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-xl); }
+
+/* Length Variants */
+.lcar-btn-std[data-length="xs"]  { width: var(--width-xs); }
+.lcar-btn-std[data-length="s"]  { width: var(--width-s); }
+.lcar-btn-std[data-length="m"]  { width: var(--width-m); }
+.lcar-btn-std[data-length="l"]  { width: var(--width-l); }
+.lcar-btn-std[data-length="xl"] { width: var(--width-xl); }
 
 `
 }
 
-// Zusammenbauen und schreiben
+// Build and write
 const finalCss =
   "/* AUTO-GENERATED FROM tokens.json — DO NOT EDIT */\n\n" +
   generateCssVars() +
