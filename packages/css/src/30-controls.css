@@ -1,0 +1,178 @@
+/* #################### TABS #################### */
+
+.lcar-tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.lcar-tabs > .lcar-bar {
+  flex: none;
+  width: 100%;
+}
+
+.lcar-tablist {
+  display: flex;
+  gap: var(--frame-gap);
+}
+
+.lcar-tab {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  min-width: 7rem;
+  height: 2.5rem;
+  margin-bottom: var(--frame-gap);
+  padding: 0 0.6em 0.3em;
+  border: none;
+  cursor: pointer;
+  font-size: var(--frame-label-size);
+  color: var(--colors-text1);
+  background: color-mix(in srgb, var(--lcar-bg, var(--colors-color1)) 45%, black);
+}
+
+.lcar-tab:first-child { border-top-left-radius: 1.25rem; }
+
+.lcar-tab:hover {
+  background: color-mix(in srgb, var(--lcar-bg, var(--colors-color1)) 70%, black);
+}
+
+/* Active tab flows into the bar below */
+.lcar-tab[aria-selected="true"] {
+  background: var(--lcar-bg, var(--colors-color1));
+  margin-bottom: 0;
+  height: calc(2.5rem + var(--frame-gap));
+}
+
+.lcar-tab:focus-visible {
+  outline: 2px solid var(--colors-color5);
+  outline-offset: 2px;
+}
+
+.lcar-tabpanel {
+  padding: 1rem 0;
+  color: var(--colors-text2);
+}
+
+/* #################### INPUT #################### */
+
+.lcar-field {
+  display: flex;
+  gap: var(--frame-gap);
+  height: 2.4rem;
+  font-size: var(--frame-label-size);
+}
+
+.lcar-field-label {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  min-width: 6rem;
+  padding: 0 0.6em 0.3em 1.2em;
+  border-radius: 1.2rem 0 0 1.2rem;
+  background: var(--lcar-bg, var(--colors-color1));
+  color: var(--colors-text1);
+}
+
+.lcar-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 1.2em 0 0.6em;
+  border: 0.2rem solid var(--lcar-bg, var(--colors-color1));
+  border-radius: 0 1.2rem 1.2rem 0;
+  background: transparent;
+  color: var(--lcar-bg-hover, var(--colors-color1hover));
+  font-size: 1.4em;
+  outline: none;
+}
+
+.lcar-input::placeholder {
+  color: color-mix(in srgb, var(--lcar-bg, var(--colors-color1)) 50%, black);
+}
+
+.lcar-input:focus {
+  border-color: var(--lcar-bg-hover, var(--colors-color1hover));
+  box-shadow: 0 0 0.6rem color-mix(in srgb, var(--lcar-bg, var(--colors-color1)) 50%, transparent);
+}
+
+/* #################### SLIDER (native range) #################### */
+
+.lcar-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: calc(var(--frame-bar-height) * 1.6);
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.lcar-range::-webkit-slider-runnable-track {
+  height: var(--frame-bar-height);
+  border-radius: var(--frame-bar-height);
+  background: color-mix(in srgb, var(--lcar-bg, var(--colors-color1)) 35%, black);
+}
+.lcar-range::-moz-range-track {
+  height: var(--frame-bar-height);
+  border-radius: var(--frame-bar-height);
+  background: color-mix(in srgb, var(--lcar-bg, var(--colors-color1)) 35%, black);
+}
+.lcar-range::-moz-range-progress {
+  height: var(--frame-bar-height);
+  border-radius: var(--frame-bar-height) 0 0 var(--frame-bar-height);
+  background: var(--lcar-bg, var(--colors-color1));
+}
+
+.lcar-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 2.5rem;
+  height: calc(var(--frame-bar-height) * 1.6);
+  margin-top: calc(var(--frame-bar-height) * -0.3);
+  border: 0.25rem solid var(--colors-background);
+  border-radius: 0.4rem;
+  background: var(--lcar-bg-hover, var(--colors-color1hover));
+}
+.lcar-range::-moz-range-thumb {
+  width: 2.5rem;
+  height: calc(var(--frame-bar-height) * 1.6);
+  border: 0.25rem solid var(--colors-background);
+  border-radius: 0.4rem;
+  background: var(--lcar-bg-hover, var(--colors-color1hover));
+}
+
+.lcar-range:focus-visible {
+  outline: 2px solid var(--colors-color5);
+  outline-offset: 2px;
+}
+
+/* #################### KEYPAD #################### */
+
+.lcar-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--frame-gap);
+  width: 15rem;
+}
+
+.lcar-keypad > .lcar-btn-std {
+  width: 100%;
+  height: 3rem;
+  font-size: calc(var(--frame-label-size) * 1.3);
+}
+
+.lcar-keypad-display {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 3rem;
+  margin-bottom: var(--frame-gap);
+  padding: 0 1.2rem;
+  border: 0.2rem solid var(--lcar-bg, var(--colors-color1));
+  border-radius: 1.5rem;
+  color: var(--colors-color5);
+  font-size: 1.8rem;
+  letter-spacing: 0.25em;
+}
+
+.lcar-keypad-display[data-state="ok"]    { border-color: var(--status-ok);    color: var(--status-ok); }
+.lcar-keypad-display[data-state="error"] { border-color: var(--status-error); color: var(--status-error); }

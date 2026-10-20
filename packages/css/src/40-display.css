@@ -1,0 +1,246 @@
+/* #################### DATA CASCADE #################### */
+
+.lcar-cascade {
+  display: flex;
+  max-width: 100%;
+  overflow: hidden;
+  gap: 1.2em;
+  font-size: var(--frame-label-size);
+  font-variant-numeric: tabular-nums;
+  color: var(--colors-color4);
+}
+
+.lcar-cascade-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  text-align: right;
+}
+
+.lcar-cascade-col:nth-child(3n + 2) { color: var(--colors-color6); }
+.lcar-cascade-col:nth-child(3n + 3) { color: var(--colors-color3); }
+
+/* each cell sets --i (stagger index) */
+.lcar-cascade-col > span {
+  animation: lcar-cascade 4s steps(1) infinite;
+  animation-delay: calc(var(--i, 0) * 110ms);
+}
+
+@keyframes lcar-cascade {
+  0%  { color: var(--colors-color5); }
+  6%  { color: var(--colors-color1); }
+  45% { color: inherit; }
+}
+
+/* #################### READOUT #################### */
+
+.lcar-readout {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  gap: 0.35em 2em;
+  margin: 0;
+  font-size: var(--frame-label-size);
+}
+
+.lcar-readout dt {
+  color: var(--lcar-bg, var(--colors-color3));
+}
+
+.lcar-readout dd {
+  margin: 0;
+  text-align: right;
+  color: var(--colors-color5);
+  font-variant-numeric: tabular-nums;
+}
+
+/* #################### LEVEL BAR #################### */
+
+.lcar-level {
+  display: flex;
+  gap: 0.2rem;
+  height: var(--frame-bar-height);
+}
+
+.lcar-level > span {
+  flex: 1 1 0;
+  background: color-mix(in srgb, var(--lcar-bg, var(--colors-color1)) 25%, black);
+}
+
+.lcar-level > span[data-on] {
+  background: var(--lcar-bg, var(--colors-color1));
+}
+
+.lcar-level > span:first-child { border-radius: var(--frame-bar-height) 0 0 var(--frame-bar-height); }
+.lcar-level > span:last-child  { border-radius: 0 var(--frame-bar-height) var(--frame-bar-height) 0; }
+
+.lcar-level[data-orientation="vertical"] {
+  flex-direction: column-reverse;
+  width: calc(var(--frame-bar-height) * 1.5);
+  height: 9rem;
+}
+.lcar-level[data-orientation="vertical"] > span:first-child { border-radius: 0 0 0.75rem 0.75rem; }
+.lcar-level[data-orientation="vertical"] > span:last-child  { border-radius: 0.75rem 0.75rem 0 0; }
+
+/* #################### GAUGE (set --value 0–100) #################### */
+
+.lcar-gauge {
+  --value: 0;
+  --segments: 12;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 12rem;
+  aspect-ratio: 2;
+  font-size: 2.4rem;
+  color: var(--colors-color5);
+}
+
+.lcar-gauge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from -90deg at 50% 100%,
+    var(--lcar-bg, var(--colors-color1)) calc(var(--value) * 1.8deg),
+    color-mix(in srgb, var(--lcar-bg, var(--colors-color1)) 22%, black) 0 180deg,
+    transparent 0);
+  -webkit-mask:
+    radial-gradient(circle farthest-side at 50% 100%, transparent 58%, #000 calc(58% + 1px) 100%, transparent 0),
+    repeating-conic-gradient(from -90deg at 50% 100%, #000 0 calc(180deg / var(--segments) - 2deg), transparent 0 calc(180deg / var(--segments)));
+  -webkit-mask-composite: source-in;
+  mask:
+    radial-gradient(circle farthest-side at 50% 100%, transparent 58%, #000 calc(58% + 1px) 100%, transparent 0),
+    repeating-conic-gradient(from -90deg at 50% 100%, #000 0 calc(180deg / var(--segments) - 2deg), transparent 0 calc(180deg / var(--segments)));
+  mask-composite: intersect;
+}
+
+.lcar-gauge > * { position: relative; }
+
+.lcar-gauge > small {
+  font-size: 0.4em;
+  color: var(--lcar-bg, var(--colors-color1));
+}
+
+/* #################### SENSOR / BLIP / SCAN #################### */
+
+.lcar-sensor {
+  --lcar-line: var(--lcar-bg, var(--colors-color6));
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 0.2rem solid var(--lcar-line);
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(var(--lcar-line), var(--lcar-line)) center / 1px 100% no-repeat,
+    linear-gradient(var(--lcar-line), var(--lcar-line)) center / 100% 1px no-repeat,
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--lcar-line) 25%, transparent) 0 1px, transparent 1px 2rem),
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--lcar-line) 25%, transparent) 0 1px, transparent 1px 2rem);
+}
+
+/* --x / --y: position in percent (0–100) */
+.lcar-blip {
+  position: absolute;
+  left: calc(var(--x, 50) * 1%);
+  top: calc(var(--y, 50) * 1%);
+  width: 0.7rem;
+  height: 0.7rem;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--lcar-bg);
+  box-shadow: 0 0 0.6rem var(--lcar-bg);
+  animation: lcar-pulse 0.9s ease-in-out infinite alternate;
+}
+
+.lcar-blip:not([data-color]) { --lcar-bg: var(--colors-color5); }
+
+.lcar-scan {
+  position: relative;
+  overflow: hidden;
+}
+
+.lcar-scan::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4rem;
+  width: 4rem;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--colors-color5) 45%, transparent));
+  animation: lcar-scan 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes lcar-scan {
+  to { left: 100%; }
+}
+
+/* #################### STATUS INDICATOR #################### */
+
+.lcar-status {
+  --lcar-status: var(--status-off);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: var(--frame-label-size);
+  color: var(--colors-color5);
+}
+
+.lcar-status::before {
+  content: "";
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 50%;
+  background: var(--lcar-status);
+  box-shadow: 0 0 0.5em var(--lcar-status);
+}
+
+.lcar-status[data-status="ok"]    { --lcar-status: var(--status-ok); }
+.lcar-status[data-status="warn"]  { --lcar-status: var(--status-warn); }
+.lcar-status[data-status="error"] { --lcar-status: var(--status-error); }
+.lcar-status[data-status="off"]   { --lcar-status: var(--status-off); }
+.lcar-status[data-status="off"]::before { box-shadow: none; }
+
+.lcar-status[data-blink]::before {
+  animation: lcar-blink 1s infinite;
+}
+
+/* #################### ALERT #################### */
+
+.lcar-alert {
+  --lcar-bg: var(--alert-red);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 3rem;
+  border: 0.45rem solid var(--lcar-bg);
+  border-radius: 3rem;
+  outline: 0.45rem solid var(--lcar-bg);
+  outline-offset: 0.45rem;
+  color: var(--lcar-bg);
+  animation: lcar-blink 1.2s infinite;
+}
+
+.lcar-alert[data-level="yellow"] { --lcar-bg: var(--alert-yellow); }
+
+.lcar-alert-title {
+  font-size: 4rem;
+  letter-spacing: 0.15em;
+}
+
+.lcar-alert-text {
+  font-size: 1.4rem;
+  letter-spacing: 0.1em;
+}
+
+/* Alert mode on any container: palette comes from the theme section,
+   frame elements pulse */
+[data-alert] :is(.lcar-bar, .lcar-elbow, .lcar-block) {
+  animation: lcar-pulse 1.4s ease-in-out infinite alternate;
+}
+
+[data-alert="red"] :is(.lcar-bar, .lcar-elbow, .lcar-block) {
+  animation-duration: 0.7s;
+}

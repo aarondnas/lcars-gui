@@ -8,14 +8,15 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./global": "./dist/index.global.js"
   },
   "files": [
     "dist"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --clean",
+    "build": "tsup src/index.ts --format esm,iife --global-name LcarsCore --dts --clean",
     "dev": "tsup src/index.ts --format esm --dts --watch"
   }
 }

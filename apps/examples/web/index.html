@@ -14,33 +14,537 @@
       background: var(--colors-background);
       color: var(--colors-text1);
       padding: 40px;
+      margin: 0;
     }
 
-    h1 {
-      margin-bottom: 24px;
+    .page {
+      min-height: calc(100vh - 80px);
+    }
+
+    h2 {
+      color: var(--colors-color3);
+      font-size: 1.8rem;
+      font-weight: normal;
+      text-transform: uppercase;
+      margin: 0 0 12px;
+    }
+
+    h3 {
+      color: var(--colors-color4);
+      font-size: 1.2rem;
+      font-weight: normal;
+      text-transform: uppercase;
+      margin: 20px 0 8px;
+    }
+
+    p {
+      color: var(--colors-color5);
+      font-size: 1rem;
     }
 
     .section {
-      margin-bottom: 32px;
+      margin-bottom: 48px;
+      scroll-margin-top: 20px;
+    }
+
+    .row {
+      display: flex;
+      gap: var(--frame-gap);
+      margin-bottom: 12px;
+    }
+
+    .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+
+    .stack-v {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 32rem;
+    }
+
+    .elbow-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 48px;
+    }
+
+    .header-controls {
+      display: flex;
+      flex-direction: column;
+      gap: var(--frame-gap);
+    }
+
+    .header-controls .row {
+      margin: 0;
     }
 
     .ui-btn + .ui-btn {
       margin-left: 12px;
     }
+
+    /* Kleineres Panel: alle Frame-Maße sind CSS-Variablen und lokal überschreibbar */
+    .mini {
+      --frame-sidebar-width: 6rem;
+      --frame-bar-height: 1rem;
+      --frame-segment-height: 2.5rem;
+      --frame-elbow-height: 3.5rem;
+      --frame-elbow-radius: 2.5rem;
+      --frame-elbow-inner-radius: 1rem;
+      --frame-label-size: 0.9rem;
+      --frame-title-size: 1.5rem;
+      height: 22rem;
+      max-width: 40rem;
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 12px; }
+      .elbow-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <h1>UI Library Test</h1>
-  <div class="section">
-    <h2>Button Standard Colors</h2>
+  <!-- Split-Layout: oberer Bereich, zwei Elbows in der Mitte, unterer Bereich -->
+  <div class="lcar-frame page" data-layout="split">
 
-    <button class="lcar-btn-std" data-color="1" data-size="xs" data-length="m" style="text-align: right;">Button 1</button>
-    <button class="lcar-btn-std" data-color="2" data-size="s" data-length="m">Button 2</button>
-    <button class="lcar-btn-std" data-color="3" data-size="m">Button 3 tzfgasfjagfaj</button>
-    <button class="lcar-btn-std" data-color="4" data-size="l" data-length="m">Button 4</button>
-    <button class="lcar-btn-std" data-color="5" data-size="xl" data-length="s">OK</button>
-    <button class="lcar-btn-std" data-color="6" data-size="l" data-length="m">Button 6</button>
-    <button class="lcar-btn-std" data-color="7" data-size="m" data-length="m">Button 7</button>
+    <!-- ========== OBERER BEREICH ========== -->
+    <div class="lcar-stack">
+      <div class="lcar-block" data-color="4">LCARS</div>
+      <div class="lcar-block" data-color="1" data-fill>01-4711</div>
+    </div>
+
+    <header class="lcar-frame-content lcar-frame-header">
+      <div class="lcar-cascade" data-columns="9" data-rows="5"></div>
+
+      <div class="header-controls">
+        <div class="row">
+          <button class="lcar-btn-std" data-color="6" data-size="m" data-length="m" data-shape="cap-left" data-set-theme="tng">TNG</button>
+          <button class="lcar-btn-std" data-color="6" data-size="m" data-length="m" data-shape="rect" data-set-theme="ds9">DS9</button>
+          <button class="lcar-btn-std" data-color="6" data-size="m" data-length="m" data-shape="cap-right" data-set-theme="picard">Picard</button>
+        </div>
+        <div class="row">
+          <button class="lcar-btn-std" data-color="2" data-size="m" data-length="m" data-shape="cap-left" data-set-alert="red">Red Alert</button>
+          <button class="lcar-btn-std" data-color="4" data-size="m" data-length="m" data-shape="rect" data-set-alert="yellow">Yellow</button>
+          <button class="lcar-btn-std" data-color="1" data-size="m" data-length="m" data-shape="cap-right" data-set-alert="">Normal</button>
+        </div>
+        <div class="row">
+          <button class="lcar-btn-std" id="sound-toggle" data-color="7" data-size="m" data-length="xl" aria-pressed="false">Sound</button>
+        </div>
+      </div>
+
+      <h1 class="lcar-title" data-color="3">UI Library Test</h1>
+    </header>
+
+    <!-- ========== MITTE: zwei Elbows ========== -->
+    <div class="lcar-frame-bottom">
+      <div class="lcar-elbow" data-corner="bl" data-color="1">02-1701</div>
+      <div class="lcar-bar" data-color="1"></div>
+      <div class="lcar-bar" data-color="4" data-length="l"></div>
+      <div class="lcar-bar" data-color="7" data-length="s"></div>
+      <div class="lcar-bar" data-color="1" data-cap="right" data-length="xs"></div>
+    </div>
+
+    <div class="lcar-frame-top">
+      <div class="lcar-elbow" data-corner="tl" data-color="2">03-0047</div>
+      <div class="lcar-bar" data-color="2" data-length="m"></div>
+      <div class="lcar-bar" data-color="6"></div>
+      <div class="lcar-bar" data-color="2" data-cap="right" data-length="xs"></div>
+    </div>
+
+    <!-- ========== UNTERER BEREICH ========== -->
+    <nav class="lcar-stack">
+      <a href="#buttons" class="lcar-btn-std" data-color="2" data-shape="rect" data-align="br">Buttons</a>
+      <a href="#konsole" class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Konsole</a>
+      <a href="#steuerung" class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br">Steuerung</a>
+      <a href="#anzeigen" class="lcar-btn-std" data-color="7" data-shape="rect" data-align="br">Anzeigen</a>
+      <a href="#sensoren" class="lcar-btn-std" data-color="3" data-shape="rect" data-align="br">Sensoren</a>
+      <a href="#alarm" class="lcar-btn-std" data-color="2" data-shape="rect" data-align="br">Alarm</a>
+      <a href="#rahmen" class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Rahmen</a>
+      <div class="lcar-block" data-color="2" data-fill>47-1138</div>
+    </nav>
+
+    <main class="lcar-frame-content">
+
+      <!-- ---------- BUTTONS ---------- -->
+      <div class="section" id="buttons">
+        <h2>Button Standard Colors</h2>
+
+        <button class="lcar-btn-std" data-color="1" data-size="xs" data-length="m" style="text-align: right;">Button 1</button>
+        <button class="lcar-btn-std" data-color="2" data-size="s" data-length="m">Button 2</button>
+        <button class="lcar-btn-std" data-color="3" data-size="m">Button 3 tzfgasfjagfaj</button>
+        <button class="lcar-btn-std" data-color="4" data-size="l" data-length="m">Button 4</button>
+        <button class="lcar-btn-std" data-color="5" data-size="xl" data-length="s">OK</button>
+        <button class="lcar-btn-std" data-color="6" data-size="l" data-length="m">Button 6</button>
+        <button class="lcar-btn-std" data-color="7" data-size="m" data-length="m">Button 7</button>
+
+        <h3>Formen</h3>
+        <div class="row">
+          <button class="lcar-btn-std" data-color="1" data-size="l" data-length="l">Capsule</button>
+          <button class="lcar-btn-std" data-color="2" data-size="l" data-length="l" data-shape="rect">Rect</button>
+          <button class="lcar-btn-std" data-color="6" data-size="l" data-length="l" data-shape="cap-left">Cap Left</button>
+          <button class="lcar-btn-std" data-color="7" data-size="l" data-length="l" data-shape="cap-right">Cap Right</button>
+        </div>
+
+        <h3>Button-Gruppe</h3>
+        <div class="row">
+          <button class="lcar-btn-std" data-color="3" data-size="l" data-length="m" data-shape="cap-left">Warp</button>
+          <button class="lcar-btn-std" data-color="4" data-size="l" data-length="m" data-shape="rect">Impuls</button>
+          <button class="lcar-btn-std" data-color="4" data-size="l" data-length="m" data-shape="rect">Manöver</button>
+          <button class="lcar-btn-std" data-color="2" data-size="l" data-length="m" data-shape="cap-right">Stopp</button>
+        </div>
+
+        <h3>Label unten rechts (TNG-Stil)</h3>
+        <div class="row">
+          <button class="lcar-btn-std" data-color="1" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem">Sensoren</button>
+          <button class="lcar-btn-std" data-color="6" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem">Schilde</button>
+          <button class="lcar-btn-std" data-color="7" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem" disabled>Deaktiviert</button>
+        </div>
+
+        <h3>Toggle (aria-pressed)</h3>
+        <div class="row">
+          <button class="lcar-btn-std" data-color="6" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem" aria-pressed="true">Schilde</button>
+          <button class="lcar-btn-std" data-color="3" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem" aria-pressed="false">Phaser</button>
+          <button class="lcar-btn-std" data-color="7" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem" aria-pressed="false">Tarnung</button>
+        </div>
+      </div>
+
+      <!-- ---------- KONSOLE ---------- -->
+      <div class="section" id="konsole">
+        <h2>Button Grid</h2>
+        <div class="lcar-grid" style="--cols: 5; max-width: 40rem">
+          <button class="lcar-btn-std" data-color="1" data-shape="rect" data-align="br">Navigation</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Comms</button>
+          <button class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br">Taktik</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Ops</button>
+          <button class="lcar-btn-std" data-color="3" data-shape="rect" data-align="br">Wissensch.</button>
+          <button class="lcar-btn-std" data-color="7" data-shape="rect" data-align="br">Holodeck</button>
+          <button class="lcar-btn-std" data-color="1" data-shape="rect" data-align="br">Transporter</button>
+          <button class="lcar-btn-std" data-color="2" data-shape="rect" data-align="br">Krankenst.</button>
+          <button class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br">Maschinen</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Logbuch</button>
+        </div>
+
+        <h3>Keypad (Code: 1701)</h3>
+        <div class="lcar-keypad" data-color="4" data-length="6" data-code="1701">
+          <output class="lcar-keypad-display">––––––</output>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">1</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">2</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">3</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">4</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">5</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">6</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">7</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">8</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">9</button>
+          <button class="lcar-btn-std" data-color="2" data-shape="rect" data-align="br">CLR</button>
+          <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">0</button>
+          <button class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br" data-sound="none">ENT</button>
+        </div>
+      </div>
+
+      <!-- ---------- STEUERUNG ---------- -->
+      <div class="section" id="steuerung">
+        <h2>Tabs</h2>
+        <div class="lcar-tabs" data-color="6" style="max-width: 40rem">
+          <div class="lcar-tablist" role="tablist">
+            <button class="lcar-tab" role="tab" id="tab-kurs" aria-controls="panel-kurs" aria-selected="true">Kurs</button>
+            <button class="lcar-tab" role="tab" id="tab-crew" aria-controls="panel-crew" aria-selected="false" tabindex="-1">Crew</button>
+            <button class="lcar-tab" role="tab" id="tab-log" aria-controls="panel-log" aria-selected="false" tabindex="-1">Logbuch</button>
+          </div>
+          <div class="lcar-bar" data-cap="right"></div>
+          <div class="lcar-tabpanel" role="tabpanel" id="panel-kurs" aria-labelledby="tab-kurs">
+            <p>Kurs 247 Komma 9. Ankunft am Sternenbasis 74 in 3 Stunden.</p>
+          </div>
+          <div class="lcar-tabpanel" role="tabpanel" id="panel-crew" aria-labelledby="tab-crew" hidden>
+            <p>1.014 Personen an Bord. Alle Stationen besetzt.</p>
+          </div>
+          <div class="lcar-tabpanel" role="tabpanel" id="panel-log" aria-labelledby="tab-log" hidden>
+            <p>Sternzeit 41153.7 – Captains Logbuch, Nachtrag.</p>
+          </div>
+        </div>
+
+        <h3>Eingabefelder</h3>
+        <div class="stack-v">
+          <label class="lcar-field" data-color="1">
+            <span class="lcar-field-label">Kurs</span>
+            <input class="lcar-input" placeholder="247 Komma 9" />
+          </label>
+          <label class="lcar-field" data-color="6">
+            <span class="lcar-field-label">Ziel</span>
+            <input class="lcar-input" placeholder="Sternenbasis 74" />
+          </label>
+        </div>
+
+        <h3>Slider → Pegel &amp; Gauge</h3>
+        <div class="stack-v">
+          <input type="range" class="lcar-range" data-color="1" id="warp-slider" min="0" max="100" value="60" aria-label="Warpleistung" />
+          <div class="lcar-level" data-color="6" id="warp-level" role="meter" aria-valuemin="0" aria-valuemax="100">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- ANZEIGEN ---------- -->
+      <div class="section" id="anzeigen">
+        <h2>Anzeigen</h2>
+
+        <div class="wrap">
+          <div class="lcar-gauge" data-color="1" id="warp-gauge" role="meter" style="--value: 60"><span>60</span><small>Warp</small></div>
+          <div class="lcar-gauge" data-color="6" role="meter" style="--value: 85; --segments: 20"><span>85</span><small>Schilde</small></div>
+          <div class="lcar-gauge" data-color="2" role="meter" style="--value: 23; --segments: 8"><span>23</span><small>Hülle</small></div>
+
+          <div class="lcar-level" data-color="3" data-orientation="vertical" role="meter">
+            <span data-on></span><span data-on></span><span data-on></span><span data-on></span><span data-on></span>
+            <span data-on></span><span data-on></span><span></span><span></span><span></span>
+          </div>
+          <div class="lcar-level" data-color="7" data-orientation="vertical" role="meter">
+            <span data-on></span><span data-on></span><span data-on></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <h3>Readout</h3>
+        <dl class="lcar-readout">
+          <dt>Warpkern</dt><dd>98.4 %</dd>
+          <dt>Antimaterie</dt><dd>1.207 KG</dd>
+          <dt>Dilithium</dt><dd>Stabil</dd>
+          <dt data-color="2">Hüllenintegrität</dt><dd>23 %</dd>
+        </dl>
+
+        <h3>Kennnummern</h3>
+        <div class="wrap" style="gap: 1rem; align-items: center">
+          <span class="lcar-number">47-1138</span>
+          <span class="lcar-number" data-color="6">03-2814</span>
+          <span class="lcar-number" data-color="2">NCC-1701-D</span>
+        </div>
+
+        <h3>Status</h3>
+        <div class="wrap" style="gap: 1.5rem; align-items: center">
+          <span class="lcar-status" data-status="ok">Online</span>
+          <span class="lcar-status" data-status="warn">Wartung</span>
+          <span class="lcar-status" data-status="error" data-blink>Fehler</span>
+          <span class="lcar-status" data-status="off">Offline</span>
+        </div>
+
+        <h3>Divider</h3>
+        <div class="lcar-divider" role="separator"></div>
+        <div class="lcar-divider" data-color="6" role="separator"></div>
+
+        <h3>Data Cascade</h3>
+        <div class="lcar-cascade" data-columns="14" data-rows="8"></div>
+      </div>
+
+      <!-- ---------- SENSOREN ---------- -->
+      <div class="section" id="sensoren">
+        <h2>Sensoren</h2>
+        <div class="lcar-sensor lcar-scan" data-color="6" style="max-width: 40rem">
+          <span class="lcar-blip" style="--x: 30; --y: 40"></span>
+          <span class="lcar-blip" data-color="2" style="--x: 72; --y: 25"></span>
+          <span class="lcar-blip" data-color="4" style="--x: 58; --y: 70"></span>
+        </div>
+      </div>
+
+      <!-- ---------- ALARM ---------- -->
+      <div class="section" id="alarm">
+        <h2>Alarm</h2>
+        <p>Der Alarmmodus färbt die ganze Oberfläche um – Buttons „Red Alert“ / „Yellow“ oben ausprobieren.</p>
+        <div class="wrap" style="gap: 3rem">
+          <div class="lcar-alert" data-level="red" role="alert">
+            <span class="lcar-alert-title">Alert</span>
+            <span class="lcar-alert-text">Condition: Red</span>
+          </div>
+          <div class="lcar-alert" data-level="yellow">
+            <span class="lcar-alert-title">Alert</span>
+            <span class="lcar-alert-text">Condition: Yellow</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- RAHMEN ---------- -->
+      <div class="section" id="rahmen">
+        <h2>Balken &amp; End Caps</h2>
+
+        <div class="row">
+          <div class="lcar-bar" data-color="1" data-cap="left" data-length="xs"></div>
+          <div class="lcar-bar" data-color="4"></div>
+          <div class="lcar-bar" data-color="1" data-cap="right" data-length="xs"></div>
+        </div>
+        <div class="row">
+          <div class="lcar-bar" data-color="6" data-cap="left" data-length="m"></div>
+          <div class="lcar-bar" data-color="7" data-length="s"></div>
+          <div class="lcar-bar" data-color="6"></div>
+          <div class="lcar-bar" data-color="2" data-length="l"></div>
+          <div class="lcar-bar" data-color="6" data-cap="right" data-length="xs"></div>
+        </div>
+        <div class="row">
+          <div class="lcar-bar" data-color="3" data-cap="both" data-length="xl"></div>
+          <div class="lcar-bar" data-color="5" data-cap="both" data-length="l"></div>
+        </div>
+        <div class="row">
+          <div class="lcar-bar" data-color="2" data-cap="left" data-length="xs"></div>
+          <div class="lcar-bar" data-color="2"></div>
+          <h1 class="lcar-title" data-color="2">Red Alert</h1>
+          <div class="lcar-bar" data-color="2"></div>
+          <div class="lcar-bar" data-color="2" data-cap="right" data-length="xs"></div>
+        </div>
+
+        <h2 style="margin-top: 32px">Elbows</h2>
+        <div class="elbow-grid">
+          <div class="row" style="align-items: flex-start">
+            <div class="lcar-elbow" data-corner="tl" data-color="1">TL</div>
+            <div class="lcar-bar" data-color="1" data-cap="right"></div>
+          </div>
+          <div class="row" style="align-items: flex-start">
+            <div class="lcar-bar" data-color="6" data-cap="left"></div>
+            <div class="lcar-elbow" data-corner="tr" data-color="6">TR</div>
+          </div>
+          <div class="row" style="align-items: flex-end">
+            <div class="lcar-elbow" data-corner="bl" data-color="7">BL</div>
+            <div class="lcar-bar" data-color="7" data-cap="right"></div>
+          </div>
+          <div class="row" style="align-items: flex-end">
+            <div class="lcar-bar" data-color="3" data-cap="left"></div>
+            <div class="lcar-elbow" data-corner="br" data-color="3">BR</div>
+          </div>
+        </div>
+
+        <h2 style="margin-top: 32px">Panel (Standard-Frame, verkleinert)</h2>
+        <div class="lcar-frame mini">
+          <div class="lcar-frame-top">
+            <div class="lcar-elbow" data-corner="tl" data-color="6">03</div>
+            <div class="lcar-bar" data-color="6"></div>
+            <h1 class="lcar-title" data-color="6">Maschinenraum</h1>
+            <div class="lcar-bar" data-color="6" data-cap="right" data-length="xs"></div>
+          </div>
+          <div class="lcar-stack">
+            <button class="lcar-btn-std" data-color="7" data-shape="rect" data-align="br">Warpkern</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Plasma</button>
+            <div class="lcar-block" data-color="6" data-fill></div>
+          </div>
+          <div class="lcar-frame-content">
+            <p>Warpkern stabil. Plasmafluss 98,4 %.</p>
+          </div>
+          <div class="lcar-frame-bottom">
+            <div class="lcar-elbow" data-corner="bl" data-color="6"></div>
+            <div class="lcar-bar" data-color="7" data-length="m"></div>
+            <div class="lcar-bar" data-color="6" data-cap="right" data-length="xs"></div>
+          </div>
+        </div>
+
+        <p style="margin-top: 24px">Responsive: Fenster schmaler als 720 px ziehen – die Seitenleisten werden zu Buttonzeilen.</p>
+      </div>
+
+    </main>
   </div>
+
+  <!-- Hilfsfunktionen aus @lcars/core (cascadeNumbers, createLcarsSound) als globales LcarsCore -->
+  <script src="../../../packages/core/dist/index.global.js"></script>
+  <script>
+    const core = window.LcarsCore;
+    const root = document.documentElement;
+
+    // Data Cascades mit Zahlen füllen
+    document.querySelectorAll(".lcar-cascade[data-columns]").forEach((el, k) => {
+      const columns = core.cascadeNumbers(+el.dataset.columns, +el.dataset.rows, 47 + k);
+      el.innerHTML = columns
+        .map((col, c) => `<div class="lcar-cascade-col">${col.map((n, r) => `<span style="--i:${r * 2 + c}">${n}</span>`).join("")}</div>`)
+        .join("");
+    });
+
+    // Toggles
+    document.querySelectorAll("button[aria-pressed]").forEach((btn) =>
+      btn.addEventListener("click", () => btn.setAttribute("aria-pressed", btn.getAttribute("aria-pressed") !== "true"))
+    );
+
+    // Sound
+    const sound = core.createLcarsSound();
+    let soundOn = false;
+    document.getElementById("sound-toggle").addEventListener("click", (e) => {
+      soundOn = e.currentTarget.getAttribute("aria-pressed") === "true";
+    });
+    document.addEventListener("click", (e) => {
+      const el = e.target.closest(".lcar-btn-std, .lcar-tab");
+      if (soundOn && el && el.dataset.sound !== "none") sound.play(el.dataset.sound || "beep");
+    });
+
+    // Themes & Alarm
+    document.querySelectorAll("[data-set-theme]").forEach((btn) =>
+      btn.addEventListener("click", () => (root.dataset.theme = btn.dataset.setTheme))
+    );
+    document.querySelectorAll("[data-set-alert]").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const level = btn.dataset.setAlert;
+        if (level) root.dataset.alert = level;
+        else delete root.dataset.alert;
+        if (soundOn && level === "red") sound.play("alert");
+      })
+    );
+
+    // Tabs (Klick + Pfeiltasten)
+    document.querySelectorAll(".lcar-tabs").forEach((tabs) => {
+      const list = [...tabs.querySelectorAll('[role="tab"]')];
+      const select = (tab) =>
+        list.forEach((t) => {
+          const on = t === tab;
+          t.setAttribute("aria-selected", on);
+          t.tabIndex = on ? 0 : -1;
+          document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+        });
+      list.forEach((tab, i) => {
+        tab.addEventListener("click", () => select(tab));
+        tab.addEventListener("keydown", (e) => {
+          const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+          if (!step) return;
+          const next = list[(i + step + list.length) % list.length];
+          select(next);
+          next.focus();
+        });
+      });
+    });
+
+    // Keypad
+    document.querySelectorAll(".lcar-keypad").forEach((pad) => {
+      const display = pad.querySelector(".lcar-keypad-display");
+      const length = +pad.dataset.length || 6;
+      let code = "";
+      const show = (text, state) => {
+        display.textContent = text || "–".repeat(length);
+        if (state) display.dataset.state = state;
+        else delete display.dataset.state;
+      };
+      pad.addEventListener("click", (e) => {
+        const key = e.target.closest(".lcar-btn-std")?.textContent.trim();
+        if (!key) return;
+        if (key === "ENT") {
+          const ok = code === pad.dataset.code;
+          code = "";
+          if (soundOn) sound.play(ok ? "confirm" : "deny");
+          return show(ok ? "OK" : "Denied", ok ? "ok" : "error");
+        }
+        if (key === "CLR") code = "";
+        else if (code.length < length) code += key;
+        show("•".repeat(code.length));
+      });
+    });
+
+    // Slider steuert Pegel und Gauge
+    const slider = document.getElementById("warp-slider");
+    const level = document.getElementById("warp-level");
+    const gauge = document.getElementById("warp-gauge");
+    const updateWarp = () => {
+      const value = +slider.value;
+      core.levelSegments(value, level.children.length).forEach((on, i) => level.children[i].toggleAttribute("data-on", on));
+      level.setAttribute("aria-valuenow", value);
+      gauge.style.setProperty("--value", value);
+      gauge.querySelector("span").textContent = value;
+    };
+    slider.addEventListener("input", updateWarp);
+    updateWarp();
+  </script>
 </body>
 </html>

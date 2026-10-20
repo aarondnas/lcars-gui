@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'HelveticaUltraCompressed';
+  src: url('./fonts/HelveticaUltraCompressed/HelveticaUltraCompressed.woff2') format('woff2'),
+       url('./fonts/HelveticaUltraCompressed/HelveticaUltraCompressed.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class*="lcar-"] {
+  box-sizing: border-box;
+}
+
+.lcar-btn-std, .lcar-elbow, .lcar-bar, .lcar-block, .lcar-title, .lcar-number,
+.lcar-tab, .lcar-field, .lcar-input, .lcar-keypad-display, .lcar-cascade,
+.lcar-readout, .lcar-gauge, .lcar-status, .lcar-alert {
+  font-family: 'HelveticaUltraCompressed', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@keyframes lcar-pulse {
+  from { opacity: 1; }
+  to   { opacity: 0.45; }
+}
+
+@keyframes lcar-blink {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="lcar-"], [class*="lcar-"]::before, [class*="lcar-"]::after {
+    animation: none !important;
+  }
+}

@@ -1,7 +1,11 @@
 // packages/core/src/button.ts
-export type ButtonColor = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+import type { LcarsColor, LcarsLength } from "./shared";
+
+export type ButtonColor = LcarsColor;
 export type ButtonSize = "xs" | "s" | "m" | "l" | "xl";
-export type ButtonLength = "xs" | "s" | "m" | "l" | "xl";
+export type ButtonLength = LcarsLength;
+export type ButtonShape = "capsule" | "rect" | "cap-left" | "cap-right";
+export type ButtonAlign = "center" | "bottom-right";
 
 /**
  * Plattformneutrale Button-Props (ohne Events/Children,
@@ -11,6 +15,8 @@ export interface ButtonProps {
   color?: ButtonColor;
   size?: ButtonSize;
   length?: ButtonLength; // ohne Angabe: Breite passt sich dem Inhalt an
+  shape?: ButtonShape;
+  align?: ButtonAlign;
   disabled?: boolean;
 }
 
@@ -21,6 +27,8 @@ export interface ButtonProps {
 export const defaultButtonProps: Required<Omit<ButtonProps, "length">> = {
   color: 1,
   size: "m",
+  shape: "capsule",
+  align: "center",
   disabled: false,
 };
 
@@ -42,10 +50,12 @@ export function normalizeButtonProps<T extends ButtonProps>(props: T) {
  * Liefert die data-Attribute, auf die das CSS reagiert.
  */
 export function buttonDataAttributes(props: ButtonProps) {
-  const { color, size, length } = normalizeButtonProps(props);
+  const { color, size, length, shape, align } = normalizeButtonProps(props);
   return {
     "data-color": String(color),
     "data-size": size,
     ...(length && { "data-length": length }),
+    ...(shape !== "capsule" && { "data-shape": shape }),
+    ...(align === "bottom-right" && { "data-align": "br" }),
   };
 }

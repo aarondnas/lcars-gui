@@ -1,0 +1,208 @@
+/* #################### ELBOW #################### */
+
+.lcar-elbow {
+  position: relative;
+  flex: none;
+  display: flex;
+  width: calc(var(--frame-sidebar-width) + var(--frame-elbow-inner-radius));
+  height: var(--frame-elbow-height);
+  background: var(--lcar-bg, var(--colors-color1));
+  color: var(--colors-text1);
+  font-size: var(--frame-label-size);
+}
+
+/* Inner curve: a quarter circle in surface color */
+.lcar-elbow::after {
+  content: "";
+  position: absolute;
+  width: var(--frame-elbow-inner-radius);
+  height: calc(100% - var(--frame-bar-height));
+  background: var(--lcar-surface, var(--colors-background));
+}
+
+.lcar-elbow[data-corner="tl"], .lcar-elbow:not([data-corner]) {
+  border-top-left-radius: var(--frame-elbow-radius);
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 0.3em calc(var(--frame-elbow-inner-radius) + 0.5em) 0.3em 0.5em;
+}
+.lcar-elbow[data-corner="tl"]::after, .lcar-elbow:not([data-corner])::after {
+  right: 0; bottom: 0;
+  border-top-left-radius: var(--frame-elbow-inner-radius);
+}
+
+.lcar-elbow[data-corner="tr"] {
+  border-top-right-radius: var(--frame-elbow-radius);
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 0.3em 0.5em 0.3em calc(var(--frame-elbow-inner-radius) + 0.5em);
+}
+.lcar-elbow[data-corner="tr"]::after {
+  left: 0; bottom: 0;
+  border-top-right-radius: var(--frame-elbow-inner-radius);
+}
+
+.lcar-elbow[data-corner="bl"] {
+  border-bottom-left-radius: var(--frame-elbow-radius);
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0.3em calc(var(--frame-elbow-inner-radius) + 0.5em) 0.3em 0.5em;
+}
+.lcar-elbow[data-corner="bl"]::after {
+  right: 0; top: 0;
+  border-bottom-left-radius: var(--frame-elbow-inner-radius);
+}
+
+.lcar-elbow[data-corner="br"] {
+  border-bottom-right-radius: var(--frame-elbow-radius);
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0.3em 0.5em 0.3em calc(var(--frame-elbow-inner-radius) + 0.5em);
+}
+.lcar-elbow[data-corner="br"]::after {
+  left: 0; top: 0;
+  border-bottom-right-radius: var(--frame-elbow-inner-radius);
+}
+
+/* #################### BAR / END CAP #################### */
+
+.lcar-bar {
+  flex: 1 1 0;
+  height: var(--frame-bar-height);
+  background: var(--lcar-bg, var(--colors-color1));
+}
+
+.lcar-bar[data-length="xs"] { flex: none; width: var(--width-xs); }
+.lcar-bar[data-length="s"]  { flex: none; width: var(--width-s); }
+.lcar-bar[data-length="m"]  { flex: none; width: var(--width-m); }
+.lcar-bar[data-length="l"]  { flex: none; width: var(--width-l); }
+.lcar-bar[data-length="xl"] { flex: none; width: var(--width-xl); }
+
+.lcar-bar[data-cap="left"]  { border-radius: var(--frame-bar-height) 0 0 var(--frame-bar-height); }
+.lcar-bar[data-cap="right"] { border-radius: 0 var(--frame-bar-height) var(--frame-bar-height) 0; }
+.lcar-bar[data-cap="both"]  { border-radius: var(--frame-bar-height); }
+
+/* #################### TITLE / NUMBER #################### */
+
+.lcar-title {
+  flex: none;
+  color: var(--lcar-bg, var(--colors-color1));
+  font-size: var(--frame-title-size);
+  height: var(--frame-bar-height);
+  line-height: var(--frame-bar-height);
+  white-space: nowrap;
+  margin: 0;
+  font-weight: normal;
+}
+
+.lcar-number {
+  color: var(--lcar-bg, var(--colors-color4));
+  font-size: var(--frame-label-size);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* #################### DIVIDER #################### */
+
+.lcar-divider {
+  height: 0.35rem;
+  margin: 1rem 0;
+  border: none;
+  background: linear-gradient(90deg,
+    var(--colors-color1) 0 18%, transparent 0 calc(18% + var(--frame-gap)),
+    var(--colors-color4) 0 55%, transparent 0 calc(55% + var(--frame-gap)),
+    var(--colors-color6) 0 80%, transparent 0 calc(80% + var(--frame-gap)),
+    var(--colors-color2) 0);
+}
+
+.lcar-divider[data-color] { background: var(--lcar-bg); }
+
+/* #################### BLOCK / STACK / GRID #################### */
+
+.lcar-block {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  min-height: var(--frame-segment-height);
+  padding: 0 0.5em 0.3em;
+  background: var(--lcar-bg, var(--colors-color1));
+  color: var(--colors-text1);
+  font-size: var(--frame-label-size);
+}
+
+.lcar-block[data-fill] { flex: 1 1 auto; }
+
+.lcar-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--frame-gap);
+  width: var(--frame-sidebar-width);
+}
+
+.lcar-stack > * { width: 100%; }
+
+.lcar-stack > .lcar-btn-std {
+  height: var(--frame-segment-height);
+  font-size: var(--frame-label-size);
+}
+
+/* Button grid: like a bridge console */
+.lcar-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+  gap: var(--frame-gap);
+}
+
+.lcar-grid > .lcar-btn-std {
+  width: 100%;
+  height: var(--frame-segment-height);
+  font-size: var(--frame-label-size);
+}
+
+/* #################### FRAME #################### */
+
+.lcar-frame {
+  display: grid;
+  grid-template-columns: var(--frame-sidebar-width) minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  gap: var(--frame-gap);
+  min-height: 100%;
+}
+
+.lcar-frame-top, .lcar-frame-bottom {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: var(--frame-gap);
+}
+.lcar-frame-top    { align-items: flex-start; }
+.lcar-frame-bottom { align-items: flex-end; }
+
+.lcar-frame-content {
+  min-width: 0;
+  padding: 0.5rem calc(var(--frame-elbow-inner-radius) + 0.5rem);
+  color: var(--colors-text2);
+}
+
+/* Split layout (TNG main screen): upper panel, divider elbows, lower panel.
+   Order: stack, content, frame-bottom, frame-top, stack, content */
+.lcar-frame[data-layout="split"] {
+  grid-template-rows: auto auto auto 1fr;
+}
+
+.lcar-frame[data-layout="split"] > .lcar-frame-top {
+  margin-top: calc(var(--frame-gap) * 2);
+}
+
+.lcar-frame-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.lcar-frame-header > .lcar-title {
+  height: auto;
+  line-height: 1;
+}

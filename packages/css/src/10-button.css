@@ -1,0 +1,70 @@
+/* #################### CAPSULE #################### */
+
+/* Base style */
+.lcar-btn-std {
+  background: var(--lcar-bg, var(--colors-color1));
+  border-radius: var(--radius-btn-std);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  transition: background 0.2s ease;
+  color: var(--colors-text1);
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+}
+
+.lcar-btn-std:hover {
+  background: var(--lcar-bg-hover, var(--colors-color1hover));
+}
+
+.lcar-btn-std:focus-visible {
+  outline: 2px solid var(--colors-color5);
+  outline-offset: 2px;
+}
+
+.lcar-btn-std:disabled {
+  cursor: default;
+  opacity: 0.4;
+  background: var(--lcar-bg, var(--colors-color1));
+}
+
+/* Size Variants */
+.lcar-btn-std[data-size="xs"]  { height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-xs); }
+.lcar-btn-std[data-size="s"]  { height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-s); }
+.lcar-btn-std[data-size="m"]  { height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-m); }
+.lcar-btn-std[data-size="l"]  { height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-l); }
+.lcar-btn-std[data-size="xl"] { height: var(--height-btn-std); padding: var(--padding-btn-std); font-size: var(--fontSize-xl); }
+
+/* Length Variants */
+.lcar-btn-std[data-length="xs"]  { width: var(--width-xs); }
+.lcar-btn-std[data-length="s"]  { width: var(--width-s); }
+.lcar-btn-std[data-length="m"]  { width: var(--width-m); }
+.lcar-btn-std[data-length="l"]  { width: var(--width-l); }
+.lcar-btn-std[data-length="xl"] { width: var(--width-xl); }
+
+/* Shape Variants (default: capsule) */
+.lcar-btn-std[data-shape="rect"]      { border-radius: 0; }
+.lcar-btn-std[data-shape="cap-left"]  { border-radius: var(--radius-btn-std) 0 0 var(--radius-btn-std); }
+.lcar-btn-std[data-shape="cap-right"] { border-radius: 0 var(--radius-btn-std) var(--radius-btn-std) 0; }
+
+/* Label bottom-right (TNG style) */
+.lcar-btn-std[data-align="br"] {
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 0 0.5em 0.3em;
+}
+
+/* Toggle: aria-pressed */
+.lcar-btn-std[aria-pressed="false"] {
+  background: color-mix(in srgb, var(--lcar-bg, var(--colors-color1)) 45%, black);
+}
+.lcar-btn-std[aria-pressed="false"]:hover {
+  background: color-mix(in srgb, var(--lcar-bg, var(--colors-color1)) 70%, black);
+}
+.lcar-btn-std[aria-pressed="true"] {
+  background: var(--lcar-bg-hover, var(--colors-color1hover));
+  box-shadow: inset 0.5em 0 0 var(--colors-color5);
+}

@@ -1,0 +1,51 @@
+/* #################### RESPONSIVE #################### */
+
+/* Narrow screens: sidebar becomes a row of buttons above the content */
+@media (max-width: 720px) {
+  .lcar-frame {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lcar-stack {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+  }
+
+  .lcar-stack > * {
+    width: auto;
+    flex: 1 1 5rem;
+  }
+
+  .lcar-stack > .lcar-btn-std,
+  .lcar-stack > .lcar-block {
+    height: calc(var(--frame-segment-height) * 0.7);
+    min-height: 0;
+  }
+
+  .lcar-stack > .lcar-block[data-fill] {
+    display: none;
+  }
+
+  .lcar-elbow {
+    width: calc(var(--frame-elbow-radius) + var(--frame-elbow-inner-radius));
+    height: calc(var(--frame-bar-height) + var(--frame-elbow-inner-radius) * 1.5);
+    font-size: 0;
+  }
+
+  .lcar-frame-content {
+    padding: 0.5rem 0;
+  }
+
+  .lcar-title {
+    font-size: calc(var(--frame-title-size) * 0.7);
+  }
+
+  .lcar-grid {
+    grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+  }
+
+  .lcar-alert-title {
+    font-size: 2.5rem;
+  }
+}
