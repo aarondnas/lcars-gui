@@ -1,0 +1,11 @@
+{
+  "name": "@lcars/tokens",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./tokens.json": "./tokens.json"
+  },
+  "files": [
+    "tokens.json"
+  ]
+}

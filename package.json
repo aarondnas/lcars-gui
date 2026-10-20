@@ -1,0 +1,23 @@
+{
+  "name": "lcars-gui",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "apps/examples/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @lcars/css -w @lcars/core -w @lcars/react",
+    "dev": "npm run build && npm run dev -w @lcars/example-next",
+    "typecheck": "tsc --noEmit -p packages/core && tsc --noEmit -p packages/react"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tsup": "^9.0.0",
+    "typescript": "^6.0.3"
+  }
+}

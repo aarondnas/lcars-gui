@@ -1,8 +1,12 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+const distDir = path.join(here, "dist");
 
 // Path to tokens
-const tokensPath = path.resolve("../tokens/tokens.json");
+const tokensPath = path.join(here, "../tokens/tokens.json");
 const tokens = JSON.parse(fs.readFileSync(tokensPath, "utf8"));
 
 // Helper function: camelCase → kebab-case
@@ -28,8 +32,8 @@ function generateComponentStyles() {
   return `
 @font-face {
   font-family: 'HelveticaUltraCompressed';
-  src: url('../utils/fonts/HelveticaUltraCompressed/HelveticaUltraCompressed.woff2') format('woff2'),
-       url('../utils/fonts/HelveticaUltraCompressed/HelveticaUltraCompressed.woff') format('woff');
+  src: url('./fonts/HelveticaUltraCompressed/HelveticaUltraCompressed.woff2') format('woff2'),
+       url('./fonts/HelveticaUltraCompressed/HelveticaUltraCompressed.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -42,6 +46,7 @@ function generateComponentStyles() {
   border-radius: var(--radius-btn-std);
   border: none;
   cursor: pointer;
+  display: inline-flex;
   transition: background 0.2s ease;
   font-family: 'HelveticaUltraCompressed', Helvetica, Arial, sans-serif;
   color: var(--colors-text1);
@@ -88,7 +93,9 @@ const finalCss =
   generateCssVars() +
   generateComponentStyles();
 
-const outPath = path.resolve("./ui.css");
-fs.writeFileSync(outPath, finalCss);
+fs.rmSync(distDir, { recursive: true, force: true });
+fs.mkdirSync(distDir, { recursive: true });
+fs.writeFileSync(path.join(distDir, "ui.css"), finalCss);
+fs.cpSync(path.join(here, "fonts"), path.join(distDir, "fonts"), { recursive: true });
 
 console.log("✔ ui.css erfolgreich generiert!");
