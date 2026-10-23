@@ -8,21 +8,21 @@ export type ButtonShape = "capsule" | "rect" | "cap-left" | "cap-right";
 export type ButtonAlign = "center" | "bottom-right";
 
 /**
- * Plattformneutrale Button-Props (ohne Events/Children,
- * die liefert der jeweilige Renderer).
+ * Platform-neutral button props (without events/children,
+ * those come from the respective renderer).
  */
 export interface ButtonProps {
   color?: ButtonColor;
   size?: ButtonSize;
-  length?: ButtonLength; // ohne Angabe: Breite passt sich dem Inhalt an
+  length?: ButtonLength; // if omitted: width fits the content
   shape?: ButtonShape;
   align?: ButtonAlign;
   disabled?: boolean;
 }
 
 /**
- * Defaultwerte aus Source-of-Truth.
- * (wird in allen Renderern verwendet)
+ * Default values, the single source of truth
+ * (used by all renderers).
  */
 export const defaultButtonProps: Required<Omit<ButtonProps, "length">> = {
   color: 1,
@@ -32,12 +32,12 @@ export const defaultButtonProps: Required<Omit<ButtonProps, "length">> = {
   disabled: false,
 };
 
-/** CSS-Klasse aus ui.css */
+/** CSS class from ui.css */
 export const buttonClassName = "lcar-btn-std";
 
 /**
- * Utility-Funktion, die Props mergen & normalisieren kann,
- * bevor die Renderer sie weiterverwenden.
+ * Merges and normalizes props
+ * before the renderers use them.
  */
 export function normalizeButtonProps<T extends ButtonProps>(props: T) {
   return {
@@ -47,7 +47,7 @@ export function normalizeButtonProps<T extends ButtonProps>(props: T) {
 }
 
 /**
- * Liefert die data-Attribute, auf die das CSS reagiert.
+ * Returns the data attributes the CSS reacts to.
  */
 export function buttonDataAttributes(props: ButtonProps) {
   const { color, size, length, shape, align } = normalizeButtonProps(props);

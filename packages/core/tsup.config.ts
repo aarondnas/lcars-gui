@@ -6,7 +6,7 @@ export default defineConfig([
     format: ["esm"],
     dts: true,
   },
-  // SoundProvider nutzt Context → Client-Komponente (Next.js App Router)
+  // SoundProvider uses context → client component (Next.js App Router)
   {
     entry: { "react/index": "src/react/index.ts" },
     format: ["esm"],

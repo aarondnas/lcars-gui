@@ -23,7 +23,7 @@ export interface DataCascadeProps extends DivProps {
   seed?: number;
 }
 
-/** Spalten aus Hex-Gruppen, die einzeln aufflackern. */
+/** Columns of hex groups that flicker one by one. */
 export function DataCascade({ columns = 6, rows = 6, seed = 1701, className, ...rest }: DataCascadeProps) {
   const data = useMemo(() => cascadeGlyphs(columns, rows, seed), [columns, rows, seed]);
   return (
@@ -52,7 +52,7 @@ export interface ReadoutProps extends Omit<HTMLAttributes<HTMLDListElement>, "co
   color?: RomulusColor;
 }
 
-/** Wertetabelle: Label, gepunktete Führungslinie, Wert. */
+/** Value table: label, dotted leader line, value. */
 export function Readout({ items, color, className, ...rest }: ReadoutProps) {
   return (
     <dl className={cx(cls.readout, className)} {...colorAttribute(color)} {...rest}>
@@ -68,14 +68,14 @@ export function Readout({ items, color, className, ...rest }: ReadoutProps) {
 
 export type NumberCodeProps = { color?: RomulusColor } & Omit<HTMLAttributes<HTMLSpanElement>, "color">;
 
-/** Kennung wie „R-7734“. */
+/** ID code like "R-7734". */
 export function NumberCode({ color, className, ...rest }: NumberCodeProps) {
   return <span className={cx(cls.number, className)} {...colorAttribute(color)} {...rest} />;
 }
 
 /* #################### DIVIDER / GRID #################### */
 
-/** Linie mit Skalenstrichen und Raute in der Mitte. */
+/** Line with tick marks and a diamond in the middle. */
 export function Divider({ color, className, ...rest }: { color?: RomulusColor } & DivProps) {
   return <div role="separator" className={cx(cls.divider, className)} {...colorAttribute(color)} {...rest} />;
 }
@@ -84,7 +84,7 @@ export interface ButtonGridProps extends HTMLAttributes<HTMLDivElement> {
   columns?: number;
 }
 
-/** Raster aus Buttons. */
+/** Grid of buttons. */
 export function ButtonGrid({ columns = 4, className, style, ...rest }: ButtonGridProps) {
   return <div className={cx(cls.grid, className)} style={{ "--cols": columns, ...style } as Vars} {...rest} />;
 }
@@ -99,7 +99,7 @@ export interface LevelBarProps extends DivProps {
   color?: RomulusColor;
 }
 
-/** Pegelanzeige aus schrägen Segmenten (senkrecht: Winkel). */
+/** Level bar of slanted segments (vertical: chevrons). */
 export function LevelBar({ value, max = 100, segments = 12, orientation, color, className, ...rest }: LevelBarProps) {
   return (
     <div
@@ -127,7 +127,7 @@ export interface GaugeProps extends DivProps {
   color?: RomulusColor;
 }
 
-/** Ringanzeige aus Segmenten, Wert in der Mitte. */
+/** Ring gauge made of segments, value in the center. */
 export function Gauge({ value, max = 100, segments = 24, label, color, className, style, ...rest }: GaugeProps) {
   return (
     <div
@@ -156,12 +156,12 @@ export interface Blip {
 
 export interface SensorProps extends DivProps {
   blips?: Blip[];
-  /** Radar-Sweep um die Mitte */
+  /** Radar sweep around the center */
   scan?: boolean;
   color?: RomulusColor;
 }
 
-/** Sensoranzeige mit Dreiecksraster, Fadenkreuz und Kontakten als Rauten. */
+/** Sensor display with a triangular grid, crosshair and diamond contacts. */
 export function Sensor({ blips = [], scan, color, className, children, ...rest }: SensorProps) {
   return (
     <div className={cx(cx(cls.sensor, scan ? cls.scan : undefined), className)} {...colorAttribute(color)} {...rest}>
@@ -180,7 +180,7 @@ export interface StatusIndicatorProps extends HTMLAttributes<HTMLSpanElement> {
   blink?: boolean;
 }
 
-/** Rautenlampe mit Beschriftung. */
+/** Diamond indicator light with label. */
 export function StatusIndicator({ status = "ok", blink, className, ...rest }: StatusIndicatorProps) {
   return (
     <span
@@ -198,7 +198,7 @@ export interface AlertBannerProps extends Omit<DivProps, "title"> {
   title?: ReactNode;
 }
 
-/** Sechseckiges, blinkendes Alarm-Banner. */
+/** Hexagonal, blinking alert banner. */
 export function AlertBanner({ level = "red", title = "Alert", children, className, ...rest }: AlertBannerProps) {
   return (
     <div role="alert" className={cx(cls.alert, className)} data-level={level} {...rest}>

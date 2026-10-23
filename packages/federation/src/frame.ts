@@ -12,15 +12,15 @@ export interface ElbowProps {
 export interface BarProps {
   color?: LcarsColor;
   cap?: BarCap;
-  length?: LcarsLength; // ohne Angabe: füllt den verfügbaren Platz
+  length?: LcarsLength; // if omitted: fills the available space
 }
 
 export interface BlockProps {
   color?: LcarsColor;
-  fill?: boolean; // wächst in einem Stack auf die Resthöhe
+  fill?: boolean; // grows to the remaining height inside a stack
 }
 
-/** CSS-Klassen aus ui.css */
+/** CSS classes from ui.css */
 export const frameClassNames = {
   elbow: "lcar-elbow",
   bar: "lcar-bar",

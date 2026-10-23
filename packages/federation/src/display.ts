@@ -6,7 +6,7 @@ export type AlertLevel = "red" | "yellow";
 export type StatusKind = "ok" | "warn" | "error" | "off";
 export type Orientation = "horizontal" | "vertical";
 
-/** CSS-Klassen aus ui.css */
+/** CSS classes from ui.css */
 export const displayClassNames = {
   cascade: "lcar-cascade",
   cascadeCol: "lcar-cascade-col",
@@ -39,27 +39,27 @@ export const controlClassNames = {
 } as const;
 
 /**
- * Zufällige, aber reproduzierbare Zahlenspalten für die Data Cascade
- * (gleicher Seed → gleiche Zahlen, wichtig für Server-Rendering).
+ * Random but reproducible number columns for the data cascade
+ * (same seed → same numbers, important for server rendering).
  */
 export function cascadeNumbers(columns: number, rows: number, seed = 47): string[][] {
   const random = seededRandom(seed);
 
   return Array.from({ length: columns }, (_, col) => {
-    const digits = 2 + ((col * 3) % 5); // unterschiedliche Spaltenbreiten
+    const digits = 2 + ((col * 3) % 5); // varying column widths
     return Array.from({ length: rows }, () =>
       String(Math.floor(random() * 10 ** digits)).padStart(digits, "0")
     );
   });
 }
 
-/** Welche Segmente einer Pegelanzeige leuchten. */
+/** Which segments of a level bar are lit. */
 export function levelSegments(value: number, segments = 10, max = 100): boolean[] {
   const lit = Math.round((Math.min(Math.max(value, 0), max) / max) * segments);
   return Array.from({ length: segments }, (_, i) => i < lit);
 }
 
-/** Wert auf 0–100 % umrechnen (für die Gauge). */
+/** Converts a value to 0–100 % (for the gauge). */
 export function toPercent(value: number, max = 100) {
   return Math.min(Math.max((value / max) * 100, 0), 100);
 }

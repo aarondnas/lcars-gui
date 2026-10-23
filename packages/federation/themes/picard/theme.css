@@ -1,5 +1,5 @@
-/* Theme-Extras: Picard – 25. Jahrhundert
-   Wird als @lcars-gui/federation/themes/picard.css veröffentlicht.
-   Hier kommen zusätzliche Animationen/Effekte hin, die nur zu diesem Theme passen.
-   Alle Regeln unter [data-theme="picard"] einhängen, damit die Datei auch bei
-   anderen aktiven Themes gefahrlos geladen werden kann. */
+/* Theme extras: Picard – 25th century
+   Published as @lcars-gui/federation/themes/picard.css.
+   Add animations/effects here that only fit this theme.
+   Scope all rules under [data-theme="picard"] so the file can safely be
+   loaded while other themes are active. */

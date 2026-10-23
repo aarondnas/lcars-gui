@@ -9,7 +9,7 @@ import {
 
 export type ButtonProps = CoreButtonProps &
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color"> & {
-    /** Ton beim Klicken (nur innerhalb eines SoundProvider); false = stumm */
+    /** Sound on click (only inside a SoundProvider); false = silent */
     sound?: LcarsSoundKind | false;
   };
 

@@ -4,5 +4,5 @@ dist/
 next-env.d.ts
 *.tsbuildinfo
 
-# Wallpaper-Engine-Hintergründe (lokal, nicht versioniert)
+# Wallpaper Engine backgrounds (local only, not versioned)
 wallpapers/

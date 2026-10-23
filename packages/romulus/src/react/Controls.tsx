@@ -25,7 +25,7 @@ export interface ToggleProps extends ButtonProps {
   onPressedChange?: (pressed: boolean) => void;
 }
 
-/** Button mit Zustand an/aus (aria-pressed). */
+/** Button with an on/off state (aria-pressed). */
 export function Toggle({ pressed, defaultPressed = false, onPressedChange, onClick, ...rest }: ToggleProps) {
   const [inner, setInner] = useState(defaultPressed);
   const isOn = pressed ?? inner;
@@ -50,7 +50,7 @@ export type SliderProps = { color?: RomulusColor } & Omit<
   "type" | "color"
 >;
 
-/** Schieberegler (natives input type="range") mit Rautengriff. */
+/** Slider (native input type="range") with a diamond thumb. */
 export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
   { color, className, ...rest },
   ref
@@ -73,7 +73,7 @@ export type InputProps = { color?: RomulusColor; label?: ReactNode } & Omit<
   "color"
 >;
 
-/** Textfeld mit gefülltem Trapez als Beschriftung. */
+/** Text field with a filled trapezoid label. */
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   { color, label, className, ...rest },
   ref
@@ -103,7 +103,7 @@ export interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, "color">
   color?: RomulusColor;
 }
 
-/** Registerkarten als Parallelogramme über einer Leuchtlinie. */
+/** Tabs as parallelograms above a glowing line. */
 export function Tabs({ items, value, defaultValue, onValueChange, color, className, ...rest }: TabsProps) {
   const base = useId();
   const play = useLcarsSound();
@@ -169,17 +169,17 @@ export function Tabs({ items, value, defaultValue, onValueChange, color, classNa
 
 export interface KeypadProps extends Omit<HTMLAttributes<HTMLDivElement>, "color" | "onSubmit"> {
   color?: RomulusColor;
-  /** Maximale Länge des Codes */
+  /** Maximum code length */
   length?: number;
-  /** Code als Punkte anzeigen */
+  /** Show the code as dots */
   mask?: boolean;
-  /** Wird mit dem Code aufgerufen; true = Code akzeptiert, false = abgelehnt */
+  /** Called with the code; true = accepted, false = denied */
   onSubmit?: (code: string) => boolean | void;
 }
 
 const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "CLR", "0", "ENT"];
 
-/** Ziffernfeld mit Anzeige, z. B. für Zugangscodes. */
+/** Number pad with display, e.g. for access codes. */
 export function Keypad({ color = 1, length = 6, mask, onSubmit, className, ...rest }: KeypadProps) {
   const play = useLcarsSound();
   const [code, setCode] = useState("");

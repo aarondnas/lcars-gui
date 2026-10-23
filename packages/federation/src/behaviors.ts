@@ -1,6 +1,6 @@
 // packages/federation/src/behaviors.ts
-// Verhalten für reines HTML/JS: verdrahtet Toggles, Tabs, Keypads, Data Cascades
-// und Bedien-Töne im Markup, das die React-Komponenten sonst selbst erzeugen.
+// Behavior for plain HTML/JS: wires up toggles, tabs, keypads, data cascades
+// and interface sounds in markup that the React components would otherwise render.
 import { initBehaviors, type InitBehaviorsOptions, type LcarsController } from "@lcars-gui/core";
 import { buttonClassName } from "./button";
 import { cascadeNumbers, controlClassNames, displayClassNames } from "./display";
@@ -10,8 +10,8 @@ export { pressedChangeEvent, type LcarsController } from "@lcars-gui/core";
 export type InitLcarsOptions = InitBehaviorsOptions;
 
 /**
- * Macht statisches LCARS-Markup interaktiv.
- * Der zurückgegebene Controller spielt Töne und entfernt die Listener wieder.
+ * Makes static LCARS markup interactive.
+ * The returned controller plays sounds and removes the listeners again.
  */
 export function initLcars(options: InitLcarsOptions = {}): LcarsController {
   fillCascades(options.root);
@@ -26,7 +26,7 @@ export function initLcars(options: InitLcarsOptions = {}): LcarsController {
   );
 }
 
-/** Füllt leere Data Cascades (data-columns / data-rows / data-seed) mit Zahlen. */
+/** Fills empty data cascades (data-columns / data-rows / data-seed) with numbers. */
 export function fillCascades(root: Document | HTMLElement = document) {
   root.querySelectorAll<HTMLElement>(`.${displayClassNames.cascade}[data-columns]`).forEach((el, k) => {
     const { columns, rows = "6", seed } = el.dataset;

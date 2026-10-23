@@ -14,7 +14,7 @@ type DivProps = Omit<HTMLAttributes<HTMLDivElement>, "color">;
 
 export type BarProps = CoreBarProps & DivProps;
 
-/** Leuchtlinie, optional mit spitzen Enden oder gestrichelt. */
+/** Glowing line, optionally with pointed ends or dashed. */
 export function Bar({ color, cap, length, segmented, className, ...rest }: BarProps) {
   return (
     <div
@@ -27,7 +27,7 @@ export function Bar({ color, cap, length, segmented, className, ...rest }: BarPr
 
 export type BlockProps = CoreBlockProps & DivProps;
 
-/** Gefülltes Segment mit abgeschrägten Ecken; Label sitzt unten links. */
+/** Filled segment with chamfered corners; the label sits bottom left. */
 export function Block({ color, fill, className, ...rest }: BlockProps) {
   return (
     <div
@@ -43,7 +43,7 @@ export type TitleProps = { color?: RomulusColor } & Omit<
   "color"
 >;
 
-/** Gesperrter Titel in der Kopfzeile. */
+/** Letter-spaced title in the header. */
 export function Title({ color, className, ...rest }: TitleProps) {
   return (
     <h1
@@ -54,7 +54,7 @@ export function Title({ color, className, ...rest }: TitleProps) {
   );
 }
 
-/** Senkrechter Stapel aus Buttons/Blocks mit gleichmäßigen Lücken. */
+/** Vertical stack of buttons/blocks with even gaps. */
 export function Stack({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx(cls.stack, className)} {...rest} />;
 }
@@ -62,16 +62,16 @@ export function Stack({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
 export interface PanelProps extends Omit<DivProps, "title"> {
   color?: RomulusColor;
   title?: ReactNode;
-  /** Kennung im gefüllten Trapez vorn im Kopf, z. B. "R-7734" */
+  /** ID code in the filled trapezoid at the start of the header, e.g. "R-7734" */
   code?: ReactNode;
-  /** Inhalt der Seitenleiste (Buttons/Blocks); wird nach unten aufgefüllt */
+  /** Sidebar content (buttons/blocks); filled up to the bottom */
   sidebar?: ReactNode;
-  /** Ersetzt die Standardlinie im Kopf bzw. Fuß; footer={null} blendet den Fuß aus */
+  /** Replaces the default line in the header or footer; footer={null} hides the footer */
   header?: ReactNode;
   footer?: ReactNode;
 }
 
-/** Romulanische Konsole: abgeschrägte Ecken, Krallen-Ecken, Kopf mit Kennung, optionale Seitenleiste. */
+/** Romulan console: chamfered corners, talon corners, header with ID code, optional sidebar. */
 export function Panel({
   color,
   title,

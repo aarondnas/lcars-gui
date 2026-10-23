@@ -6,16 +6,16 @@ export type BarCap = "left" | "right" | "both";
 export interface BarProps {
   color?: RomulusColor;
   cap?: BarCap;
-  length?: RomulusLength; // ohne Angabe: füllt den verfügbaren Platz
+  length?: RomulusLength; // if omitted: fills the available space
   segmented?: boolean;
 }
 
 export interface BlockProps {
   color?: RomulusColor;
-  fill?: boolean; // wächst in einem Stack auf die Resthöhe
+  fill?: boolean; // grows to the remaining height inside a stack
 }
 
-/** CSS-Klassen aus ui.css */
+/** CSS classes from ui.css */
 export const panelClassNames = {
   panel: "rom-panel",
   header: "rom-panel-header",

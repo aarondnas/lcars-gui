@@ -3,11 +3,11 @@ import type { AlertLevel, LcarsTheme } from "..";
 
 export interface LcarsRootProps extends HTMLAttributes<HTMLDivElement> {
   theme?: LcarsTheme;
-  /** Färbt alles darunter rot/gelb und lässt Balken pulsieren */
+  /** Turns everything below red/yellow and makes the bars pulse */
   alert?: AlertLevel | null;
 }
 
-/** Setzt Farbthema und Alarmzustand für alle Komponenten darunter. */
+/** Sets the color theme and alert state for all components below. */
 export function LcarsRoot({ theme, alert, ...rest }: LcarsRootProps) {
   return <div data-theme={theme} data-alert={alert ?? undefined} {...rest} />;
 }

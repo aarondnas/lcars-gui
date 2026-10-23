@@ -1,6 +1,6 @@
-/* Romulanisches Design: leuchtende Linien auf dunklem Grund, abgeschrägte Ecken,
-   Rauten statt Kreise. Keine mitgelieferte Schrift – "Michroma" (Google Fonts)
-   passt gut, sonst greifen Eurostile/Bahnschrift/Arial Narrow. */
+/* Romulan design: glowing lines on a dark background, chamfered corners,
+   diamonds instead of circles. No bundled font – "Michroma" (Google Fonts)
+   fits well, otherwise Eurostile/Bahnschrift/Arial Narrow are used. */
 
 [class*="rom-"] {
   box-sizing: border-box;
@@ -15,8 +15,8 @@
   line-height: 1;
 }
 
-/* Abschrägung oben links + unten rechts: --rom-c = Größe der Schräge.
-   Die schrägen Kanten zeichnen zwei Verläufe nach (die geraden Kanten ein inset-Schatten). */
+/* Chamfer top left + bottom right: --rom-c = size of the chamfer.
+   Two gradients trace the slanted edges (an inset shadow draws the straight ones). */
 .rom-btn, .rom-block, .rom-panel, .rom-panel::before, .rom-sensor, .rom-sensor::before,
 .rom-keypad-display {
   clip-path: polygon(

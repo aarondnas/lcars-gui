@@ -1,6 +1,6 @@
 # @lcars-gui/cardassia
 
-UI-Komponenten im Stil der Cardassianischen Union – **in Planung**.
+UI components in the style of the Cardassian Union – **planned**.
 
-Aufbau wie `@lcars-gui/federation`: `tokens/`, `css/`, `src/` (Vanilla), `src/react/`, `themes/`.
-Solange `"private": true` gesetzt ist, wird das Paket nicht veröffentlicht.
+Same structure as `@lcars-gui/federation`: `tokens/`, `css/`, `src/` (vanilla), `src/react/`, `themes/`.
+As long as `"private": true` is set, the package is not published.

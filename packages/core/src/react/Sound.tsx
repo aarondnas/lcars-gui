@@ -17,13 +17,13 @@ const SoundContext = createContext<LcarsSound | null>(null);
 export interface SoundProviderProps {
   enabled?: boolean;
   volume?: number;
-  /** Eigene Tonfolgen (z. B. die einer Fraktion) */
+  /** Custom sound patterns (e.g. a faction's) */
   patterns?: LcarsSoundPatterns;
   wave?: OscillatorType;
   children?: ReactNode;
 }
 
-/** Aktiviert die Bedien-Töne für alle Komponenten darunter. */
+/** Enables interface sounds for all components below. */
 export function SoundProvider({ enabled = true, volume, patterns, wave, children }: SoundProviderProps) {
   const sound = useMemo(() => createLcarsSound(volume, { patterns, wave }), [volume, patterns, wave]);
   return (
@@ -33,7 +33,7 @@ export function SoundProvider({ enabled = true, volume, patterns, wave, children
   );
 }
 
-/** Liefert play(kind); ohne SoundProvider (oder deaktiviert) passiert nichts. */
+/** Returns play(kind); without a SoundProvider (or when disabled) nothing happens. */
 export function useLcarsSound() {
   const sound = useContext(SoundContext);
   return useCallback((kind?: LcarsSoundKind) => sound?.play(kind), [sound]);

@@ -1,7 +1,7 @@
 {
   "name": "@lcars-gui/core",
-  "version": "0.1.0",
-  "description": "Gemeinsame Basis für alle lcars-gui-Fraktionen: Sound-Engine, Verhalten für HTML/JS, CSS-Build",
+  "version": "0.1.1",
+  "description": "Shared foundation for all lcars-gui factions: sound engine, plain HTML/JS behavior, CSS build",
   "keywords": [
     "lcars",
     "star-trek",

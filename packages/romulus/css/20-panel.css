@@ -1,7 +1,7 @@
 /* #################### PANEL #################### */
 
-/* Konsole mit abgeschrägten Ecken (oben links / unten rechts)
-   und Krallen-Ecken (oben rechts / unten links).
+/* Console with chamfered corners (top left / bottom right)
+   and talon corners (top right / bottom left).
    Order: header, sidebar (optional), content, footer (optional) */
 .rom-panel {
   --rom-c: var(--rom-chamfer-l);
@@ -18,7 +18,7 @@
     var(--rom-colors-surface) 40%);
 }
 
-/* Kontur inkl. schräger Kanten */
+/* Outline including the slanted edges */
 .rom-panel::before {
   content: "";
   position: absolute;
@@ -30,7 +30,7 @@
   box-shadow: inset 0 0 0 var(--rom-line-std) var(--rom-line);
 }
 
-/* Krallen-Ecken */
+/* Talon corners */
 .rom-panel::after {
   content: "";
   position: absolute;
@@ -45,7 +45,7 @@
 
 .rom-panel > * { position: relative; z-index: 1; }
 
-/* Ohne Seitenleiste: Inhalt über die volle Breite */
+/* Without a sidebar: content spans the full width */
 .rom-panel:not(:has(> .rom-panel-sidebar)) {
   grid-template-columns: minmax(0, 1fr);
 }
@@ -62,7 +62,7 @@
 .rom-panel-header > .rom-bar { margin-right: var(--rom-panel-talon-size); }
 .rom-panel-footer > .rom-bar:first-child { margin-left: var(--rom-panel-talon-size); }
 
-/* Kennung als gefülltes Trapez am Anfang des Kopfes */
+/* ID code as a filled trapezoid at the start of the header */
 .rom-panel-code {
   flex: none;
   display: flex;
@@ -96,12 +96,12 @@
 .rom-bar[data-length="l"]  { flex: none; width: var(--rom-width-l); }
 .rom-bar[data-length="xl"] { flex: none; width: var(--rom-width-xl); }
 
-/* Spitz zulaufende Enden */
+/* Pointed ends */
 .rom-bar[data-cap="left"]  { clip-path: polygon(1.2rem 0, 100% 0, 100% 100%, 0 100%); }
 .rom-bar[data-cap="right"] { clip-path: polygon(0 0, calc(100% - 1.2rem) 0, 100% 100%, 0 100%); }
 .rom-bar[data-cap="both"]  { clip-path: polygon(1.2rem 0, calc(100% - 1.2rem) 0, 100% 100%, 0 100%); }
 
-/* Gestrichelt */
+/* Dashed */
 .rom-bar[data-segmented] {
   background: repeating-linear-gradient(90deg, var(--rom-line) 0 1.4rem, transparent 0 1.8rem);
 }
@@ -129,7 +129,7 @@
 
 /* #################### DIVIDER #################### */
 
-/* Linie mit Skalenstrichen und Raute in der Mitte */
+/* Line with tick marks and a diamond in the middle */
 .rom-divider {
   --rom-line: var(--rom-bg, var(--rom-colors-color2));
   position: relative;
@@ -167,7 +167,7 @@
   font-size: var(--rom-panel-label-size);
 }
 
-/* Füllsegment: gedämpft, damit es nicht mit den Buttons konkurriert */
+/* Filler segment: muted so it doesn't compete with the buttons */
 .rom-block[data-fill] {
   flex: 1 1 auto;
   background: color-mix(in srgb, var(--rom-bg, var(--rom-colors-color2)) 22%, var(--rom-colors-surface));

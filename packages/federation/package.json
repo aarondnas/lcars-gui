@@ -1,7 +1,7 @@
 {
   "name": "@lcars-gui/federation",
-  "version": "0.1.0",
-  "description": "LCARS-UI-Komponenten im Stil der Föderation (TNG, DS9, Picard) für React und reines HTML/CSS/JS",
+  "version": "0.1.1",
+  "description": "LCARS UI components in the style of the Federation (TNG, DS9, Picard) for React and plain HTML/CSS/JS",
   "keywords": [
     "lcars",
     "star-trek",
@@ -53,7 +53,7 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@lcars-gui/core": "^0.1.0"
+    "@lcars-gui/core": "^0.1.1"
   },
   "peerDependencies": {
     "react": ">=18",

@@ -1,10 +1,10 @@
-// Nimmt animierte Vorschaubilder der HTML-Demos auf (docs/<name>.gif) für die READMEs.
-// Voraussetzung: `npm run build`. Aufruf: `npm run previews`
+// Records animated previews of the HTML demos (docs/<name>.gif) for the READMEs.
+// Requires `npm run build`. Run with `npm run previews`.
 //
-// Ablauf: Die Demos werden über einen kleinen lokalen Server ausgeliefert. Ein Headless-Browser
-// (Edge/Chrome; anderer Pfad über BROWSER=…) macht pro Bild einen Screenshot, wobei
-// --virtual-time-budget bestimmt, wie weit die Animationen seit dem Laden fortgeschritten sind.
-// Theme und Alarm kommen über die URL (?theme=…&alert=…).
+// How it works: the demos are served by a small local server. A headless browser
+// (Edge/Chrome; set another path with BROWSER=…) takes one screenshot per frame, where
+// --virtual-time-budget controls how far the animations have progressed since load.
+// Theme and alert come from the URL (?theme=…&alert=…).
 import { execFile } from "child_process";
 import fs from "fs";
 import http from "http";
@@ -22,20 +22,20 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const previews = [
   {
     name: "federation",
-    page: "apps/examples/web/federation.html",
-    scenes: ["?theme=tng", "?theme=ds9", "?theme=picard", "?theme=tng&alert=red"],
+    page: "apps/examples/web/index.html",
+    scenes: ["?theme=tng#federation", "?theme=ds9#federation", "?theme=picard#federation", "?theme=tng&alert=red#federation"],
   },
   {
     name: "romulus",
-    page: "apps/examples/web/romulus.html",
-    scenes: ["?theme=warbird", "?theme=tal-shiar", "?theme=free-state", "?theme=warbird&alert=red"],
+    page: "apps/examples/web/index.html",
+    scenes: ["?theme=warbird#romulus", "?theme=tal-shiar#romulus", "?theme=free-state#romulus", "?theme=warbird&alert=red#romulus"],
   },
 ];
 
 const framesPerScene = 8;
-const frameDelay = 140; // ms zwischen zwei Bildern
-const loadTime = 600; // ms virtuelle Zeit, bis die Seite steht
-const viewport = { width: 1200, height: 760, scale: 0.75 }; // → 900 × 570 Pixel
+const frameDelay = 140; // ms between two frames
+const loadTime = 600; // ms of virtual time until the page has settled
+const viewport = { width: 1200, height: 760, scale: 0.75 }; // → 900 × 570 pixels
 const parallel = Number(process.env.PARALLEL ?? 4);
 
 const browsers = [
@@ -47,7 +47,7 @@ const browsers = [
   "/usr/bin/google-chrome",
 ].filter(Boolean);
 const browser = browsers.find((file) => fs.existsSync(file));
-if (!browser) throw new Error("Kein Edge/Chrome gefunden – Pfad über BROWSER=… angeben.");
+if (!browser) throw new Error("No Edge/Chrome found – set the path with BROWSER=…");
 
 const types = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".woff2": "font/woff2" };
 const server = http
@@ -77,7 +77,7 @@ async function screenshot(url, budget, file, profile) {
   return readWhenReady(file);
 }
 
-// Edge unter Windows beendet den Startprozess teils, bevor der Screenshot geschrieben ist
+// On Windows, Edge sometimes exits its launcher process before the screenshot is written
 async function readWhenReady(file, timeout = 20000) {
   const start = Date.now();
   for (;;) {
@@ -90,7 +90,7 @@ async function readWhenReady(file, timeout = 20000) {
   }
 }
 
-// Führt Aufgaben mit begrenzter Parallelität aus, Ergebnis in Originalreihenfolge
+// Runs tasks with limited parallelism, results in original order
 async function pool(tasks, limit) {
   const results = [];
   let next = 0;
@@ -131,7 +131,7 @@ try {
 
     const out = path.join(root, "docs", `${name}.gif`);
     fs.writeFileSync(out, gif.bytes());
-    console.log(`✔ docs/${name}.gif (${frames.length} Bilder, ${width}×${height}, ${Math.round(fs.statSync(out).size / 1024)} KB)`);
+    console.log(`✔ docs/${name}.gif (${frames.length} frames, ${width}×${height}, ${Math.round(fs.statSync(out).size / 1024)} KB)`);
   }
 } finally {
   server.close();

@@ -1,137 +1,1383 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lcars-gui</title>
-  <meta name="description" content="Star-Trek-UI-Komponenten für React und reines HTML/CSS/JS – Föderation (LCARS) und Romulus." />
+  <title>lcars-gui – Star Trek UI components</title>
+  <meta name="description" content="Star Trek UI components for React and plain HTML/CSS/JS – one library per faction: Federation (LCARS) and Romulus." />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" />
+
   <link rel="stylesheet" href="../../../packages/federation/dist/ui.css" />
+  <link rel="stylesheet" href="../../../packages/federation/dist/themes/tng.css" />
+  <link rel="stylesheet" href="../../../packages/federation/dist/themes/ds9.css" />
+  <link rel="stylesheet" href="../../../packages/federation/dist/themes/picard.css" />
+
   <link rel="stylesheet" href="../../../packages/romulus/dist/ui.css" />
+  <link rel="stylesheet" href="../../../packages/romulus/dist/themes/warbird.css" />
+  <link rel="stylesheet" href="../../../packages/romulus/dist/themes/tal-shiar.css" />
+  <link rel="stylesheet" href="../../../packages/romulus/dist/themes/free-state.css" />
 
   <style>
+    /* ==================== SITE SHELL ==================== */
+
+    :root {
+      --site-bar-height: 3.25rem;
+    }
+
     body {
       margin: 0;
-      padding: 32px 16px;
       background: #000;
       color: #fff;
       font-family: 'Antonio', 'Arial Narrow', sans-serif;
+      transition: background 0.3s ease;
     }
 
-    .intro {
-      max-width: 1100px;
-      margin: 0 auto 32px;
+    body[data-faction="romulus"] {
+      background: var(--rom-colors-background);
+      font-family: var(--rom-font-family);
     }
 
-    .intro h1 {
-      margin: 0 0 8px;
-      font-weight: normal;
-      font-size: 2.6rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--colors-color1);
+    .site-bar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      height: var(--site-bar-height);
+      padding: 0 24px;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #222;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
     }
 
-    .intro p {
-      margin: 0;
-      font-size: 1.15rem;
-      color: #ccc;
+    .site-brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
     }
 
-    .intro code {
-      color: var(--colors-color4);
+    .site-switch {
+      display: flex;
+      gap: 4px;
+      padding: 3px;
+      border-radius: 999px;
+      background: #161616;
+      border: 1px solid #2a2a2a;
     }
 
-    .factions {
+    .site-switch a {
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      color: #aaa;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .site-switch a[aria-current="true"][data-faction="federation"] { background: var(--colors-color1); color: #000; }
+    .site-switch a[aria-current="true"][data-faction="romulus"]    { background: var(--rom-colors-color1); color: #02170f; }
+
+    .site-links {
+      display: flex;
+      gap: 1.25rem;
+      margin-left: auto;
+      font-size: 0.85rem;
+    }
+
+    .site-links a {
+      color: #bbb;
+      text-decoration: none;
+    }
+
+    .site-links a:hover { color: #fff; }
+
+    .view {
+      padding: 32px 24px 48px;
+    }
+
+    .view[hidden] { display: none; }
+
+    .site-footer {
+      padding: 24px;
+      border-top: 1px solid #222;
+      color: #888;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .site-footer a { color: #bbb; }
+
+    /* Code blocks (shared, tinted per faction) */
+    .code {
+      position: relative;
+      margin: 0 0 1rem;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      background: #0b0b0b;
+      border-left: 0.4rem solid var(--code-accent, #555);
+      color: #e6e6e6;
+      font: 0.85rem/1.55 ui-monospace, "Cascadia Code", Consolas, monospace;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+
+    .code .c { color: #7d8b99; }
+    .code .s { color: var(--code-string, #f0c674); }
+    .code .k { color: var(--code-keyword, #81a2be); }
+
+    .install {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .install .code { margin: 0; flex: 0 1 auto; }
+
+    .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
-      gap: 32px;
-      max-width: 1100px;
-      margin: 0 auto;
+      grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+      gap: 1rem 2rem;
+      margin: 0 0 1.5rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    .ref {
+      width: 100%;
+      max-width: 60rem;
+      border-collapse: collapse;
+      font-size: 1rem;
+    }
+
+    .ref th, .ref td {
+      padding: 0.45rem 0.75rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .ref code {
+      font: 0.85rem ui-monospace, "Cascadia Code", Consolas, monospace;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+      gap: 24px;
     }
 
     .row {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
+      gap: var(--frame-gap);
+      margin-bottom: 12px;
     }
 
-    .faction-text {
+    .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+
+    .stack-v {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 32rem;
+    }
+
+    .cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 720px) {
+      .site-bar { gap: 0.75rem; padding: 0 12px; }
+      .site-links { display: none; }
+      .view { padding: 16px 12px 32px; }
+    }
+
+    /* ==================== FEDERATION VIEW ==================== */
+
+    #view-federation {
+      --code-accent: var(--colors-color1);
+      --code-string: var(--colors-color4);
+      --code-keyword: var(--colors-color6);
+    }
+
+    #view-federation .page { min-height: calc(100vh - var(--site-bar-height) - 80px); }
+
+    #view-federation h2 {
+      color: var(--colors-color3);
+      font-size: 1.9rem;
+      font-weight: normal;
+      text-transform: uppercase;
       margin: 0 0 12px;
-      font-size: 1.1rem;
     }
 
-    .rom-panel .faction-text { font-family: var(--rom-font-family); font-size: 0.8rem; line-height: 1.6; letter-spacing: 0.05em; }
+    #view-federation h3 {
+      color: var(--colors-color4);
+      font-size: 1.2rem;
+      font-weight: normal;
+      text-transform: uppercase;
+      margin: 22px 0 8px;
+    }
+
+    #view-federation p, #view-federation li {
+      color: var(--colors-color5);
+      font-size: 1.1rem;
+      line-height: 1.45;
+      max-width: 52rem;
+    }
+
+    #view-federation .features li::before {
+      content: "";
+      display: inline-block;
+      width: 0.9rem;
+      height: 0.9rem;
+      margin-right: 0.6rem;
+      border-radius: 50%;
+      background: var(--colors-color6);
+      vertical-align: -0.05rem;
+    }
+
+    #view-federation .section {
+      margin-bottom: 56px;
+      scroll-margin-top: calc(var(--site-bar-height) + 16px);
+    }
+
+    #view-federation .header-controls {
+      display: flex;
+      flex-direction: column;
+      gap: var(--frame-gap);
+    }
+
+    #view-federation .header-controls .row { margin: 0; }
+
+    #view-federation .ref th { color: var(--colors-color3); font-weight: normal; text-transform: uppercase; border-bottom: 0.25rem solid var(--colors-color3); }
+    #view-federation .ref td { color: var(--colors-color5); border-bottom: 1px solid #222; }
+    #view-federation .ref td:first-child code { color: var(--colors-color4); }
+
+    #view-federation .elbow-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 48px;
+    }
+
+    /* Smaller panel: all frame sizes are CSS variables and can be overridden locally */
+    #view-federation .mini {
+      --frame-sidebar-width: 6rem;
+      --frame-bar-height: 1rem;
+      --frame-segment-height: 2.5rem;
+      --frame-elbow-height: 3.5rem;
+      --frame-elbow-radius: 2.5rem;
+      --frame-elbow-inner-radius: 1rem;
+      --frame-label-size: 0.9rem;
+      --frame-title-size: 1.5rem;
+      min-height: 18rem;
+    }
+
+    @media (max-width: 720px) {
+      #view-federation .elbow-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ==================== ROMULUS VIEW ==================== */
+
+    #view-romulus {
+      --code-accent: var(--rom-colors-color1);
+      --code-string: var(--rom-colors-color4);
+      --code-keyword: var(--rom-colors-color6);
+    }
+
+    #view-romulus .rom-panel { min-height: calc(100vh - var(--site-bar-height) - 80px); }
+
+    #view-romulus h2 {
+      margin: 0 0 14px;
+      color: var(--rom-colors-color3);
+      font-size: 1.05rem;
+      font-weight: normal;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    #view-romulus h3 {
+      margin: 24px 0 10px;
+      color: var(--rom-colors-color6);
+      font-size: 0.75rem;
+      font-weight: normal;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    #view-romulus p, #view-romulus li {
+      color: var(--rom-colors-text2);
+      font-size: 0.85rem;
+      line-height: 1.75;
+      letter-spacing: 0.04em;
+      max-width: 52rem;
+    }
+
+    #view-romulus .features li::before {
+      content: "";
+      display: inline-block;
+      width: 0.55rem;
+      height: 0.55rem;
+      margin-right: 0.7rem;
+      rotate: 45deg;
+      background: var(--rom-colors-color1);
+    }
+
+    #view-romulus .section {
+      margin-bottom: 52px;
+      scroll-margin-top: calc(var(--site-bar-height) + 16px);
+    }
+
+    #view-romulus .row { gap: 10px; }
+
+    #view-romulus .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 24px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    #view-romulus .controls-bar .row { margin: 0; }
+
+    #view-romulus .code { background: var(--rom-colors-surface); font-size: 0.8rem; }
+
+    #view-romulus .ref th { color: var(--rom-colors-color3); font-weight: normal; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; border-bottom: 2px solid var(--rom-colors-color2); }
+    #view-romulus .ref td { color: var(--rom-colors-text2); font-size: 0.8rem; border-bottom: 1px solid color-mix(in srgb, var(--rom-colors-color2) 35%, transparent); }
+    #view-romulus .ref td:first-child code { color: var(--rom-colors-color4); }
+
+    /* Smaller panels for the theme comparison */
+    #view-romulus .mini {
+      --rom-panel-padding: 0.9rem;
+      --rom-panel-sidebar-width: 6.5rem;
+      --rom-panel-header-height: 1.9rem;
+      --rom-panel-segment-height: 2.1rem;
+      --rom-panel-title-size: 1rem;
+      --rom-panel-talon-size: 1.8rem;
+      min-height: 0;
+    }
   </style>
 </head>
-<body>
-  <header class="intro">
-    <h1>lcars-gui</h1>
-    <p>Star-Trek-UI-Komponenten für React und reines HTML/CSS/JS – eine Bibliothek pro Fraktion.</p>
+<body data-faction="federation">
+
+  <header class="site-bar">
+    <a class="site-brand" href="#federation">lcars-gui</a>
+    <nav class="site-switch" aria-label="Faction">
+      <a href="#federation" data-faction="federation">Federation</a>
+      <a href="#romulus" data-faction="romulus">Romulus</a>
+    </nav>
+    <nav class="site-links" aria-label="Links">
+      <a href="https://github.com/aarondnas/lcars-gui">GitHub</a>
+      <a href="https://www.npmjs.com/package/@lcars-gui/federation">npm: federation</a>
+      <a href="https://www.npmjs.com/package/@lcars-gui/romulus">npm: romulus</a>
+    </nav>
   </header>
 
-  <main class="factions">
-    <!-- Föderation -->
-    <div class="lcar-frame">
-      <div class="lcar-frame-top">
-        <div class="lcar-elbow" data-corner="tl" data-color="1">47-1138</div>
+  <!-- ############################################################ -->
+  <!-- ######################## FEDERATION ######################## -->
+  <!-- ############################################################ -->
+
+  <div class="view" id="view-federation">
+    <!-- Split layout: upper area, two elbows in the middle, lower area -->
+    <div class="lcar-frame page" data-layout="split">
+
+      <!-- ========== UPPER AREA ========== -->
+      <div class="lcar-stack">
+        <div class="lcar-block" data-color="4">LCARS</div>
+        <div class="lcar-block" data-color="1" data-fill>01-4711</div>
+      </div>
+
+      <header class="lcar-frame-content lcar-frame-header">
+        <div class="lcar-cascade" data-columns="9" data-rows="5"></div>
+
+        <div class="header-controls">
+          <div class="row">
+            <button class="lcar-btn-std" data-size="m" data-color="6" data-length="m" data-shape="cap-left" data-set-theme="tng">TNG</button>
+            <button class="lcar-btn-std" data-size="m" data-color="6" data-length="m" data-shape="rect" data-set-theme="ds9">DS9</button>
+            <button class="lcar-btn-std" data-size="m" data-color="6" data-length="m" data-shape="cap-right" data-set-theme="picard">Picard</button>
+          </div>
+          <div class="row">
+            <button class="lcar-btn-std" data-size="m" data-color="2" data-length="m" data-shape="cap-left" data-set-alert="red">Red Alert</button>
+            <button class="lcar-btn-std" data-size="m" data-color="4" data-length="m" data-shape="rect" data-set-alert="yellow">Yellow</button>
+            <button class="lcar-btn-std" data-size="m" data-color="1" data-length="m" data-shape="cap-right" data-set-alert="">Normal</button>
+          </div>
+          <div class="row">
+            <button class="lcar-btn-std" data-size="m" data-color="7" data-length="xl" aria-pressed="false" data-sound-toggle>Sound</button>
+          </div>
+        </div>
+
+        <h1 class="lcar-title" data-color="3">Federation</h1>
+      </header>
+
+      <!-- ========== MIDDLE: two elbows ========== -->
+      <div class="lcar-frame-bottom">
+        <div class="lcar-elbow" data-corner="bl" data-color="1">02-1701</div>
         <div class="lcar-bar" data-color="1"></div>
-        <h2 class="lcar-title" data-color="1">Föderation</h2>
+        <div class="lcar-bar" data-color="4" data-length="l"></div>
+        <div class="lcar-bar" data-color="7" data-length="s"></div>
         <div class="lcar-bar" data-color="1" data-cap="right" data-length="xs"></div>
       </div>
-      <div class="lcar-stack">
-        <a href="federation.html" class="lcar-btn-std" data-color="2" data-shape="rect" data-align="br">Demo</a>
-        <a href="federation.html?theme=ds9" class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">DS9</a>
-        <a href="federation.html?alert=red" class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br">Red Alert</a>
-        <div class="lcar-block" data-color="1" data-fill></div>
-      </div>
-      <div class="lcar-frame-content">
-        <p class="faction-text">LCARS – runde Elbows, Kapsel-Buttons, Themes TNG, DS9 und Picard.</p>
-        <div class="lcar-cascade" data-columns="6" data-rows="4"></div>
-        <div class="row">
-          <code>npm install @lcars-gui/federation</code>
-        </div>
-      </div>
-      <div class="lcar-frame-bottom">
-        <div class="lcar-elbow" data-corner="bl" data-color="1"></div>
-        <div class="lcar-bar" data-color="1" data-cap="right"></div>
-      </div>
-    </div>
 
-    <!-- Romulus -->
-    <section class="rom-panel">
+      <div class="lcar-frame-top">
+        <div class="lcar-elbow" data-corner="tl" data-color="2">03-0047</div>
+        <div class="lcar-bar" data-color="2" data-length="m"></div>
+        <div class="lcar-bar" data-color="6"></div>
+        <div class="lcar-bar" data-color="2" data-cap="right" data-length="xs"></div>
+      </div>
+
+      <!-- ========== LOWER AREA ========== -->
+      <nav class="lcar-stack" aria-label="Federation sections">
+        <a href="#fed-overview" class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Overview</a>
+        <a href="#fed-start" class="lcar-btn-std" data-color="1" data-shape="rect" data-align="br">Get started</a>
+        <a href="#fed-buttons" class="lcar-btn-std" data-color="2" data-shape="rect" data-align="br">Buttons</a>
+        <a href="#fed-console" class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Console</a>
+        <a href="#fed-controls" class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br">Controls</a>
+        <a href="#fed-displays" class="lcar-btn-std" data-color="7" data-shape="rect" data-align="br">Displays</a>
+        <a href="#fed-sensors" class="lcar-btn-std" data-color="3" data-shape="rect" data-align="br">Sensors</a>
+        <a href="#fed-alerts" class="lcar-btn-std" data-color="2" data-shape="rect" data-align="br">Alerts</a>
+        <a href="#fed-frames" class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Frames</a>
+        <a href="#fed-themes" class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br">Themes</a>
+        <a href="#fed-reference" class="lcar-btn-std" data-color="1" data-shape="rect" data-align="br">Reference</a>
+        <div class="lcar-block" data-color="2" data-fill>47-1138</div>
+      </nav>
+
+      <main class="lcar-frame-content">
+
+        <!-- ---------- OVERVIEW ---------- -->
+        <section class="section" id="fed-overview">
+          <h2>LCARS for the web</h2>
+          <p>
+            <strong>@lcars-gui/federation</strong> brings the Library Computer Access/Retrieval System of
+            The Next Generation, Deep Space Nine and Picard to your apps – as React components and as plain
+            HTML/CSS with a tiny script for interaction. Everything on this page is built with the library.
+          </p>
+          <ul class="features">
+            <li>React components and plain HTML/CSS</li>
+            <li>Three themes: TNG, DS9, Picard</li>
+            <li>Red and yellow alert for whole screens</li>
+            <li>Synthesized interface sounds – no audio files</li>
+            <li>Responsive: sidebars become button rows</li>
+            <li>Fully typed, tree-shakeable, SSR-ready</li>
+          </ul>
+          <div class="install">
+            <pre class="code"><code>npm install @lcars-gui/federation</code></pre>
+            <button class="lcar-btn-std" data-size="m" data-color="4" data-shape="rect" data-copy="npm install @lcars-gui/federation">Copy</button>
+          </div>
+        </section>
+
+        <!-- ---------- GET STARTED ---------- -->
+        <section class="section" id="fed-start">
+          <h2>Get started</h2>
+
+          <h3>React</h3>
+          <pre class="code"><code><span class="k">import</span> <span class="s">"@lcars-gui/federation/ui.css"</span>;
+<span class="k">import</span> { Frame, Button, LcarsRoot, SoundProvider } <span class="k">from</span> <span class="s">"@lcars-gui/federation/react"</span>;
+
+<span class="k">export default function</span> App() {
+  <span class="k">return</span> (
+    &lt;SoundProvider&gt;
+      &lt;LcarsRoot theme=<span class="s">"tng"</span>&gt;
+        &lt;Frame
+          title=<span class="s">"Bridge"</span>
+          topLabel=<span class="s">"47-1138"</span>
+          sidebar={&lt;Button shape=<span class="s">"rect"</span> align=<span class="s">"bottom-right"</span>&gt;Tactical&lt;/Button&gt;}
+        &gt;
+          Warp core stable.
+        &lt;/Frame&gt;
+      &lt;/LcarsRoot&gt;
+    &lt;/SoundProvider&gt;
+  );
+}</code></pre>
+
+          <h3>Plain HTML – no build step</h3>
+          <pre class="code"><code>&lt;link rel=<span class="s">"stylesheet"</span> href=<span class="s">"https://unpkg.com/@lcars-gui/federation/dist/ui.css"</span>&gt;
+
+&lt;button class=<span class="s">"lcar-btn-std"</span> data-color=<span class="s">"2"</span> data-shape=<span class="s">"rect"</span>&gt;Warp&lt;/button&gt;
+
+&lt;script src=<span class="s">"https://unpkg.com/@lcars-gui/federation/dist/index.global.js"</span>&gt;&lt;/script&gt;
+&lt;script&gt;
+  <span class="c">// wires up toggles, tabs, keypads, data cascades and sounds</span>
+  <span class="k">const</span> ui = LcarsFederation.initLcars({ sound: <span class="k">true</span> });
+&lt;/script&gt;</code></pre>
+
+          <h3>Themes &amp; alert</h3>
+          <pre class="code"><code><span class="c">&lt;!-- any container; everything below follows --&gt;</span>
+&lt;div data-theme=<span class="s">"ds9"</span> data-alert=<span class="s">"red"</span>&gt; … &lt;/div&gt;
+
+<span class="c">// React</span>
+&lt;LcarsRoot theme=<span class="s">"picard"</span> alert={redAlert ? <span class="s">"red"</span> : <span class="k">null</span>}&gt; … &lt;/LcarsRoot&gt;</code></pre>
+        </section>
+
+        <!-- ---------- BUTTONS ---------- -->
+        <section class="section" id="fed-buttons">
+          <h2>Buttons</h2>
+
+          <h3>Shapes</h3>
+          <div class="row">
+            <button class="lcar-btn-std" data-color="1" data-size="l" data-length="l">Capsule</button>
+            <button class="lcar-btn-std" data-color="2" data-size="l" data-length="l" data-shape="rect">Rect</button>
+            <button class="lcar-btn-std" data-color="6" data-size="l" data-length="l" data-shape="cap-left">Cap Left</button>
+            <button class="lcar-btn-std" data-color="7" data-size="l" data-length="l" data-shape="cap-right">Cap Right</button>
+          </div>
+
+          <h3>Button group</h3>
+          <div class="row">
+            <button class="lcar-btn-std" data-color="3" data-size="l" data-length="m" data-shape="cap-left">Warp</button>
+            <button class="lcar-btn-std" data-color="4" data-size="l" data-length="m" data-shape="rect">Impulse</button>
+            <button class="lcar-btn-std" data-color="4" data-size="l" data-length="m" data-shape="rect">Maneuver</button>
+            <button class="lcar-btn-std" data-color="2" data-size="l" data-length="m" data-shape="cap-right">All stop</button>
+          </div>
+
+          <h3>Label bottom right (TNG style)</h3>
+          <div class="row">
+            <button class="lcar-btn-std" data-color="1" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem">Sensors</button>
+            <button class="lcar-btn-std" data-color="6" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem">Shields</button>
+            <button class="lcar-btn-std" data-color="7" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem" disabled>Disabled</button>
+          </div>
+
+          <h3>Toggle (aria-pressed)</h3>
+          <div class="row">
+            <button class="lcar-btn-std" data-color="6" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem" aria-pressed="true">Shields</button>
+            <button class="lcar-btn-std" data-color="3" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem" aria-pressed="false">Phasers</button>
+            <button class="lcar-btn-std" data-color="7" data-size="l" data-length="l" data-shape="rect" data-align="br" style="height: 3.5rem" aria-pressed="false">Tractor beam</button>
+          </div>
+
+          <pre class="code"><code>&lt;Button color={2} shape=<span class="s">"rect"</span> align=<span class="s">"bottom-right"</span>&gt;Sensors&lt;/Button&gt;
+&lt;Toggle color={6} defaultPressed&gt;Shields&lt;/Toggle&gt;
+
+<span class="c">&lt;!-- HTML --&gt;</span>
+&lt;button class=<span class="s">"lcar-btn-std"</span> data-color=<span class="s">"2"</span> data-shape=<span class="s">"rect"</span> data-align=<span class="s">"br"</span>&gt;Sensors&lt;/button&gt;</code></pre>
+        </section>
+
+        <!-- ---------- CONSOLE ---------- -->
+        <section class="section" id="fed-console">
+          <h2>Console</h2>
+
+          <h3>Button grid</h3>
+          <div class="lcar-grid" style="--cols: 5; max-width: 40rem">
+            <button class="lcar-btn-std" data-color="1" data-shape="rect" data-align="br">Navigation</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Comms</button>
+            <button class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br">Tactical</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Ops</button>
+            <button class="lcar-btn-std" data-color="3" data-shape="rect" data-align="br">Science</button>
+            <button class="lcar-btn-std" data-color="7" data-shape="rect" data-align="br">Holodeck</button>
+            <button class="lcar-btn-std" data-color="1" data-shape="rect" data-align="br">Transporter</button>
+            <button class="lcar-btn-std" data-color="2" data-shape="rect" data-align="br">Sickbay</button>
+            <button class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br">Engineering</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Log</button>
+          </div>
+
+          <h3>Keypad (code: 1701)</h3>
+          <div class="lcar-keypad" data-color="4" data-length="6" data-code="1701" data-mask>
+            <output class="lcar-keypad-display">––––––</output>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">1</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">2</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">3</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">4</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">5</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">6</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">7</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">8</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">9</button>
+            <button class="lcar-btn-std" data-color="2" data-shape="rect" data-align="br">CLR</button>
+            <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">0</button>
+            <button class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br" data-sound="none">ENT</button>
+          </div>
+
+          <pre class="code" style="margin-top: 1rem"><code>&lt;ButtonGrid columns={5}&gt; … &lt;/ButtonGrid&gt;
+&lt;Keypad length={6} mask onSubmit={(code) =&gt; code === <span class="s">"1701"</span>} /&gt;</code></pre>
+        </section>
+
+        <!-- ---------- CONTROLS ---------- -->
+        <section class="section" id="fed-controls">
+          <h2>Controls</h2>
+
+          <h3>Tabs</h3>
+          <div class="lcar-tabs" data-color="6" style="max-width: 40rem">
+            <div class="lcar-tablist" role="tablist">
+              <button class="lcar-tab" role="tab" id="fed-tab-course" aria-controls="fed-panel-course" aria-selected="true">Course</button>
+              <button class="lcar-tab" role="tab" id="fed-tab-crew" aria-controls="fed-panel-crew" aria-selected="false" tabindex="-1">Crew</button>
+              <button class="lcar-tab" role="tab" id="fed-tab-log" aria-controls="fed-panel-log" aria-selected="false" tabindex="-1">Log</button>
+            </div>
+            <div class="lcar-bar" data-cap="right"></div>
+            <div class="lcar-tabpanel" role="tabpanel" id="fed-panel-course" aria-labelledby="fed-tab-course">
+              <p>Heading 247 mark 9. Arrival at Starbase 74 in 3 hours.</p>
+            </div>
+            <div class="lcar-tabpanel" role="tabpanel" id="fed-panel-crew" aria-labelledby="fed-tab-crew" hidden>
+              <p>1,014 persons aboard. All stations manned.</p>
+            </div>
+            <div class="lcar-tabpanel" role="tabpanel" id="fed-panel-log" aria-labelledby="fed-tab-log" hidden>
+              <p>Captain's log, stardate 41153.7, supplemental.</p>
+            </div>
+          </div>
+
+          <h3>Input fields</h3>
+          <div class="stack-v">
+            <label class="lcar-field" data-color="1">
+              <span class="lcar-field-label">Course</span>
+              <input class="lcar-input" placeholder="247 mark 9" />
+            </label>
+            <label class="lcar-field" data-color="6">
+              <span class="lcar-field-label">Destination</span>
+              <input class="lcar-input" placeholder="Starbase 74" />
+            </label>
+          </div>
+
+          <h3>Slider → level bar &amp; gauge</h3>
+          <div class="stack-v">
+            <input type="range" class="lcar-range" data-color="1" id="fed-warp-slider" min="0" max="100" value="60" aria-label="Warp power" />
+            <div class="lcar-level" data-color="6" id="fed-warp-level" role="meter" aria-valuemin="0" aria-valuemax="100">
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------- DISPLAYS ---------- -->
+        <section class="section" id="fed-displays">
+          <h2>Displays</h2>
+
+          <div class="wrap">
+            <div class="lcar-gauge" data-color="1" id="fed-warp-gauge" role="meter" style="--value: 60"><span>60</span><small>Warp</small></div>
+            <div class="lcar-gauge" data-color="6" role="meter" style="--value: 85; --segments: 20"><span>85</span><small>Shields</small></div>
+            <div class="lcar-gauge" data-color="2" role="meter" style="--value: 23; --segments: 8"><span>23</span><small>Hull</small></div>
+
+            <div class="lcar-level" data-color="3" data-orientation="vertical" role="meter">
+              <span data-on></span><span data-on></span><span data-on></span><span data-on></span><span data-on></span>
+              <span data-on></span><span data-on></span><span></span><span></span><span></span>
+            </div>
+            <div class="lcar-level" data-color="7" data-orientation="vertical" role="meter">
+              <span data-on></span><span data-on></span><span data-on></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <h3>Readout</h3>
+          <dl class="lcar-readout">
+            <dt>Warp core</dt><dd>98.4 %</dd>
+            <dt>Antimatter</dt><dd>1,207 kg</dd>
+            <dt>Dilithium</dt><dd>Stable</dd>
+            <dt data-color="2">Hull integrity</dt><dd>23 %</dd>
+          </dl>
+
+          <h3>ID numbers</h3>
+          <div class="wrap" style="gap: 1rem; align-items: center">
+            <span class="lcar-number">47-1138</span>
+            <span class="lcar-number" data-color="6">03-2814</span>
+            <span class="lcar-number" data-color="2">NCC-1701-D</span>
+          </div>
+
+          <h3>Status</h3>
+          <div class="wrap" style="gap: 1.5rem; align-items: center">
+            <span class="lcar-status" data-status="ok">Online</span>
+            <span class="lcar-status" data-status="warn">Maintenance</span>
+            <span class="lcar-status" data-status="error" data-blink>Failure</span>
+            <span class="lcar-status" data-status="off">Offline</span>
+          </div>
+
+          <h3>Divider</h3>
+          <div class="lcar-divider" role="separator"></div>
+          <div class="lcar-divider" data-color="6" role="separator"></div>
+
+          <h3>Data cascade</h3>
+          <div class="lcar-cascade" data-columns="14" data-rows="8"></div>
+
+          <pre class="code" style="margin-top: 1rem"><code>&lt;Gauge value={85} segments={20} label=<span class="s">"Shields"</span> color={6} /&gt;
+&lt;LevelBar value={70} orientation=<span class="s">"vertical"</span> /&gt;
+&lt;Readout items={[{ label: <span class="s">"Warp core"</span>, value: <span class="s">"98.4 %"</span> }]} /&gt;
+&lt;StatusIndicator status=<span class="s">"error"</span> blink&gt;Failure&lt;/StatusIndicator&gt;
+&lt;DataCascade columns={14} rows={8} /&gt;</code></pre>
+        </section>
+
+        <!-- ---------- SENSORS ---------- -->
+        <section class="section" id="fed-sensors">
+          <h2>Sensors</h2>
+          <div class="lcar-sensor lcar-scan" data-color="6" style="max-width: 40rem">
+            <span class="lcar-blip" style="--x: 30; --y: 40"></span>
+            <span class="lcar-blip" data-color="2" style="--x: 72; --y: 25"></span>
+            <span class="lcar-blip" data-color="4" style="--x: 58; --y: 70"></span>
+          </div>
+          <pre class="code" style="margin-top: 1rem"><code>&lt;Sensor scan blips={[{ x: 30, y: 40 }, { x: 72, y: 25, color: 2 }]} /&gt;</code></pre>
+        </section>
+
+        <!-- ---------- ALERTS ---------- -->
+        <section class="section" id="fed-alerts">
+          <h2>Alerts</h2>
+          <p>Alert mode recolors the whole interface and makes the bars pulse – try “Red Alert” and “Yellow” at the top.</p>
+          <div class="wrap" style="gap: 3rem">
+            <div class="lcar-alert" data-level="red" role="alert">
+              <span class="lcar-alert-title">Alert</span>
+              <span class="lcar-alert-text">Condition: Red</span>
+            </div>
+            <div class="lcar-alert" data-level="yellow">
+              <span class="lcar-alert-title">Alert</span>
+              <span class="lcar-alert-text">Condition: Yellow</span>
+            </div>
+          </div>
+          <pre class="code" style="margin-top: 1.5rem"><code>&lt;AlertBanner level=<span class="s">"red"</span> /&gt;
+&lt;LcarsRoot alert=<span class="s">"red"</span>&gt; … &lt;/LcarsRoot&gt;</code></pre>
+        </section>
+
+        <!-- ---------- FRAMES ---------- -->
+        <section class="section" id="fed-frames">
+          <h2>Bars &amp; end caps</h2>
+
+          <div class="row">
+            <div class="lcar-bar" data-color="1" data-cap="left" data-length="xs"></div>
+            <div class="lcar-bar" data-color="4"></div>
+            <div class="lcar-bar" data-color="1" data-cap="right" data-length="xs"></div>
+          </div>
+          <div class="row">
+            <div class="lcar-bar" data-color="6" data-cap="left" data-length="m"></div>
+            <div class="lcar-bar" data-color="7" data-length="s"></div>
+            <div class="lcar-bar" data-color="6"></div>
+            <div class="lcar-bar" data-color="2" data-length="l"></div>
+            <div class="lcar-bar" data-color="6" data-cap="right" data-length="xs"></div>
+          </div>
+          <div class="row">
+            <div class="lcar-bar" data-color="3" data-cap="both" data-length="xl"></div>
+            <div class="lcar-bar" data-color="5" data-cap="both" data-length="l"></div>
+          </div>
+          <div class="row">
+            <div class="lcar-bar" data-color="2" data-cap="left" data-length="xs"></div>
+            <div class="lcar-bar" data-color="2"></div>
+            <h1 class="lcar-title" data-color="2">Red Alert</h1>
+            <div class="lcar-bar" data-color="2"></div>
+            <div class="lcar-bar" data-color="2" data-cap="right" data-length="xs"></div>
+          </div>
+
+          <h2 style="margin-top: 32px">Elbows</h2>
+          <div class="elbow-grid">
+            <div class="row" style="align-items: flex-start">
+              <div class="lcar-elbow" data-corner="tl" data-color="1">TL</div>
+              <div class="lcar-bar" data-color="1" data-cap="right"></div>
+            </div>
+            <div class="row" style="align-items: flex-start">
+              <div class="lcar-bar" data-color="6" data-cap="left"></div>
+              <div class="lcar-elbow" data-corner="tr" data-color="6">TR</div>
+            </div>
+            <div class="row" style="align-items: flex-end">
+              <div class="lcar-elbow" data-corner="bl" data-color="7">BL</div>
+              <div class="lcar-bar" data-color="7" data-cap="right"></div>
+            </div>
+            <div class="row" style="align-items: flex-end">
+              <div class="lcar-bar" data-color="3" data-cap="left"></div>
+              <div class="lcar-elbow" data-corner="br" data-color="3">BR</div>
+            </div>
+          </div>
+
+          <h2 style="margin-top: 32px">Frame</h2>
+          <div class="lcar-frame mini" style="max-width: 40rem">
+            <div class="lcar-frame-top">
+              <div class="lcar-elbow" data-corner="tl" data-color="6">03</div>
+              <div class="lcar-bar" data-color="6"></div>
+              <h1 class="lcar-title" data-color="6">Engineering</h1>
+              <div class="lcar-bar" data-color="6" data-cap="right" data-length="xs"></div>
+            </div>
+            <div class="lcar-stack">
+              <button class="lcar-btn-std" data-color="7" data-shape="rect" data-align="br">Warp core</button>
+              <button class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">Plasma</button>
+              <div class="lcar-block" data-color="6" data-fill></div>
+            </div>
+            <div class="lcar-frame-content">
+              <p>Warp core stable. Plasma flow at 98.4 %.</p>
+            </div>
+            <div class="lcar-frame-bottom">
+              <div class="lcar-elbow" data-corner="bl" data-color="6"></div>
+              <div class="lcar-bar" data-color="7" data-length="m"></div>
+              <div class="lcar-bar" data-color="6" data-cap="right" data-length="xs"></div>
+            </div>
+          </div>
+
+          <pre class="code" style="margin-top: 1rem"><code>&lt;Frame color={6} title=<span class="s">"Engineering"</span> topLabel=<span class="s">"03"</span> sidebar={…}&gt; … &lt;/Frame&gt;
+&lt;SplitFrame title=<span class="s">"Federation"</span> header={&lt;DataCascade /&gt;} sidebar={…}&gt; … &lt;/SplitFrame&gt;</code></pre>
+          <p>Responsive: make the window narrower than 720 px – the sidebars turn into button rows.</p>
+        </section>
+
+        <!-- ---------- THEMES ---------- -->
+        <section class="section" id="fed-themes">
+          <h2>Themes</h2>
+          <p>Themes only swap the color palette – every component works in all of them. Each theme can additionally ship its own extras (<code>themes/&lt;name&gt;.css</code>).</p>
+          <div class="theme-grid">
+            <div class="lcar-frame mini" data-theme="tng">
+              <div class="lcar-frame-top">
+                <div class="lcar-elbow" data-corner="tl" data-color="1">TNG</div>
+                <div class="lcar-bar" data-color="1"></div>
+                <div class="lcar-bar" data-color="1" data-cap="right" data-length="xs"></div>
+              </div>
+              <div class="lcar-stack">
+                <div class="lcar-block" data-color="2">1701-D</div>
+                <div class="lcar-block" data-color="4" data-fill></div>
+              </div>
+              <div class="lcar-frame-content">
+                <div class="row"><button class="lcar-btn-std" data-size="m" data-color="6" data-length="m">Engage</button><button class="lcar-btn-std" data-size="m" data-color="3" data-length="m">Hail</button></div>
+                <p>The Next Generation</p>
+              </div>
+              <div class="lcar-frame-bottom">
+                <div class="lcar-elbow" data-corner="bl" data-color="1"></div>
+                <div class="lcar-bar" data-color="7" data-cap="right"></div>
+              </div>
+            </div>
+
+            <div class="lcar-frame mini" data-theme="ds9">
+              <div class="lcar-frame-top">
+                <div class="lcar-elbow" data-corner="tl" data-color="1">DS9</div>
+                <div class="lcar-bar" data-color="1"></div>
+                <div class="lcar-bar" data-color="1" data-cap="right" data-length="xs"></div>
+              </div>
+              <div class="lcar-stack">
+                <div class="lcar-block" data-color="2">Ops</div>
+                <div class="lcar-block" data-color="4" data-fill></div>
+              </div>
+              <div class="lcar-frame-content">
+                <div class="row"><button class="lcar-btn-std" data-size="m" data-color="6" data-length="m">Airlock</button><button class="lcar-btn-std" data-size="m" data-color="3" data-length="m">Promenade</button></div>
+                <p>Deep Space Nine</p>
+              </div>
+              <div class="lcar-frame-bottom">
+                <div class="lcar-elbow" data-corner="bl" data-color="1"></div>
+                <div class="lcar-bar" data-color="7" data-cap="right"></div>
+              </div>
+            </div>
+
+            <div class="lcar-frame mini" data-theme="picard">
+              <div class="lcar-frame-top">
+                <div class="lcar-elbow" data-corner="tl" data-color="1">25C</div>
+                <div class="lcar-bar" data-color="1"></div>
+                <div class="lcar-bar" data-color="1" data-cap="right" data-length="xs"></div>
+              </div>
+              <div class="lcar-stack">
+                <div class="lcar-block" data-color="2">NCC-1701-F</div>
+                <div class="lcar-block" data-color="4" data-fill></div>
+              </div>
+              <div class="lcar-frame-content">
+                <div class="row"><button class="lcar-btn-std" data-size="m" data-color="6" data-length="m">Engage</button><button class="lcar-btn-std" data-size="m" data-color="3" data-length="m">Fleet</button></div>
+                <p>Picard</p>
+              </div>
+              <div class="lcar-frame-bottom">
+                <div class="lcar-elbow" data-corner="bl" data-color="1"></div>
+                <div class="lcar-bar" data-color="7" data-cap="right"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------- REFERENCE ---------- -->
+        <section class="section" id="fed-reference">
+          <h2>Reference</h2>
+          <p>React components from <code>@lcars-gui/federation/react</code>. Every component accepts the usual HTML attributes as well.</p>
+          <table class="ref">
+            <thead><tr><th>Component</th><th>Key props</th><th>HTML class</th></tr></thead>
+            <tbody>
+              <tr><td><code>Button</code> / <code>Toggle</code></td><td><code>color size length shape align sound</code> / <code>pressed onPressedChange</code></td><td><code>lcar-btn-std</code></td></tr>
+              <tr><td><code>Frame</code></td><td><code>color title topLabel bottomLabel sidebar top bottom</code></td><td><code>lcar-frame</code></td></tr>
+              <tr><td><code>SplitFrame</code></td><td><code>title header headerSidebar sidebar upperLabel lowerLabel</code></td><td><code>lcar-frame[data-layout="split"]</code></td></tr>
+              <tr><td><code>Elbow</code> / <code>Bar</code> / <code>Block</code></td><td><code>corner</code> / <code>cap length</code> / <code>fill</code></td><td><code>lcar-elbow lcar-bar lcar-block</code></td></tr>
+              <tr><td><code>Tabs</code></td><td><code>items value defaultValue onValueChange</code></td><td><code>lcar-tabs</code></td></tr>
+              <tr><td><code>Input</code> / <code>Slider</code></td><td><code>label color</code></td><td><code>lcar-field lcar-range</code></td></tr>
+              <tr><td><code>Keypad</code></td><td><code>length mask onSubmit</code></td><td><code>lcar-keypad</code></td></tr>
+              <tr><td><code>Gauge</code> / <code>LevelBar</code></td><td><code>value max segments label</code> / <code>orientation</code></td><td><code>lcar-gauge lcar-level</code></td></tr>
+              <tr><td><code>Readout</code> / <code>NumberCode</code></td><td><code>items</code></td><td><code>lcar-readout lcar-number</code></td></tr>
+              <tr><td><code>DataCascade</code></td><td><code>columns rows seed</code></td><td><code>lcar-cascade</code></td></tr>
+              <tr><td><code>Sensor</code></td><td><code>blips scan</code></td><td><code>lcar-sensor</code></td></tr>
+              <tr><td><code>StatusIndicator</code> / <code>AlertBanner</code></td><td><code>status blink</code> / <code>level title</code></td><td><code>lcar-status lcar-alert</code></td></tr>
+              <tr><td><code>LcarsRoot</code></td><td><code>theme alert</code></td><td><code>data-theme data-alert</code></td></tr>
+              <tr><td><code>SoundProvider</code></td><td><code>enabled volume</code></td><td><code>initLcars({ sound })</code></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ############################################################ -->
+  <!-- ########################## ROMULUS ######################### -->
+  <!-- ############################################################ -->
+
+  <div class="view" id="view-romulus" hidden>
+    <section class="rom-panel" data-color="1">
       <div class="rom-panel-header">
         <span class="rom-panel-code">R-7734</span>
-        <h2 class="rom-title">Romulus</h2>
+        <h1 class="rom-title">Romulus</h1>
         <div class="rom-bar" data-cap="right"></div>
       </div>
-      <nav class="rom-stack rom-panel-sidebar">
-        <a href="romulus.html" class="rom-btn" data-align="start">Demo</a>
-        <a href="romulus.html?theme=tal-shiar" class="rom-btn" data-color="6" data-align="start">Tal Shiar</a>
-        <a href="romulus.html?alert=red" class="rom-btn" data-color="4" data-align="start">Red Alert</a>
-        <div class="rom-block" data-fill></div>
+
+      <nav class="rom-stack rom-panel-sidebar" aria-label="Romulus sections">
+        <a href="#rom-overview" class="rom-btn" data-align="start">Overview</a>
+        <a href="#rom-start" class="rom-btn" data-color="6" data-align="start">Get started</a>
+        <a href="#rom-buttons" class="rom-btn" data-color="3" data-align="start">Buttons</a>
+        <a href="#rom-console" class="rom-btn" data-color="4" data-align="start">Console</a>
+        <a href="#rom-controls" class="rom-btn" data-color="6" data-align="start">Controls</a>
+        <a href="#rom-displays" class="rom-btn" data-color="3" data-align="start">Displays</a>
+        <a href="#rom-sensors" class="rom-btn" data-color="4" data-align="start">Sensors</a>
+        <a href="#rom-alerts" class="rom-btn" data-color="2" data-align="start">Alerts</a>
+        <a href="#rom-layout" class="rom-btn" data-align="start">Layout</a>
+        <a href="#rom-themes" class="rom-btn" data-color="6" data-align="start">Themes</a>
+        <a href="#rom-reference" class="rom-btn" data-color="3" data-align="start">Reference</a>
+        <div class="rom-block" data-fill>04-1138</div>
       </nav>
-      <div class="rom-panel-content">
-        <p class="faction-text">Abgeschrägte Ecken, leuchtende Linien, Rauten – Themes Warbird, Tal Shiar und Free State.</p>
-        <div class="rom-cascade" data-columns="5" data-rows="4"></div>
-        <div class="row">
-          <code style="color: var(--rom-colors-color4)">npm install @lcars-gui/romulus</code>
+
+      <main class="rom-panel-content">
+
+        <div class="controls-bar">
+          <div class="row">
+            <button class="rom-btn" data-shape="point-left" data-color="6" data-set-theme="warbird">Warbird</button>
+            <button class="rom-btn" data-shape="rect" data-color="6" data-set-theme="tal-shiar">Tal Shiar</button>
+            <button class="rom-btn" data-shape="point-right" data-color="6" data-set-theme="free-state">Free State</button>
+          </div>
+          <div class="row">
+            <button class="rom-btn" data-color="2" data-variant="solid" data-set-alert="red">Red Alert</button>
+            <button class="rom-btn" data-color="4" data-set-alert="yellow">Yellow</button>
+            <button class="rom-btn" data-set-alert="">Normal</button>
+            <button class="rom-btn" data-color="3" data-length="l" aria-pressed="false" data-sound-toggle>Sound</button>
+          </div>
         </div>
-      </div>
+        <div class="rom-cascade" data-columns="8" data-rows="4"></div>
+        <div class="rom-divider"></div>
+
+        <!-- ---------- OVERVIEW ---------- -->
+        <section class="section" id="rom-overview">
+          <h2>Interfaces of the Star Empire</h2>
+          <p>
+            <strong>@lcars-gui/romulus</strong> is a complete UI kit in the style of the Romulan Star Empire:
+            glowing lines on dark surfaces, chamfered corners, talon-shaped accents and diamonds instead of circles.
+            Same API ideas as the Federation package – a completely different look.
+          </p>
+          <ul class="features">
+            <li>React components and plain HTML/CSS</li>
+            <li>Three themes: Warbird, Tal Shiar, Free State</li>
+            <li>Red and yellow alert</li>
+            <li>Lower, triangle-wave interface sounds</li>
+            <li>Prefixed CSS variables – mix with other factions</li>
+            <li>Fully typed, tree-shakeable, SSR-ready</li>
+          </ul>
+          <div class="install">
+            <pre class="code"><code>npm install @lcars-gui/romulus</code></pre>
+            <button class="rom-btn" data-variant="solid" data-copy="npm install @lcars-gui/romulus">Copy</button>
+          </div>
+        </section>
+
+        <!-- ---------- GET STARTED ---------- -->
+        <section class="section" id="rom-start">
+          <h2>Get started</h2>
+
+          <h3>React</h3>
+          <pre class="code"><code><span class="k">import</span> <span class="s">"@lcars-gui/romulus/ui.css"</span>;
+<span class="k">import</span> { Panel, Button, RomulusRoot, SoundProvider } <span class="k">from</span> <span class="s">"@lcars-gui/romulus/react"</span>;
+
+<span class="k">export default function</span> App() {
+  <span class="k">return</span> (
+    &lt;SoundProvider&gt;
+      &lt;RomulusRoot theme=<span class="s">"warbird"</span>&gt;
+        &lt;Panel code=<span class="s">"R-7734"</span> title=<span class="s">"Tactical"</span> sidebar={&lt;Button&gt;Cloak&lt;/Button&gt;}&gt;
+          Cloaking device engaged.
+        &lt;/Panel&gt;
+      &lt;/RomulusRoot&gt;
+    &lt;/SoundProvider&gt;
+  );
+}</code></pre>
+
+          <h3>Plain HTML – no build step</h3>
+          <pre class="code"><code>&lt;link rel=<span class="s">"stylesheet"</span> href=<span class="s">"https://unpkg.com/@lcars-gui/romulus/dist/ui.css"</span>&gt;
+
+&lt;button class=<span class="s">"rom-btn"</span> data-variant=<span class="s">"solid"</span>&gt;Cloak&lt;/button&gt;
+
+&lt;script src=<span class="s">"https://unpkg.com/@lcars-gui/romulus/dist/index.global.js"</span>&gt;&lt;/script&gt;
+&lt;script&gt;
+  <span class="k">const</span> ui = LcarsRomulus.initRomulus({ sound: <span class="k">true</span> });
+&lt;/script&gt;</code></pre>
+
+          <h3>Font</h3>
+          <p>No font is bundled. <a href="https://fonts.google.com/specimen/Michroma" style="color: var(--rom-colors-color4)">Michroma</a> (Google Fonts, free) fits well; without it Eurostile, Bahnschrift or Arial Narrow are used.</p>
+        </section>
+
+        <!-- ---------- BUTTONS ---------- -->
+        <section class="section" id="rom-buttons">
+          <h2>Buttons</h2>
+
+          <h3>Sizes</h3>
+          <div class="row">
+            <button class="rom-btn" data-size="xs">XS</button>
+            <button class="rom-btn" data-size="s">Small</button>
+            <button class="rom-btn">Medium</button>
+            <button class="rom-btn" data-size="l">Large</button>
+            <button class="rom-btn" data-size="xl">XL</button>
+          </div>
+
+          <h3>Outline &amp; solid</h3>
+          <div class="row">
+            <button class="rom-btn" data-color="1">Cloak</button>
+            <button class="rom-btn" data-color="6">Disruptor</button>
+            <button class="rom-btn" data-color="3">Plasma</button>
+            <button class="rom-btn" data-color="4">Singularity</button>
+          </div>
+          <div class="row">
+            <button class="rom-btn" data-color="1" data-variant="solid">Cloak</button>
+            <button class="rom-btn" data-color="2" data-variant="solid">Decloak</button>
+            <button class="rom-btn" data-color="3" data-variant="solid">Plasma</button>
+            <button class="rom-btn" data-color="4" data-variant="solid">Singularity</button>
+            <button class="rom-btn" data-color="5" data-variant="solid">Senate</button>
+            <button class="rom-btn" data-color="6" data-variant="solid">Praetor</button>
+          </div>
+
+          <h3>Shapes</h3>
+          <div class="row">
+            <button class="rom-btn" data-color="6" data-shape="point-left">Back</button>
+            <button class="rom-btn" data-color="6" data-shape="rect">Hold</button>
+            <button class="rom-btn" data-color="6">Chamfer</button>
+            <button class="rom-btn" data-color="6" data-shape="point-right">Forward</button>
+            <button class="rom-btn" disabled>Disabled</button>
+          </div>
+
+          <h3>Toggle (aria-pressed)</h3>
+          <div class="row">
+            <button class="rom-btn" data-color="3" aria-pressed="true">Shields</button>
+            <button class="rom-btn" data-color="4" aria-pressed="false">Cloak</button>
+            <button class="rom-btn" data-color="6" aria-pressed="false">Tractor</button>
+          </div>
+
+          <pre class="code"><code>&lt;Button variant=<span class="s">"solid"</span>&gt;Cloak&lt;/Button&gt;
+&lt;Button shape=<span class="s">"point-right"</span> color={6}&gt;Forward&lt;/Button&gt;
+&lt;Toggle color={3} defaultPressed&gt;Shields&lt;/Toggle&gt;</code></pre>
+        </section>
+
+        <!-- ---------- CONSOLE ---------- -->
+        <section class="section" id="rom-console">
+          <h2>Console</h2>
+
+          <h3>Button grid</h3>
+          <div class="rom-grid" style="--cols: 4; max-width: 640px">
+            <button class="rom-btn" data-color="1">Helm</button>
+            <button class="rom-btn" data-color="6">Disruptor</button>
+            <button class="rom-btn" data-color="3" aria-pressed="true">Shields</button>
+            <button class="rom-btn" data-color="4" aria-pressed="false">Singularity</button>
+            <button class="rom-btn" data-color="3">Comms</button>
+            <button class="rom-btn" data-color="1">Sensors</button>
+            <button class="rom-btn" data-color="6">Tractor</button>
+            <button class="rom-btn" data-color="2">Eject core</button>
+          </div>
+
+          <h3>Keypad (code: 1701)</h3>
+          <div class="rom-keypad" data-length="4" data-code="1701" data-mask>
+            <output class="rom-keypad-display">––––</output>
+            <button class="rom-btn">1</button><button class="rom-btn">2</button><button class="rom-btn">3</button>
+            <button class="rom-btn">4</button><button class="rom-btn">5</button><button class="rom-btn">6</button>
+            <button class="rom-btn">7</button><button class="rom-btn">8</button><button class="rom-btn">9</button>
+            <button class="rom-btn" data-color="2">CLR</button>
+            <button class="rom-btn">0</button>
+            <button class="rom-btn" data-color="4" data-variant="solid" data-sound="none">ENT</button>
+          </div>
+        </section>
+
+        <!-- ---------- CONTROLS ---------- -->
+        <section class="section" id="rom-controls">
+          <h2>Controls</h2>
+
+          <div class="cols">
+            <div class="stack-v">
+              <h3 style="margin-top: 0">Input fields</h3>
+              <label class="rom-field">
+                <span class="rom-field-label">Course</span>
+                <input class="rom-input" placeholder="Romulus · Remus" />
+              </label>
+              <label class="rom-field" data-color="6">
+                <span class="rom-field-label">Code</span>
+                <input class="rom-input" placeholder="R-0000" />
+              </label>
+              <h3>Slider → level bar &amp; gauge</h3>
+              <input class="rom-range" type="range" id="rom-power-slider" min="0" max="100" value="64" aria-label="Power" />
+            </div>
+          </div>
+
+          <h3>Tabs</h3>
+          <div class="rom-tabs" style="max-width: 44rem">
+            <div class="rom-tablist" role="tablist">
+              <button class="rom-tab" role="tab" id="rom-tab-target" aria-controls="rom-panel-target" aria-selected="true">Target</button>
+              <button class="rom-tab" role="tab" id="rom-tab-crew" aria-controls="rom-panel-crew" aria-selected="false" tabindex="-1" data-color="6">Crew</button>
+              <button class="rom-tab" role="tab" id="rom-tab-log" aria-controls="rom-panel-log" aria-selected="false" tabindex="-1" data-color="3">Log</button>
+            </div>
+            <div class="rom-bar" data-cap="right"></div>
+            <div class="rom-tabpanel" role="tabpanel" id="rom-panel-target" aria-labelledby="rom-tab-target">Neutral Zone, sector 4. Cloak engaged.</div>
+            <div class="rom-tabpanel" role="tabpanel" id="rom-panel-crew" aria-labelledby="rom-tab-crew" hidden>Commander, subcommander, 1,200 crew.</div>
+            <div class="rom-tabpanel" role="tabpanel" id="rom-panel-log" aria-labelledby="rom-tab-log" hidden>No contact with the Federation.</div>
+          </div>
+        </section>
+
+        <!-- ---------- DISPLAYS ---------- -->
+        <section class="section" id="rom-displays">
+          <h2>Displays</h2>
+          <div class="cols">
+            <dl class="rom-readout">
+              <div><dt>Singularity</dt><dd>98.4</dd></div>
+              <div><dt>Cloaking field</dt><dd>Stable</dd></div>
+              <div><dt data-color="4">Disruptors</dt><dd>12 / 12</dd></div>
+              <div><dt>Position</dt><dd><span class="rom-number">R-7734</span></dd></div>
+            </dl>
+
+            <div class="stack-v">
+              <div class="rom-level" id="rom-power-level" role="meter" aria-valuemin="0" aria-valuemax="100">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="row">
+                <span class="rom-status" data-status="ok">Cloak</span>
+                <span class="rom-status" data-status="warn">Shields</span>
+                <span class="rom-status" data-status="error" data-blink>Hull</span>
+                <span class="rom-status" data-status="off">Torpedoes</span>
+              </div>
+            </div>
+
+            <div class="row" style="align-items: center; gap: 24px">
+              <div class="rom-gauge" id="rom-power-gauge" style="--value: 64"><span>64</span><small>Power</small></div>
+              <div class="rom-level" data-orientation="vertical" data-color="4">
+                <span data-on></span><span data-on></span><span data-on></span><span data-on></span>
+                <span data-on></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+
+          <h3>Data cascade</h3>
+          <div class="rom-cascade" data-columns="10" data-rows="6"></div>
+
+          <pre class="code" style="margin-top: 1rem"><code>&lt;Gauge value={64} label=<span class="s">"Power"</span> /&gt;
+&lt;LevelBar value={40} orientation=<span class="s">"vertical"</span> color={4} /&gt;
+&lt;Readout items={[{ label: <span class="s">"Singularity"</span>, value: <span class="s">"98.4"</span> }]} /&gt;</code></pre>
+        </section>
+
+        <!-- ---------- SENSORS ---------- -->
+        <section class="section" id="rom-sensors">
+          <h2>Sensors</h2>
+          <div class="rom-sensor rom-scan" style="max-width: 640px">
+            <span class="rom-blip" style="--x: 30; --y: 40"></span>
+            <span class="rom-blip" data-color="4" style="--x: 68; --y: 62"></span>
+            <span class="rom-blip" data-color="2" style="--x: 52; --y: 22"></span>
+          </div>
+          <pre class="code" style="margin-top: 1rem"><code>&lt;Sensor scan blips={[{ x: 30, y: 40 }, { x: 68, y: 62, color: 4 }]} /&gt;</code></pre>
+        </section>
+
+        <!-- ---------- ALERTS ---------- -->
+        <section class="section" id="rom-alerts">
+          <h2>Alerts</h2>
+          <p>Alert mode recolors every line and makes the panel pulse – try “Red Alert” at the top.</p>
+          <div class="row" style="gap: 16px">
+            <div class="rom-alert" role="alert"><span class="rom-alert-title">Alert</span><span class="rom-alert-text">Condition: Red</span></div>
+            <div class="rom-alert" data-level="yellow"><span class="rom-alert-title">Alert</span><span class="rom-alert-text">Condition: Yellow</span></div>
+          </div>
+        </section>
+
+        <!-- ---------- LAYOUT ---------- -->
+        <section class="section" id="rom-layout">
+          <h2>Layout</h2>
+
+          <h3>Lines</h3>
+          <div class="stack-v" style="max-width: 40rem">
+            <div class="rom-bar"></div>
+            <div class="rom-bar" data-cap="right" data-color="6"></div>
+            <div class="rom-bar" data-cap="both" data-color="3"></div>
+            <div class="rom-bar" data-segmented data-color="4"></div>
+          </div>
+
+          <h3>Divider</h3>
+          <div class="rom-divider" style="max-width: 40rem"></div>
+
+          <h3>Panel</h3>
+          <section class="rom-panel mini" data-color="6" style="max-width: 40rem">
+            <div class="rom-panel-header">
+              <span class="rom-panel-code">T-0451</span>
+              <h1 class="rom-title">Tal Shiar</h1>
+              <div class="rom-bar" data-cap="right"></div>
+            </div>
+            <nav class="rom-stack rom-panel-sidebar">
+              <button class="rom-btn" data-align="start">Files</button>
+              <button class="rom-btn" data-align="start">Agents</button>
+              <div class="rom-block" data-fill></div>
+            </nav>
+            <div class="rom-panel-content"><p>Access restricted to the Chairman.</p></div>
+            <div class="rom-panel-footer">
+              <div class="rom-bar" data-segmented></div>
+              <div class="rom-bar" data-length="s" data-cap="right"></div>
+            </div>
+          </section>
+
+          <pre class="code" style="margin-top: 1rem"><code>&lt;Panel code=<span class="s">"T-0451"</span> title=<span class="s">"Tal Shiar"</span> color={6} sidebar={…}&gt; … &lt;/Panel&gt;
+&lt;Bar cap=<span class="s">"right"</span> /&gt;  &lt;Bar segmented /&gt;  &lt;Divider /&gt;</code></pre>
+        </section>
+
+        <!-- ---------- THEMES ---------- -->
+        <section class="section" id="rom-themes">
+          <h2>Themes</h2>
+          <p>Each theme has its own palette plus optional extras: scanlines (Warbird), flickering titles (Tal Shiar) and a soft glow (Free State).</p>
+          <div class="theme-grid">
+            <section class="rom-panel mini" data-theme="warbird">
+              <div class="rom-panel-header"><span class="rom-panel-code">W-01</span><h1 class="rom-title">Warbird</h1><div class="rom-bar" data-cap="right"></div></div>
+              <div class="rom-panel-content">
+                <div class="row"><button class="rom-btn" data-variant="solid">Cloak</button><button class="rom-btn" data-color="6">Fire</button></div>
+                <p>D'deridex class – TNG</p>
+              </div>
+            </section>
+            <section class="rom-panel mini" data-theme="tal-shiar">
+              <div class="rom-panel-header"><span class="rom-panel-code">T-02</span><h1 class="rom-title">Tal Shiar</h1><div class="rom-bar" data-cap="right"></div></div>
+              <div class="rom-panel-content">
+                <div class="row"><button class="rom-btn" data-variant="solid">Cloak</button><button class="rom-btn" data-color="6">Fire</button></div>
+                <p>Intelligence service</p>
+              </div>
+            </section>
+            <section class="rom-panel mini" data-theme="free-state">
+              <div class="rom-panel-header"><span class="rom-panel-code">F-03</span><h1 class="rom-title">Free State</h1><div class="rom-bar" data-cap="right"></div></div>
+              <div class="rom-panel-content">
+                <div class="row"><button class="rom-btn" data-variant="solid">Cloak</button><button class="rom-btn" data-color="4">Fire</button></div>
+                <p>Romulan Free State – Picard era</p>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- ---------- REFERENCE ---------- -->
+        <section class="section" id="rom-reference">
+          <h2>Reference</h2>
+          <p>React components from <code>@lcars-gui/romulus/react</code>. Every component accepts the usual HTML attributes as well.</p>
+          <table class="ref">
+            <thead><tr><th>Component</th><th>Key props</th><th>HTML class</th></tr></thead>
+            <tbody>
+              <tr><td><code>Button</code> / <code>Toggle</code></td><td><code>color size length shape variant align sound</code></td><td><code>rom-btn</code></td></tr>
+              <tr><td><code>Panel</code></td><td><code>color title code sidebar header footer</code></td><td><code>rom-panel</code></td></tr>
+              <tr><td><code>Bar</code> / <code>Block</code> / <code>Title</code></td><td><code>cap length segmented</code> / <code>fill</code></td><td><code>rom-bar rom-block rom-title</code></td></tr>
+              <tr><td><code>Tabs</code></td><td><code>items value defaultValue onValueChange</code></td><td><code>rom-tabs</code></td></tr>
+              <tr><td><code>Input</code> / <code>Slider</code></td><td><code>label color</code></td><td><code>rom-field rom-range</code></td></tr>
+              <tr><td><code>Keypad</code></td><td><code>length mask onSubmit</code></td><td><code>rom-keypad</code></td></tr>
+              <tr><td><code>Gauge</code> / <code>LevelBar</code></td><td><code>value max segments label</code> / <code>orientation</code></td><td><code>rom-gauge rom-level</code></td></tr>
+              <tr><td><code>Readout</code> / <code>NumberCode</code> / <code>Divider</code></td><td><code>items</code></td><td><code>rom-readout rom-number rom-divider</code></td></tr>
+              <tr><td><code>DataCascade</code></td><td><code>columns rows seed</code></td><td><code>rom-cascade</code></td></tr>
+              <tr><td><code>Sensor</code></td><td><code>blips scan</code></td><td><code>rom-sensor</code></td></tr>
+              <tr><td><code>StatusIndicator</code> / <code>AlertBanner</code></td><td><code>status blink</code> / <code>level title</code></td><td><code>rom-status rom-alert</code></td></tr>
+              <tr><td><code>RomulusRoot</code></td><td><code>theme alert</code></td><td><code>data-theme data-alert</code></td></tr>
+              <tr><td><code>SoundProvider</code></td><td><code>enabled volume</code> (Romulan sounds by default)</td><td><code>initRomulus({ sound })</code></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+      </main>
+
       <div class="rom-panel-footer">
         <div class="rom-bar" data-segmented></div>
         <div class="rom-bar" data-length="s" data-cap="right"></div>
       </div>
     </section>
-  </main>
+  </div>
 
+  <footer class="site-footer">
+    lcars-gui is MIT licensed · <a href="https://github.com/aarondnas/lcars-gui">Source on GitHub</a> ·
+    Federation font: <a href="https://github.com/googlefonts/antonioFont">Antonio</a> (SIL Open Font License 1.1)<br />
+    Star Trek and LCARS are trademarks of CBS Studios / Paramount. This is an unofficial fan project.
+  </footer>
+
+  <!-- @lcars-gui/federation and @lcars-gui/romulus as globals (no bundler) -->
   <script src="../../../packages/federation/dist/index.global.js"></script>
   <script src="../../../packages/romulus/dist/index.global.js"></script>
   <script>
-    LcarsFederation.fillCascades(document.querySelector(".lcar-frame"));
-    LcarsRomulus.fillCascades(document.querySelector(".rom-panel"));
+    const root = document.documentElement;
+    const views = {
+      federation: { el: document.getElementById("view-federation"), defaultTheme: "tng" },
+      romulus: { el: document.getElementById("view-romulus"), defaultTheme: "warbird" },
+    };
+
+    // Each faction is wired up inside its own view, so their listeners never overlap
+    const controllers = {
+      federation: LcarsFederation.initLcars({ root: views.federation.el }),
+      romulus: LcarsRomulus.initRomulus({ root: views.romulus.el }),
+    };
+
+    // Theme/alert from the URL, e.g. ?theme=ds9&alert=red#federation (for links and previews)
+    const params = new URLSearchParams(location.search);
+    if (params.get("alert")) root.dataset.alert = params.get("alert");
+
+    // Faction switch: #federation, #fed-…, #romulus, #rom-…
+    let current;
+    function showFaction() {
+      const faction = location.hash.startsWith("#rom") ? "romulus" : "federation";
+      if (faction === current) return;
+      const first = current === undefined;
+      current = faction;
+
+      for (const [name, view] of Object.entries(views)) view.el.hidden = name !== faction;
+      document.body.dataset.faction = faction;
+      document.querySelectorAll(".site-switch a").forEach((a) => a.setAttribute("aria-current", String(a.dataset.faction === faction)));
+
+      const urlTheme = params.get("theme");
+      root.dataset.theme = first && urlTheme ? urlTheme : views[faction].defaultTheme;
+      if (!first) window.scrollTo(0, 0);
+    }
+    window.addEventListener("hashchange", showFaction);
+    showFaction();
+
+    // Theme & alert buttons
+    document.querySelectorAll("[data-set-theme]").forEach((btn) =>
+      btn.addEventListener("click", () => (root.dataset.theme = btn.dataset.setTheme))
+    );
+    document.querySelectorAll("[data-set-alert]").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const level = btn.dataset.setAlert;
+        if (level) root.dataset.alert = level;
+        else delete root.dataset.alert;
+        if (level === "red") controllers[current].play("alert");
+      })
+    );
+
+    // Sound toggles (one per faction)
+    for (const [faction, view] of Object.entries(views)) {
+      view.el.querySelector("[data-sound-toggle]").addEventListener(LcarsFederation.pressedChangeEvent, (e) =>
+        controllers[faction].setSound(e.detail.pressed)
+      );
+    }
+
+    // Copy buttons
+    document.querySelectorAll("[data-copy]").forEach((btn) =>
+      btn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(btn.dataset.copy);
+          const label = btn.textContent;
+          btn.textContent = "Copied";
+          setTimeout(() => (btn.textContent = label), 1200);
+        } catch {}
+      })
+    );
+
+    // Slider drives level bar and gauge
+    function linkSlider(lib, sliderId, levelId, gaugeId) {
+      const slider = document.getElementById(sliderId);
+      const level = document.getElementById(levelId);
+      const gauge = document.getElementById(gaugeId);
+      const update = () => {
+        const value = +slider.value;
+        lib.levelSegments(value, level.children.length).forEach((on, i) => level.children[i].toggleAttribute("data-on", on));
+        level.setAttribute("aria-valuenow", value);
+        gauge.style.setProperty("--value", value);
+        gauge.querySelector("span").textContent = value;
+      };
+      slider.addEventListener("input", update);
+      update();
+    }
+    linkSlider(LcarsFederation, "fed-warp-slider", "fed-warp-level", "fed-warp-gauge");
+    linkSlider(LcarsRomulus, "rom-power-slider", "rom-power-level", "rom-power-gauge");
   </script>
 </body>
 </html>

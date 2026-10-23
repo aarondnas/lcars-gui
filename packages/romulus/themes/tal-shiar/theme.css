@@ -1,6 +1,6 @@
-/* Theme-Extras: Tal Shiar – Geheimdienst
-   Wird als @lcars-gui/romulus/themes/tal-shiar.css veröffentlicht.
-   Titel und Kennungen flackern unregelmäßig, als würde das Signal gestört. */
+/* Theme extras: Tal Shiar – intelligence service
+   Published as @lcars-gui/romulus/themes/tal-shiar.css.
+   Titles and ID codes flicker irregularly, as if the signal were jammed. */
 
 [data-theme="tal-shiar"] :is(.rom-title, .rom-panel-code) {
   animation: rom-flicker 7s infinite;

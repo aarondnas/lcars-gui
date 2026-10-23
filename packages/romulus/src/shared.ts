@@ -6,7 +6,7 @@ export type AlertLevel = "red" | "yellow";
 export type StatusKind = "ok" | "warn" | "error" | "off";
 export type Orientation = "horizontal" | "vertical";
 
-/** data-color nur setzen, wenn eine Farbe angegeben ist (sonst CSS-Default). */
+/** Sets data-color only when a color is given (otherwise the CSS default applies). */
 export function colorAttribute(color?: RomulusColor) {
   return color ? { "data-color": String(color) } : {};
 }

@@ -1,10 +1,10 @@
 # @lcars-gui/federation
 
-LCARS-UI-Komponenten im Stil der Föderation – für React und reines HTML/CSS/JS.
+LCARS UI components in the style of the Federation – for React and plain HTML/CSS/JS.
 
-**[Live-Demo](https://aarondnas.github.io/lcars-gui/federation.html)**
+**[▶ Live demo & docs](https://aarondnas.github.io/lcars-gui/#federation)**
 
-![Föderation](https://raw.githubusercontent.com/aarondnas/lcars-gui/main/docs/federation.gif)
+![Federation](https://raw.githubusercontent.com/aarondnas/lcars-gui/main/docs/federation.gif)
 
 ## Installation
 
@@ -12,7 +12,7 @@ LCARS-UI-Komponenten im Stil der Föderation – für React und reines HTML/CSS/
 npm install @lcars-gui/federation
 ```
 
-## Verwendung
+## Usage
 
 ```tsx
 // React
@@ -21,7 +21,7 @@ import { Frame, Button, LcarsRoot, SoundProvider } from "@lcars-gui/federation/r
 
 <SoundProvider>
   <LcarsRoot theme="tng">
-    <Frame title="Brücke" topLabel="47-1138" sidebar={<Button shape="rect" align="bottom-right">Taktik</Button>}>
+    <Frame title="Bridge" topLabel="47-1138" sidebar={<Button shape="rect" align="bottom-right">Tactical</Button>}>
       …
     </Frame>
   </LcarsRoot>
@@ -29,7 +29,7 @@ import { Frame, Button, LcarsRoot, SoundProvider } from "@lcars-gui/federation/r
 ```
 
 ```html
-<!-- Reines HTML/JS, ohne Bundler -->
+<!-- Plain HTML/JS, no bundler -->
 <link rel="stylesheet" href="https://unpkg.com/@lcars-gui/federation/dist/ui.css">
 <button class="lcar-btn-std" data-color="2" data-shape="rect">Warp</button>
 
@@ -37,22 +37,23 @@ import { Frame, Button, LcarsRoot, SoundProvider } from "@lcars-gui/federation/r
 <script>const ui = LcarsFederation.initLcars({ sound: true });</script>
 ```
 
-`initLcars()` macht Toggles, Tabs, Keypads, Data Cascades und Bedien-Töne im statischen Markup interaktiv.
+`initLcars()` makes toggles, tabs, keypads, data cascades and interface sounds in static markup interactive.
 
-## Themes & Alarm
+## Themes & alert
 
-`data-theme` (bzw. `<LcarsRoot theme>`) wechselt die Farbpalette, `data-alert="red" | "yellow"` färbt alles darunter um und lässt die Balken pulsieren.
+`data-theme` (or `<LcarsRoot theme>`) switches the color palette; `data-alert="red" | "yellow"` recolors everything
+below and makes the bars pulse.
 
-| Theme    | Stil                          | Extras                                  |
-|----------|-------------------------------|-----------------------------------------|
-| `tng`    | Enterprise-D (Standard)       | `@lcars-gui/federation/themes/tng.css`  |
-| `ds9`    | Raumstation Deep Space Nine   | `@lcars-gui/federation/themes/ds9.css`  |
-| `picard` | 25. Jahrhundert               | `@lcars-gui/federation/themes/picard.css` |
+| Theme    | Style                      | Extras                                    |
+|----------|----------------------------|-------------------------------------------|
+| `tng`    | Enterprise-D (default)     | `@lcars-gui/federation/themes/tng.css`    |
+| `ds9`    | Deep Space Nine station    | `@lcars-gui/federation/themes/ds9.css`    |
+| `picard` | 25th century               | `@lcars-gui/federation/themes/picard.css` |
 
-## Schrift
+## Font
 
-Mitgeliefert wird [Antonio](https://github.com/googlefonts/antonioFont) (SIL Open Font License 1.1, siehe `dist/fonts/Antonio/OFL.txt`).
+The package bundles [Antonio](https://github.com/googlefonts/antonioFont) (SIL Open Font License 1.1, see `dist/fonts/Antonio/OFL.txt`).
 
-## Lizenz
+## License
 
-MIT. Star Trek und LCARS sind Marken von CBS Studios / Paramount; dies ist ein inoffizielles Fan-Projekt.
+MIT. Star Trek and LCARS are trademarks of CBS Studios / Paramount; this is an unofficial fan project.

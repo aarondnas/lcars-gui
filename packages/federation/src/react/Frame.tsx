@@ -16,7 +16,7 @@ type DivProps = Omit<HTMLAttributes<HTMLDivElement>, "color">;
 
 export type ElbowProps = CoreElbowProps & DivProps;
 
-/** L-förmige Ecke, die Seitenleiste und Balken verbindet. */
+/** L-shaped corner that connects the sidebar and a bar. */
 export function Elbow({ corner, color, className, ...rest }: ElbowProps) {
   return (
     <div
@@ -29,7 +29,7 @@ export function Elbow({ corner, color, className, ...rest }: ElbowProps) {
 
 export type BarProps = CoreBarProps & DivProps;
 
-/** Waagrechter Balken, optional mit abgerundetem Ende (End Cap). */
+/** Horizontal bar, optionally with a rounded end (end cap). */
 export function Bar({ color, cap, length, className, ...rest }: BarProps) {
   return (
     <div
@@ -42,7 +42,7 @@ export function Bar({ color, cap, length, className, ...rest }: BarProps) {
 
 export type BlockProps = CoreBlockProps & DivProps;
 
-/** Rechteckiges Segment, z. B. in der Seitenleiste; Label sitzt unten rechts. */
+/** Rectangular segment, e.g. in the sidebar; the label sits bottom right. */
 export function Block({ color, fill, className, ...rest }: BlockProps) {
   return (
     <div
@@ -58,7 +58,7 @@ export type TitleProps = { color?: LcarsColor } & Omit<
   "color"
 >;
 
-/** Titel in der Balkenzeile. */
+/** Title in the bar row. */
 export function Title({ color, className, ...rest }: TitleProps) {
   return (
     <h1
@@ -69,7 +69,7 @@ export function Title({ color, className, ...rest }: TitleProps) {
   );
 }
 
-/** Senkrechter Stapel aus Segmenten mit gleichmäßigen Lücken. */
+/** Vertical stack of segments with even gaps. */
 export function Stack({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
   return <div className={cx(cls.stack, className)} {...rest} />;
 }
@@ -77,17 +77,17 @@ export function Stack({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
 export interface FrameProps extends Omit<DivProps, "title"> {
   color?: LcarsColor;
   title?: ReactNode;
-  /** Label im oberen/unteren Elbow, z. B. eine Nummer wie "47-1138" */
+  /** Label in the top/bottom elbow, e.g. a number like "47-1138" */
   topLabel?: ReactNode;
   bottomLabel?: ReactNode;
-  /** Inhalt der Seitenleiste (Buttons/Blocks); wird nach unten aufgefüllt */
+  /** Sidebar content (buttons/blocks); filled up to the bottom */
   sidebar?: ReactNode;
-  /** Ersetzt den Standardbalken oben bzw. unten */
+  /** Replaces the default bar at the top or bottom */
   top?: ReactNode;
   bottom?: ReactNode;
 }
 
-/** Klassisches LCARS-Panel: Seitenleiste, zwei Elbows, Balken und Inhaltsbereich. */
+/** Classic LCARS panel: sidebar, two elbows, bars and a content area. */
 export function Frame({
   color,
   title,
@@ -128,20 +128,20 @@ export function Frame({
 export interface SplitFrameProps extends Omit<DivProps, "title"> {
   color?: LcarsColor;
   title?: ReactNode;
-  /** Inhalt des oberen Bereichs (z. B. DataCascade, Readout) */
+  /** Content of the upper area (e.g. DataCascade, Readout) */
   header?: ReactNode;
-  /** Seitenleiste oben bzw. unten (Buttons/Blocks); wird jeweils aufgefüllt */
+  /** Upper and lower sidebar (buttons/blocks); each is filled up */
   headerSidebar?: ReactNode;
   sidebar?: ReactNode;
-  /** Labels in den beiden mittleren Elbows */
+  /** Labels in the two middle elbows */
   upperLabel?: ReactNode;
   lowerLabel?: ReactNode;
-  /** Ersetzt die Balken neben den mittleren Elbows */
+  /** Replaces the bars next to the middle elbows */
   upperBar?: ReactNode;
   lowerBar?: ReactNode;
 }
 
-/** TNG-Hauptlayout: oberer Bereich und unterer Bereich, getrennt durch zwei Elbows. */
+/** TNG main layout: upper and lower area, separated by two elbows. */
 export function SplitFrame({
   color,
   title,

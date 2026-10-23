@@ -1,14 +1,14 @@
-// Erzeugt das CSS eines Fraktionspakets aus dessen Tokens und Komponenten-Styles.
-// Erwartete Ordnerstruktur (relativ zu `root`):
+// Generates a faction package's CSS from its tokens and component styles.
+// Expected folder structure (relative to `root`):
 //
-//   tokens/base.json          Maße, Schriftgrößen, Grundfarben … → :root-Variablen
-//   tokens/themes/<name>.json Farbpalette pro Theme             → [data-theme="<name>"]
-//   tokens/alerts/<name>.json Farbpalette pro Alarmstufe        → [data-alert="<name>"]
-//   css/*.css                 Komponenten-Styles (nach Dateiname sortiert)
-//   themes/<name>/theme.css   Theme-Extras (optional)           → dist/themes/<name>.css
-//   fonts/                    Schriften (optional)              → dist/fonts/
+//   tokens/base.json          sizes, font sizes, base colors …  → :root variables
+//   tokens/themes/<name>.json color palette per theme           → [data-theme="<name>"]
+//   tokens/alerts/<name>.json color palette per alert level     → [data-alert="<name>"]
+//   css/*.css                 component styles (sorted by file name)
+//   themes/<name>/theme.css   theme extras (optional)           → dist/themes/<name>.css
+//   fonts/                    fonts (optional)                  → dist/fonts/
 //
-// Ergebnis: dist/ui.css (+ dist/themes/*.css, dist/fonts/).
+// Output: dist/ui.css (+ dist/themes/*.css, dist/fonts/).
 import fs from "fs";
 import path from "path";
 
@@ -18,7 +18,7 @@ const kebab = (str) =>
 
 const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
 
-// Alle JSON-Dateien eines Ordners als { name: inhalt }
+// All JSON files in a folder as { name: content }
 function readJsonDir(dir) {
   if (!fs.existsSync(dir)) return {};
   return Object.fromEntries(
@@ -41,7 +41,7 @@ function generateCssVars(baseTokens, vars) {
   return css;
 }
 
-// Palette → --colors-* Variablen. Fehlende Hover-Farben werden abgeleitet.
+// Palette → --colors-* variables. Missing hover colors are derived.
 function generatePalette(palette, vars) {
   let css = "";
   for (const [key, value] of Object.entries(palette)) {
@@ -80,11 +80,11 @@ function readComponentStyles(cssDir) {
 
 /**
  * @param {object} options
- * @param {string} options.root          Paketordner der Fraktion
- * @param {string} options.defaultTheme  Theme, dessen Palette auf :root liegt
- * @param {string} [options.prefix]      Präfix der CSS-Klassen/-Variablen (z. B. "lcar")
- * @param {string} [options.varPrefix]   Präfix der Token-Variablen (z. B. "rom-" → --rom-colors-color1),
- *                                       damit mehrere Fraktionen auf einer Seite nicht kollidieren
+ * @param {string} options.root          the faction's package folder
+ * @param {string} options.defaultTheme  theme whose palette is applied to :root
+ * @param {string} [options.prefix]      prefix of CSS classes/variables (e.g. "lcar")
+ * @param {string} [options.varPrefix]   prefix of token variables (e.g. "rom-" → --rom-colors-color1),
+ *                                       so several factions can coexist on one page
  */
 export function buildCss({ root, defaultTheme, prefix = "lcar", varPrefix = "" }) {
   const distDir = path.join(root, "dist");
@@ -93,7 +93,7 @@ export function buildCss({ root, defaultTheme, prefix = "lcar", varPrefix = "" }
   const alerts = readJsonDir(path.join(root, "tokens/alerts"));
 
   const defaultPalette = themes[defaultTheme];
-  if (!defaultPalette) throw new Error(`Theme "${defaultTheme}" fehlt in tokens/themes/`);
+  if (!defaultPalette) throw new Error(`Theme "${defaultTheme}" is missing in tokens/themes/`);
 
   const finalCss =
     "/* AUTO-GENERATED FROM tokens/ + css/*.css — DO NOT EDIT */\n\n" +
@@ -106,7 +106,7 @@ export function buildCss({ root, defaultTheme, prefix = "lcar", varPrefix = "" }
   fs.mkdirSync(distDir, { recursive: true });
   fs.writeFileSync(path.join(distDir, "ui.css"), finalCss);
 
-  // Theme-Extras
+  // Theme extras
   const themesDir = path.join(root, "themes");
   if (fs.existsSync(themesDir)) {
     fs.mkdirSync(path.join(distDir, "themes"), { recursive: true });

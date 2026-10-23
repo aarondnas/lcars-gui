@@ -3,11 +3,11 @@ import type { AlertLevel, RomulusTheme } from "..";
 
 export interface RomulusRootProps extends HTMLAttributes<HTMLDivElement> {
   theme?: RomulusTheme;
-  /** Färbt alles darunter rot/gelb und lässt Linien pulsieren */
+  /** Turns everything below red/yellow and makes the lines pulse */
   alert?: AlertLevel | null;
 }
 
-/** Setzt Farbthema und Alarmzustand für alle Komponenten darunter. */
+/** Sets the color theme and alert state for all components below. */
 export function RomulusRoot({ theme, alert, ...rest }: RomulusRootProps) {
   return <div data-theme={theme} data-alert={alert ?? undefined} {...rest} />;
 }

@@ -1,6 +1,6 @@
 /* #################### BUTTON #################### */
 
-/* Base style: dunkle Fläche mit leuchtender Kontur (variant "outline") */
+/* Base style: dark fill with a glowing outline (variant "outline") */
 .rom-btn {
   --rom-c: var(--rom-chamfer-m);
   --rom-line: var(--rom-bg, var(--rom-colors-color1));
@@ -42,7 +42,7 @@
   opacity: 0.35;
 }
 
-/* Variant: gefüllt mit dunkler Schrift */
+/* Variant: filled, with dark text */
 .rom-btn[data-variant="solid"] {
   background: var(--rom-line);
   box-shadow: none;
@@ -66,7 +66,7 @@
 /* Shape Variants (default: chamfer) */
 .rom-btn[data-shape="rect"] { --rom-c: 0px; }
 
-/* Pfeilspitzen: immer gefüllt, die schrägen Kanten hätten sonst keine Kontur */
+/* Arrow points: always filled, the slanted edges would otherwise have no outline */
 .rom-btn[data-shape="point-left"],
 .rom-btn[data-shape="point-right"] {
   background: var(--rom-line);
@@ -82,7 +82,7 @@
   padding-right: 1.8em;
 }
 
-/* Label links */
+/* Label on the left */
 .rom-btn[data-align="start"] { justify-content: flex-start; }
 
 /* Toggle: aria-pressed */

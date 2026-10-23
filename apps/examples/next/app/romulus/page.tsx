@@ -1,4 +1,4 @@
-"use client"; // Keypad bekommt eine onSubmit-Funktion
+"use client"; // Keypad receives an onSubmit function
 
 import "@lcars-gui/romulus/ui.css";
 import "@lcars-gui/romulus/themes/tal-shiar.css";
@@ -44,9 +44,9 @@ export default function RomulusPage() {
           title="Romulus – React"
           sidebar={
             <>
-              <Button align="start">Taktik</Button>
+              <Button align="start">Tactical</Button>
               <Button align="start" color={6}>Navigation</Button>
-              <Button align="start" color={4}>Tarnung</Button>
+              <Button align="start" color={4}>Cloak</Button>
             </>
           }
         >
@@ -55,9 +55,9 @@ export default function RomulusPage() {
             <Divider />
             <div style={row}>
               <Button variant="solid">Solid</Button>
-              <Button shape="point-left" color={6}>Zurück</Button>
-              <Button shape="point-right" color={6}>Weiter</Button>
-              <Toggle color={3} defaultPressed>Schilde</Toggle>
+              <Button shape="point-left" color={6}>Back</Button>
+              <Button shape="point-right" color={6}>Forward</Button>
+              <Toggle color={3} defaultPressed>Shields</Toggle>
             </div>
           </section>
 
@@ -65,20 +65,20 @@ export default function RomulusPage() {
             <ButtonGrid columns={4}>
               <Button>Disruptor</Button>
               <Button color={6}>Torpedo</Button>
-              <Button color={3}>Traktor</Button>
-              <Button color={4}>Singularität</Button>
+              <Button color={3}>Tractor</Button>
+              <Button color={4}>Singularity</Button>
             </ButtonGrid>
           </section>
 
           <section style={{ ...section, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 28 }}>
             <div style={{ display: "grid", gap: 14 }}>
-              <Input label="Kurs" placeholder="Romulus · Remus" />
+              <Input label="Course" placeholder="Romulus · Remus" />
               <Slider defaultValue={64} />
               <LevelBar value={64} />
               <div style={row}>
-                <StatusIndicator status="ok">Tarnung</StatusIndicator>
-                <StatusIndicator status="warn">Schilde</StatusIndicator>
-                <StatusIndicator status="error" blink>Hülle</StatusIndicator>
+                <StatusIndicator status="ok">Cloak</StatusIndicator>
+                <StatusIndicator status="warn">Shields</StatusIndicator>
+                <StatusIndicator status="error" blink>Hull</StatusIndicator>
               </div>
             </div>
             <Keypad length={4} mask onSubmit={(code) => code === "1701"} />
@@ -87,8 +87,8 @@ export default function RomulusPage() {
           <section style={section}>
             <Tabs
               items={[
-                { id: "ziel", label: "Ziel", content: "Neutrale Zone, Sektor 4." },
-                { id: "crew", label: "Crew", color: 6, content: "1.200 Besatzung." },
+                { id: "target", label: "Target", content: "Neutral Zone, sector 4." },
+                { id: "crew", label: "Crew", color: 6, content: "1,200 crew." },
               ]}
             />
           </section>
@@ -97,11 +97,11 @@ export default function RomulusPage() {
             <Readout
               style={{ minWidth: 260 }}
               items={[
-                { label: "Singularität", value: "98.4" },
-                { label: "Tarnfeld", value: "Stabil" },
+                { label: "Singularity", value: "98.4" },
+                { label: "Cloaking field", value: "Stable" },
               ]}
             />
-            <Gauge value={64} label="Energie" />
+            <Gauge value={64} label="Power" />
             <LevelBar value={40} orientation="vertical" color={4} segments={8} />
           </section>
 

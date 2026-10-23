@@ -1,5 +1,5 @@
-/* Theme-Extras: TNG – Enterprise-D
-   Wird als @lcars-gui/federation/themes/tng.css veröffentlicht.
-   Hier kommen zusätzliche Animationen/Effekte hin, die nur zu diesem Theme passen.
-   Alle Regeln unter [data-theme="tng"] einhängen, damit die Datei auch bei
-   anderen aktiven Themes gefahrlos geladen werden kann. */
+/* Theme extras: TNG – Enterprise-D
+   Published as @lcars-gui/federation/themes/tng.css.
+   Add animations/effects here that only fit this theme.
+   Scope all rules under [data-theme="tng"] so the file can safely be
+   loaded while other themes are active. */

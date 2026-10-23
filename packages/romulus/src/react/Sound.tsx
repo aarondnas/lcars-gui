@@ -6,7 +6,7 @@ import { romulanSound } from "..";
 
 export { useLcarsSound, type SoundProviderProps } from "@lcars-gui/core/react";
 
-/** Aktiviert die Bedien-Töne (romulanische Tonfolgen) für alle Komponenten darunter. */
+/** Enables interface sounds (Romulan patterns) for all components below. */
 export function SoundProvider(props: SoundProviderProps) {
   return <CoreSoundProvider {...romulanSound} {...props} />;
 }

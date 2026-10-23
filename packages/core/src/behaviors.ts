@@ -1,26 +1,26 @@
 // packages/core/src/behaviors.ts
-// Verhalten für reines HTML/JS, unabhängig vom Design einer Fraktion:
-// Toggles, Tabs, Keypads und Bedien-Töne. Die Fraktionen geben nur ihre Selektoren an.
+// Behavior for plain HTML/JS, independent of a faction's design:
+// toggles, tabs, keypads and interface sounds. Factions only provide their selectors.
 import { createLcarsSound, type LcarsSoundKind, type LcarsSoundOptions } from "./sound";
 
 export interface BehaviorSelectors {
-  /** Elemente, die beim Klicken einen Ton spielen (Buttons, Tabs) */
+  /** Elements that play a sound when clicked (buttons, tabs) */
   control: string;
-  /** Keypad-Container */
+  /** Keypad container */
   keypad: string;
-  /** Taste innerhalb eines Keypads */
+  /** Key inside a keypad */
   keypadKey: string;
-  /** Anzeige innerhalb eines Keypads */
+  /** Display inside a keypad */
   keypadDisplay: string;
 }
 
 export interface InitBehaviorsOptions {
-  /** Bereich, in dem verdrahtet wird (Standard: document) */
+  /** Area to wire up (default: document) */
   root?: Document | HTMLElement;
-  /** Bedien-Töne von Anfang an an (später: setSound) */
+  /** Enable interface sounds from the start (later: setSound) */
   sound?: boolean;
   volume?: number;
-  /** Prüft den Code eines Keypads; ohne Angabe wird mit data-code verglichen */
+  /** Checks a keypad's code; without it, the code is compared to data-code */
   onKeypadSubmit?: (code: string, keypad: HTMLElement) => boolean | void;
 }
 
@@ -30,12 +30,12 @@ export interface LcarsController {
   destroy(): void;
 }
 
-/** Event, das ein Toggle nach jedem Umschalten auslöst (detail.pressed). */
+/** Event a toggle dispatches after every change (detail.pressed). */
 export const pressedChangeEvent = "lcar:pressedchange";
 
 /**
- * Macht statisches Markup interaktiv.
- * Der zurückgegebene Controller spielt Töne und entfernt die Listener wieder.
+ * Makes static markup interactive.
+ * The returned controller plays sounds and removes the listeners again.
  */
 export function initBehaviors(
   selectors: BehaviorSelectors,
@@ -66,7 +66,7 @@ export function initBehaviors(
     if (key) pressKey(key.closest<HTMLElement>(selectors.keypad)!, key.textContent!.trim());
   };
 
-  // Tabs: Pfeiltasten wechseln den aktiven Tab
+  // Tabs: arrow keys switch the active tab
   const onKeyDown = (e: Event) => {
     const { key, target } = e as KeyboardEvent;
     const step = key === "ArrowRight" ? 1 : key === "ArrowLeft" ? -1 : 0;
@@ -79,7 +79,7 @@ export function initBehaviors(
     next.focus();
   };
 
-  // Keypad: Code sammeln, mit ENT prüfen, mit CLR löschen
+  // Keypad: collect the code, check it with ENT, clear it with CLR
   const codes = new WeakMap<HTMLElement, string>();
   const pressKey = (pad: HTMLElement, key: string) => {
     const display = pad.querySelector<HTMLElement>(selectors.keypadDisplay);

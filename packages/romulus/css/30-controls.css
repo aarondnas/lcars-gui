@@ -16,7 +16,7 @@
   gap: 0.2rem;
 }
 
-/* Tabs als Parallelogramme */
+/* Tabs as parallelograms */
 .rom-tab {
   --rom-line: var(--rom-bg, var(--rom-colors-color1));
   min-width: 7rem;
@@ -93,7 +93,7 @@
 
 /* #################### SLIDER (native range) #################### */
 
-/* Dünne Skala, Rautengriff */
+/* Thin scale, diamond thumb */
 .rom-range {
   --rom-line: var(--rom-bg, var(--rom-colors-color1));
   -webkit-appearance: none;

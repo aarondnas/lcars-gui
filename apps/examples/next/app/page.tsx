@@ -44,7 +44,7 @@ export default function Page() {
           style={{ minHeight: "calc(100vh - 80px)" }}
           sidebar={
             <>
-              <Toggle color={2} shape="rect" align="bottom-right" defaultPressed>Schilde</Toggle>
+              <Toggle color={2} shape="rect" align="bottom-right" defaultPressed>Shields</Toggle>
               <Toggle color={4} shape="rect" align="bottom-right">Phaser</Toggle>
               <Button color={6} shape="rect" align="bottom-right">Warp</Button>
             </>
@@ -52,7 +52,7 @@ export default function Page() {
         >
           <div style={section}>
             <ButtonGrid columns={4} style={{ maxWidth: 520 }}>
-              {["Navigation", "Comms", "Taktik", "Ops", "Holodeck", "Transporter", "Krankenst.", "Logbuch"].map((label, i) => (
+              {["Navigation", "Comms", "Tactical", "Ops", "Holodeck", "Transporter", "Sickbay", "Log"].map((label, i) => (
                 <Button key={label} color={([1, 4, 6, 4, 7, 1, 2, 4] as const)[i]} shape="rect" align="bottom-right">
                   {label}
                 </Button>
@@ -63,7 +63,7 @@ export default function Page() {
           <div style={{ ...section, display: "flex", gap: 48, flexWrap: "wrap", alignItems: "flex-end" }}>
             <Keypad length={6} />
             <Gauge value={60} label="Warp" />
-            <Gauge value={85} segments={20} label="Schilde" color={6} />
+            <Gauge value={85} segments={20} label="Shields" color={6} />
             <LevelBar value={70} orientation="vertical" color={3} />
           </div>
 
@@ -71,12 +71,12 @@ export default function Page() {
             <Tabs
               color={6}
               items={[
-                { id: "kurs", label: "Kurs", content: <Readout items={[{ label: "Kurs", value: "247.9" }, { label: "Ankunft", value: "3 h" }]} /> },
-                { id: "crew", label: "Crew", content: <Readout items={[{ label: "Personen", value: "1.014" }]} /> },
+                { id: "course", label: "Course", content: <Readout items={[{ label: "Course", value: "247.9" }, { label: "Arrival", value: "3 h" }]} /> },
+                { id: "crew", label: "Crew", content: <Readout items={[{ label: "Persons", value: "1,014" }]} /> },
               ]}
             />
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <Input label="Ziel" placeholder="Sternenbasis 74" color={1} />
+              <Input label="Destination" placeholder="Starbase 74" color={1} />
               <Slider defaultValue={60} color={1} aria-label="Warpleistung" />
               <LevelBar value={60} color={6} />
             </div>

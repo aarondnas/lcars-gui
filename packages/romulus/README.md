@@ -1,9 +1,9 @@
 # @lcars-gui/romulus
 
-UI-Komponenten im Stil des Romulanischen Sternenimperiums: leuchtende Linien auf dunklem Grund,
-abgeschrägte Ecken, Krallen-Ecken an Panels, Rauten statt Kreisen.
+UI components in the style of the Romulan Star Empire: glowing lines on dark surfaces,
+chamfered corners, talon-shaped panel corners, diamonds instead of circles.
 
-**[Live-Demo](https://aarondnas.github.io/lcars-gui/romulus.html)**
+**[▶ Live demo & docs](https://aarondnas.github.io/lcars-gui/#romulus)**
 
 ![Romulus](https://raw.githubusercontent.com/aarondnas/lcars-gui/main/docs/romulus.gif)
 
@@ -13,16 +13,16 @@ abgeschrägte Ecken, Krallen-Ecken an Panels, Rauten statt Kreisen.
 npm install @lcars-gui/romulus
 ```
 
-## Verwendung
+## Usage
 
-```ts
+```tsx
 // React
 import "@lcars-gui/romulus/ui.css";
 import { Panel, Button, RomulusRoot, SoundProvider } from "@lcars-gui/romulus/react";
 
 <SoundProvider>
   <RomulusRoot theme="warbird">
-    <Panel code="R-7734" title="Taktisch" sidebar={<Button>Tarnung</Button>}>
+    <Panel code="R-7734" title="Tactical" sidebar={<Button>Cloak</Button>}>
       …
     </Panel>
   </RomulusRoot>
@@ -30,7 +30,7 @@ import { Panel, Button, RomulusRoot, SoundProvider } from "@lcars-gui/romulus/re
 ```
 
 ```html
-<!-- Reines HTML/JS -->
+<!-- Plain HTML/JS -->
 <link rel="stylesheet" href="https://unpkg.com/@lcars-gui/romulus/dist/ui.css">
 <script src="https://unpkg.com/@lcars-gui/romulus/dist/index.global.js"></script>
 <script>const ui = LcarsRomulus.initRomulus({ sound: true });</script>
@@ -38,22 +38,22 @@ import { Panel, Button, RomulusRoot, SoundProvider } from "@lcars-gui/romulus/re
 
 ## Themes
 
-| Theme        | Stil                                    | Extras (`themes/<name>.css`)  |
-|--------------|-----------------------------------------|-------------------------------|
-| `warbird`    | TNG, D'deridex-Klasse (Standard)        | Scanlines auf Panels          |
-| `tal-shiar`  | kühler, blaugrün                        | flackernde Titel und Kennungen |
-| `free-state` | Picard-Ära, mit Goldakzent              | Leuchten auf Schrift/Kontakten |
+| Theme        | Style                                 | Extras (`themes/<name>.css`)   |
+|--------------|---------------------------------------|--------------------------------|
+| `warbird`    | TNG, D'deridex class (default)        | scanlines on panels            |
+| `tal-shiar`  | cooler, blue-green                    | flickering titles and ID codes |
+| `free-state` | Picard era, with a gold accent        | glow on text and contacts      |
 
-## Schrift
+## Font
 
-Es wird keine Schrift mitgeliefert. Gut passt [Michroma](https://fonts.google.com/specimen/Michroma)
-(Google Fonts, frei); ohne sie greifen Eurostile, Bahnschrift oder Arial Narrow.
+No font is bundled. [Michroma](https://fonts.google.com/specimen/Michroma) (Google Fonts, free) fits well;
+without it Eurostile, Bahnschrift or Arial Narrow are used.
 
-## CSS-Variablen
+## CSS variables
 
-Alle Variablen tragen das Präfix `--rom-` (z. B. `--rom-colors-color1`), damit sich Romulus
-und andere Fraktionen auf einer Seite nicht in die Quere kommen.
+All variables use the `--rom-` prefix (e.g. `--rom-colors-color1`), so Romulus and other factions
+can live on the same page without conflicts.
 
-## Lizenz
+## License
 
-MIT. Star Trek ist eine Marke von CBS Studios / Paramount; dies ist ein inoffizielles Fan-Projekt.
+MIT. Star Trek is a trademark of CBS Studios / Paramount; this is an unofficial fan project.

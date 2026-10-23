@@ -1,6 +1,6 @@
 # @lcars-gui/qonos
 
-UI-Komponenten im Stil des Klingonischen Reiches – **in Planung**.
+UI components in the style of the Klingon Empire – **planned**.
 
-Aufbau wie `@lcars-gui/federation`: `tokens/`, `css/`, `src/` (Vanilla), `src/react/`, `themes/`.
-Solange `"private": true` gesetzt ist, wird das Paket nicht veröffentlicht.
+Same structure as `@lcars-gui/federation`: `tokens/`, `css/`, `src/` (vanilla), `src/react/`, `themes/`.
+As long as `"private": true` is set, the package is not published.

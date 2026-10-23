@@ -1,7 +1,7 @@
 // packages/romulus/src/sound.ts
 import type { LcarsSoundOptions } from "@lcars-gui/core";
 
-/** Romulanische Bedien-Töne: tiefer, dreieckige Welle, absteigende Folgen. */
+/** Romulan interface sounds: lower pitch, triangle wave, descending patterns. */
 export const romulanSound: LcarsSoundOptions = {
   wave: "triangle",
   patterns: {

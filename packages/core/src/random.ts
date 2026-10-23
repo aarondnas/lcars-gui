@@ -1,8 +1,8 @@
 // packages/core/src/random.ts
 
 /**
- * Zufallszahlen 0–1, aber reproduzierbar (mulberry32):
- * gleicher Seed → gleiche Folge, wichtig für Server-Rendering.
+ * Random numbers 0–1, but reproducible (mulberry32):
+ * same seed → same sequence, important for server rendering.
  */
 export function seededRandom(seed = 47) {
   let state = seed >>> 0;

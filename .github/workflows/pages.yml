@@ -1,6 +1,6 @@
-# Baut die Pakete und veröffentlicht die HTML-Demos (apps/examples/web) auf GitHub Pages.
-# Einmalig nötig: Settings → Pages → Source: "GitHub Actions".
-name: Demo auf GitHub Pages
+# Builds the packages and publishes the HTML demos (apps/examples/web) to GitHub Pages.
+# One-time setup: Settings → Pages → Source: "GitHub Actions".
+name: Deploy demo to GitHub Pages
 
 on:
   push:
@@ -30,9 +30,9 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      # Seiten liegen in apps/examples/web und verweisen auf ../../../packages/<paket>/dist –
-      # auf Pages liegen sie im Wurzelverzeichnis, die Pfade werden entsprechend umgeschrieben.
-      - name: Seite zusammenstellen
+      # The pages live in apps/examples/web and reference ../../../packages/<package>/dist.
+      # On Pages they sit at the site root, so the paths are rewritten accordingly.
+      - name: Assemble site
         run: |
           mkdir -p _site/packages
           for pkg in federation romulus; do

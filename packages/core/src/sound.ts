@@ -1,17 +1,17 @@
 // packages/core/src/sound.ts
-// Synthetisierte Töne über die Web Audio API – keine Audiodateien,
-// damit keine urheberrechtlich geschützten Original-Sounds nötig sind.
-// Nur im Browser verfügbar; ohne AudioContext passiert einfach nichts.
+// Synthesized sounds via the Web Audio API – no audio files,
+// so no copyrighted original sounds are needed.
+// Browser only; without an AudioContext nothing happens.
 
 export type LcarsSoundKind = "beep" | "confirm" | "deny" | "alert";
 
-/** [Frequenz in Hz, Dauer in ms] je Ton einer Folge */
+/** [frequency in Hz, duration in ms] for each tone of a pattern */
 export type LcarsSoundPatterns = Record<LcarsSoundKind, [number, number][]>;
 
 export interface LcarsSoundOptions {
-  /** Tonfolgen je Art (Standard: Föderations-Töne) */
+  /** Sound patterns per kind (default: Federation sounds) */
   patterns?: LcarsSoundPatterns;
-  /** Wellenform des Oszillators (Standard: "sine") */
+  /** Oscillator waveform (default: "sine") */
   wave?: OscillatorType;
 }
 
