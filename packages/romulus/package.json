@@ -1,0 +1,81 @@
+{
+  "name": "@lcars-gui/romulus",
+  "version": "0.1.0",
+  "description": "UI-Komponenten im Stil des Romulanischen Sternenimperiums für React und reines HTML/CSS/JS",
+  "keywords": [
+    "lcars",
+    "star-trek",
+    "ui",
+    "components",
+    "react",
+    "css",
+    "romulan"
+  ],
+  "license": "MIT",
+  "author": "aarondnas",
+  "homepage": "https://aarondnas.github.io/lcars-gui/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aarondnas/lcars-gui.git",
+    "directory": "packages/romulus"
+  },
+  "bugs": {
+    "url": "https://github.com/aarondnas/lcars-gui/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/index.global.js",
+  "jsdelivr": "./dist/index.global.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js"
+    },
+    "./global.js": "./dist/index.global.js",
+    "./ui.css": "./dist/ui.css",
+    "./themes/*.css": "./dist/themes/*.css",
+    "./themes/*/react": {
+      "types": "./dist/themes/*/react.d.ts",
+      "import": "./dist/themes/*/react.js"
+    },
+    "./themes/*": {
+      "types": "./dist/themes/*/index.d.ts",
+      "import": "./dist/themes/*/index.js"
+    },
+    "./tokens/*": "./tokens/*"
+  },
+  "files": [
+    "dist",
+    "tokens"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "node build.js && tsup",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@lcars-gui/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "colors": {
+    "text1": "#000000",
+    "text2": "#FFFFFF",
+    "background": "#000000"
+  },
+  "padding": {
+    "btn-std": "0em 1em"
+  },
+  "width": {
+    "xs": "2em",
+    "s": "3em",
+    "m": "6em",
+    "l": "8em",
+    "xl": "10em"
+  },
+  "height": {
+    "btn-std": "1.5em"
+  },
+  "fontSize": {
+    "xs": "0.75vw",
+    "s": "1.0vw",
+    "m": "1.25vw",
+    "l": "1.75vw",
+    "xl": "2.5vw"
+  },
+  "radius": {
+    "btn-std": "10rem"
+  },
+  "frame": {
+    "gap": "0.3rem",
+    "sidebarWidth": "9rem",
+    "barHeight": "1.5rem",
+    "segmentHeight": "3.5rem",
+    "elbowHeight": "5rem",
+    "elbowRadius": "4rem",
+    "elbowInnerRadius": "1.75rem",
+    "labelSize": "1.1rem",
+    "titleSize": "2.2rem"
+  },
+  "status": {
+    "ok": "#99CC66",
+    "warn": "#FFCC33",
+    "error": "#FF4444",
+    "off": "#555555"
+  },
+  "alert": {
+    "red": "#FF3333",
+    "yellow": "#FFCC00"
+  }
+}

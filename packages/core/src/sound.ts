@@ -5,8 +5,17 @@
 
 export type LcarsSoundKind = "beep" | "confirm" | "deny" | "alert";
 
-// [Frequenz in Hz, Dauer in ms]
-const patterns: Record<LcarsSoundKind, [number, number][]> = {
+/** [Frequenz in Hz, Dauer in ms] je Ton einer Folge */
+export type LcarsSoundPatterns = Record<LcarsSoundKind, [number, number][]>;
+
+export interface LcarsSoundOptions {
+  /** Tonfolgen je Art (Standard: Föderations-Töne) */
+  patterns?: LcarsSoundPatterns;
+  /** Wellenform des Oszillators (Standard: "sine") */
+  wave?: OscillatorType;
+}
+
+const defaultPatterns: LcarsSoundPatterns = {
   beep: [[1320, 70]],
   confirm: [[880, 70], [1320, 110]],
   deny: [[440, 110], [330, 180]],
@@ -17,7 +26,7 @@ export interface LcarsSound {
   play(kind?: LcarsSoundKind): void;
 }
 
-export function createLcarsSound(volume = 0.12): LcarsSound {
+export function createLcarsSound(volume = 0.12, { patterns = defaultPatterns, wave = "sine" }: LcarsSoundOptions = {}): LcarsSound {
   let ctx: AudioContext | undefined;
 
   return {
@@ -31,7 +40,7 @@ export function createLcarsSound(volume = 0.12): LcarsSound {
         const gain = ctx.createGain();
         const end = t + ms / 1000;
 
-        osc.type = "sine";
+        osc.type = wave;
         osc.frequency.value = freq;
         gain.gain.setValueAtTime(volume, t);
         gain.gain.exponentialRampToValueAtTime(0.0001, end);

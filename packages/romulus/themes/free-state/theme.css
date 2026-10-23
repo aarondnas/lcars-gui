@@ -1,0 +1,11 @@
+/* Theme-Extras: Romulan Free State (Picard-Ära)
+   Wird als @lcars-gui/romulus/themes/free-state.css veröffentlicht.
+   Weiches Leuchten auf Schrift und Kontakten. */
+
+[data-theme="free-state"] :is(.rom-btn, .rom-title, .rom-tab, .rom-number) {
+  text-shadow: 0 0 0.6em color-mix(in srgb, currentColor 70%, transparent);
+}
+
+[data-theme="free-state"] .rom-blip {
+  box-shadow: 0 0 1.2rem 0.2rem var(--rom-bg);
+}

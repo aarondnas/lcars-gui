@@ -1,0 +1,59 @@
+# Baut die Pakete und veröffentlicht die HTML-Demos (apps/examples/web) auf GitHub Pages.
+# Einmalig nötig: Settings → Pages → Source: "GitHub Actions".
+name: Demo auf GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      # Seiten liegen in apps/examples/web und verweisen auf ../../../packages/<paket>/dist –
+      # auf Pages liegen sie im Wurzelverzeichnis, die Pfade werden entsprechend umgeschrieben.
+      - name: Seite zusammenstellen
+        run: |
+          mkdir -p _site/packages
+          for pkg in federation romulus; do
+            mkdir -p _site/packages/$pkg
+            cp -r packages/$pkg/dist _site/packages/$pkg/dist
+          done
+          for page in apps/examples/web/*.html; do
+            sed 's#\.\./\.\./\.\./packages/#packages/#g' "$page" > "_site/$(basename "$page")"
+          done
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

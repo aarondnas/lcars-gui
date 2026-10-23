@@ -8,13 +8,16 @@
     "apps/examples/*"
   ],
   "scripts": {
-    "build": "npm run build -w @lcars/css -w @lcars/core -w @lcars/react",
-    "dev": "npm run build && npm run dev -w @lcars/example-next",
-    "typecheck": "tsc --noEmit -p packages/core && tsc --noEmit -p packages/react"
+    "build": "npm run build -w @lcars-gui/core -w @lcars-gui/federation -w @lcars-gui/romulus",
+    "dev": "npm run build && npm run dev -w @lcars-gui/example-next",
+    "typecheck": "tsc --noEmit -p packages/core && tsc --noEmit -p packages/federation && tsc --noEmit -p packages/romulus",
+    "previews": "node scripts/record-previews.mjs"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "gifenc": "^1.0.3",
+    "pngjs": "^7.0.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "tsup": "^9.0.0",

@@ -1,0 +1,180 @@
+/* #################### TABS #################### */
+
+.rom-tabs {
+  --rom-line: var(--rom-bg, var(--rom-colors-color1));
+  display: flex;
+  flex-direction: column;
+}
+
+.rom-tabs > .rom-bar {
+  flex: none;
+  width: 100%;
+}
+
+.rom-tablist {
+  display: flex;
+  gap: 0.2rem;
+}
+
+/* Tabs als Parallelogramme */
+.rom-tab {
+  --rom-line: var(--rom-bg, var(--rom-colors-color1));
+  min-width: 7rem;
+  height: 2.1rem;
+  margin-bottom: var(--rom-panel-gap);
+  padding: 0 1.6em;
+  border: none;
+  cursor: pointer;
+  font-size: var(--rom-panel-label-size);
+  color: var(--rom-line);
+  background: color-mix(in srgb, var(--rom-line) 16%, var(--rom-colors-background));
+  clip-path: polygon(0.8em 0, 100% 0, calc(100% - 0.8em) 100%, 0 100%);
+}
+
+.rom-tab:hover {
+  background: color-mix(in srgb, var(--rom-line) 32%, var(--rom-colors-background));
+}
+
+.rom-tab[aria-selected="true"] {
+  background: var(--rom-line);
+  color: var(--rom-colors-text1);
+}
+
+.rom-tab:focus-visible {
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.rom-tabpanel {
+  padding: 1rem 0;
+  color: var(--rom-colors-text2);
+}
+
+/* #################### INPUT #################### */
+
+.rom-field {
+  --rom-line: var(--rom-bg, var(--rom-colors-color1));
+  display: flex;
+  align-items: stretch;
+  height: 2.3rem;
+  font-size: var(--rom-panel-label-size);
+}
+
+.rom-field-label {
+  display: flex;
+  align-items: center;
+  padding: 0 1.6em 0 0.8em;
+  background: var(--rom-line);
+  color: var(--rom-colors-text1);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 0.8em) 100%, 0 100%);
+}
+
+.rom-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 0.8em;
+  border: none;
+  border-bottom: var(--rom-line-std) solid var(--rom-line);
+  background: linear-gradient(0deg, color-mix(in srgb, var(--rom-line) 14%, transparent), transparent 70%);
+  color: var(--rom-colors-text2);
+  font-size: 1.25em;
+  outline: none;
+}
+
+.rom-input::placeholder {
+  color: color-mix(in srgb, var(--rom-line) 45%, black);
+}
+
+.rom-input:focus {
+  border-bottom-color: var(--rom-bg-hover, var(--rom-colors-color1hover));
+  background: linear-gradient(0deg, color-mix(in srgb, var(--rom-line) 28%, transparent), transparent 80%);
+}
+
+/* #################### SLIDER (native range) #################### */
+
+/* Dünne Skala, Rautengriff */
+.rom-range {
+  --rom-line: var(--rom-bg, var(--rom-colors-color1));
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 1.6rem;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.rom-range::-webkit-slider-runnable-track {
+  height: 0.6rem;
+  background:
+    linear-gradient(var(--rom-line), var(--rom-line)) center / 100% var(--rom-line-std) no-repeat,
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--rom-line) 60%, transparent) 0 1px, transparent 1px 10%);
+}
+.rom-range::-moz-range-track {
+  height: 0.6rem;
+  background:
+    linear-gradient(var(--rom-line), var(--rom-line)) center / 100% var(--rom-line-std) no-repeat,
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--rom-line) 60%, transparent) 0 1px, transparent 1px 10%);
+}
+
+.rom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-top: -0.4rem;
+  border: none;
+  background: var(--rom-bg-hover, var(--rom-colors-color1hover));
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+.rom-range::-moz-range-thumb {
+  width: 1.4rem;
+  height: 1.4rem;
+  border: none;
+  border-radius: 0;
+  background: var(--rom-bg-hover, var(--rom-colors-color1hover));
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.rom-range:focus-visible::-webkit-slider-thumb { background: var(--rom-colors-color5); }
+.rom-range:focus-visible::-moz-range-thumb     { background: var(--rom-colors-color5); }
+.rom-range:focus-visible { outline: none; }
+
+/* #################### KEYPAD #################### */
+
+.rom-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--rom-panel-gap);
+  width: 15rem;
+}
+
+.rom-keypad > .rom-btn {
+  --rom-c: var(--rom-chamfer-s);
+  width: 100%;
+  height: 2.8rem;
+  font-size: var(--rom-fontSize-l);
+}
+
+.rom-keypad-display {
+  --rom-c: var(--rom-chamfer-m);
+  --rom-line: var(--rom-bg, var(--rom-colors-color1));
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 3rem;
+  margin-bottom: var(--rom-panel-gap);
+  padding: 0 1rem;
+  background:
+    linear-gradient(135deg, var(--rom-line) calc(var(--rom-c) * 0.7071 + var(--rom-line-std)), transparent 0),
+    linear-gradient(315deg, var(--rom-line) calc(var(--rom-c) * 0.7071 + var(--rom-line-std)), transparent 0),
+    var(--rom-colors-background);
+  box-shadow: inset 0 0 0 var(--rom-line-std) var(--rom-line);
+  color: var(--rom-colors-color5);
+  font-size: 1.5rem;
+  letter-spacing: 0.3em;
+}
+
+.rom-keypad-display[data-state="ok"]    { --rom-line: var(--rom-status-ok);    color: var(--rom-status-ok); }
+.rom-keypad-display[data-state="error"] { --rom-line: var(--rom-status-error); color: var(--rom-status-error); }

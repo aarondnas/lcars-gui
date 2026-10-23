@@ -1,0 +1,12 @@
+// packages/romulus/src/shared.ts
+export type RomulusColor = 1 | 2 | 3 | 4 | 5 | 6;
+export type RomulusLength = "xs" | "s" | "m" | "l" | "xl";
+export type RomulusTheme = "warbird" | "tal-shiar" | "free-state";
+export type AlertLevel = "red" | "yellow";
+export type StatusKind = "ok" | "warn" | "error" | "off";
+export type Orientation = "horizontal" | "vertical";
+
+/** data-color nur setzen, wenn eine Farbe angegeben ist (sonst CSS-Default). */
+export function colorAttribute(color?: RomulusColor) {
+  return color ? { "data-color": String(color) } : {};
+}

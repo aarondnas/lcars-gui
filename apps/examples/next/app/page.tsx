@@ -19,7 +19,7 @@ import {
   StatusIndicator,
   Tabs,
   Toggle,
-} from "@lcars/react";
+} from "@lcars-gui/federation/react";
 
 const section = { marginBottom: 40 };
 

@@ -1,0 +1,7 @@
+{
+  "name": "@lcars-gui/qonos",
+  "version": "0.0.0",
+  "private": true,
+  "description": "UI-Komponenten im Stil des Klingonischen Reiches (in Planung)",
+  "type": "module"
+}

@@ -1,0 +1,58 @@
+{
+  "colors": {
+    "text1": "#02170F",
+    "text2": "#BFF5DC",
+    "background": "#010805",
+    "surface": "#04120C"
+  },
+  "font": {
+    "family": "\"Michroma\", \"Eurostile\", \"Bahnschrift\", \"Arial Narrow\", sans-serif"
+  },
+  "fontSize": {
+    "xs": "0.65rem",
+    "s": "0.8rem",
+    "m": "0.95rem",
+    "l": "1.2rem",
+    "xl": "1.55rem"
+  },
+  "width": {
+    "xs": "2.5em",
+    "s": "4em",
+    "m": "7em",
+    "l": "10em",
+    "xl": "13em"
+  },
+  "height": {
+    "btn": "2.4em"
+  },
+  "chamfer": {
+    "s": "0.35rem",
+    "m": "0.7rem",
+    "l": "1.4rem"
+  },
+  "line": {
+    "thin": "1px",
+    "std": "2px",
+    "thick": "0.3rem"
+  },
+  "panel": {
+    "gap": "0.4rem",
+    "padding": "1.25rem",
+    "sidebarWidth": "9rem",
+    "headerHeight": "2.4rem",
+    "segmentHeight": "2.6rem",
+    "labelSize": "0.75rem",
+    "titleSize": "1.4rem",
+    "talonSize": "2.6rem"
+  },
+  "status": {
+    "ok": "#4BF2A0",
+    "warn": "#E8D55A",
+    "error": "#FF5A4E",
+    "off": "#2E4A3E"
+  },
+  "alert": {
+    "red": "#FF4A3D",
+    "yellow": "#F2D24B"
+  }
+}

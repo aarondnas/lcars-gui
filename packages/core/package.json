@@ -1,6 +1,24 @@
 {
-  "name": "@lcars/core",
+  "name": "@lcars-gui/core",
   "version": "0.1.0",
+  "description": "Gemeinsame Basis für alle lcars-gui-Fraktionen: Sound-Engine, Verhalten für HTML/JS, CSS-Build",
+  "keywords": [
+    "lcars",
+    "star-trek",
+    "ui",
+    "sound"
+  ],
+  "license": "MIT",
+  "author": "aarondnas",
+  "homepage": "https://aarondnas.github.io/lcars-gui/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aarondnas/lcars-gui.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/aarondnas/lcars-gui/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,14 +27,30 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./global": "./dist/index.global.js"
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js"
+    },
+    "./build": "./build/css.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "build"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsup src/index.ts --format esm,iife --global-name LcarsCore --dts --clean",
-    "dev": "tsup src/index.ts --format esm --dts --watch"
+    "build": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\" && tsup",
+    "dev": "tsup --watch"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

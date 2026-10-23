@@ -1,0 +1,201 @@
+/* #################### PANEL #################### */
+
+/* Konsole mit abgeschrägten Ecken (oben links / unten rechts)
+   und Krallen-Ecken (oben rechts / unten links).
+   Order: header, sidebar (optional), content, footer (optional) */
+.rom-panel {
+  --rom-c: var(--rom-chamfer-l);
+  --rom-line: var(--rom-bg, var(--rom-colors-color1));
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--rom-panel-sidebar-width) minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  gap: var(--rom-panel-gap) calc(var(--rom-panel-gap) * 3);
+  padding: var(--rom-panel-padding);
+  color: var(--rom-colors-text2);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--rom-line) 9%, var(--rom-colors-surface)),
+    var(--rom-colors-surface) 40%);
+}
+
+/* Kontur inkl. schräger Kanten */
+.rom-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, var(--rom-line) calc(var(--rom-c) * 0.7071 + var(--rom-line-std)), transparent 0),
+    linear-gradient(315deg, var(--rom-line) calc(var(--rom-c) * 0.7071 + var(--rom-line-std)), transparent 0);
+  box-shadow: inset 0 0 0 var(--rom-line-std) var(--rom-line);
+}
+
+/* Krallen-Ecken */
+.rom-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(225deg, var(--rom-line) calc(var(--rom-panel-talon-size) * 0.4), transparent 0)
+      top right / var(--rom-panel-talon-size) var(--rom-panel-talon-size) no-repeat,
+    linear-gradient(45deg, var(--rom-line) calc(var(--rom-panel-talon-size) * 0.4), transparent 0)
+      bottom left / var(--rom-panel-talon-size) var(--rom-panel-talon-size) no-repeat;
+}
+
+.rom-panel > * { position: relative; z-index: 1; }
+
+/* Ohne Seitenleiste: Inhalt über die volle Breite */
+.rom-panel:not(:has(> .rom-panel-sidebar)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.rom-panel-header,
+.rom-panel-footer {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--rom-panel-gap);
+}
+
+.rom-panel-header { min-height: var(--rom-panel-header-height); }
+.rom-panel-header > .rom-bar { margin-right: var(--rom-panel-talon-size); }
+.rom-panel-footer > .rom-bar:first-child { margin-left: var(--rom-panel-talon-size); }
+
+/* Kennung als gefülltes Trapez am Anfang des Kopfes */
+.rom-panel-code {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: var(--rom-panel-header-height);
+  padding: 0 1.6em 0 0.9em;
+  margin-left: calc(var(--rom-c) * 0.5);
+  background: var(--rom-line);
+  color: var(--rom-colors-text1);
+  font-size: var(--rom-panel-label-size);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 0.9em) 100%, 0 100%);
+}
+
+.rom-panel-content {
+  min-width: 0;
+  padding: 0.25rem 0;
+}
+
+/* #################### BAR #################### */
+
+.rom-bar {
+  --rom-line: var(--rom-bg, var(--rom-colors-color1));
+  flex: 1 1 0;
+  height: var(--rom-line-thick);
+  background: var(--rom-line);
+}
+
+.rom-bar[data-length="xs"] { flex: none; width: var(--rom-width-xs); }
+.rom-bar[data-length="s"]  { flex: none; width: var(--rom-width-s); }
+.rom-bar[data-length="m"]  { flex: none; width: var(--rom-width-m); }
+.rom-bar[data-length="l"]  { flex: none; width: var(--rom-width-l); }
+.rom-bar[data-length="xl"] { flex: none; width: var(--rom-width-xl); }
+
+/* Spitz zulaufende Enden */
+.rom-bar[data-cap="left"]  { clip-path: polygon(1.2rem 0, 100% 0, 100% 100%, 0 100%); }
+.rom-bar[data-cap="right"] { clip-path: polygon(0 0, calc(100% - 1.2rem) 0, 100% 100%, 0 100%); }
+.rom-bar[data-cap="both"]  { clip-path: polygon(1.2rem 0, calc(100% - 1.2rem) 0, 100% 100%, 0 100%); }
+
+/* Gestrichelt */
+.rom-bar[data-segmented] {
+  background: repeating-linear-gradient(90deg, var(--rom-line) 0 1.4rem, transparent 0 1.8rem);
+}
+
+/* #################### TITLE / NUMBER #################### */
+
+.rom-title {
+  flex: none;
+  margin: 0;
+  color: var(--rom-bg, var(--rom-colors-color1));
+  font-size: var(--rom-panel-title-size);
+  font-weight: normal;
+  letter-spacing: 0.25em;
+  white-space: nowrap;
+}
+
+.rom-number {
+  padding-left: 0.5em;
+  border-left: var(--rom-line-std) solid currentColor;
+  color: var(--rom-bg, var(--rom-colors-color4));
+  font-size: var(--rom-panel-label-size);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* #################### DIVIDER #################### */
+
+/* Linie mit Skalenstrichen und Raute in der Mitte */
+.rom-divider {
+  --rom-line: var(--rom-bg, var(--rom-colors-color2));
+  position: relative;
+  height: 0.9rem;
+  margin: 1rem 0;
+  background:
+    linear-gradient(var(--rom-line), var(--rom-line)) center / 100% var(--rom-line-thin) no-repeat,
+    repeating-linear-gradient(90deg, var(--rom-line) 0 var(--rom-line-std), transparent 0 1.5rem) center / 100% 0.5rem no-repeat;
+}
+
+.rom-divider::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.75rem;
+  height: 0.75rem;
+  translate: -50% -50%;
+  rotate: 45deg;
+  background: var(--rom-line);
+  box-shadow: 0 0 0 0.3rem var(--rom-colors-surface);
+}
+
+/* #################### BLOCK / STACK / GRID #################### */
+
+.rom-block {
+  --rom-c: var(--rom-chamfer-s);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  min-height: var(--rom-panel-segment-height);
+  padding: 0 0.6em 0.4em;
+  background: var(--rom-bg, var(--rom-colors-color2));
+  color: var(--rom-colors-text1);
+  font-size: var(--rom-panel-label-size);
+}
+
+/* Füllsegment: gedämpft, damit es nicht mit den Buttons konkurriert */
+.rom-block[data-fill] {
+  flex: 1 1 auto;
+  background: color-mix(in srgb, var(--rom-bg, var(--rom-colors-color2)) 22%, var(--rom-colors-surface));
+  color: var(--rom-bg, var(--rom-colors-color2));
+}
+
+.rom-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rom-panel-gap);
+  width: var(--rom-panel-sidebar-width);
+}
+
+.rom-stack > * { width: 100%; }
+
+.rom-stack > .rom-btn {
+  height: var(--rom-panel-segment-height);
+  font-size: var(--rom-panel-label-size);
+}
+
+.rom-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+  gap: var(--rom-panel-gap);
+}
+
+.rom-grid > .rom-btn {
+  width: 100%;
+  height: var(--rom-panel-segment-height);
+  font-size: var(--rom-panel-label-size);
+}

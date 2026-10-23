@@ -1,0 +1,7 @@
+{
+  "name": "@lcars-gui/cardassia",
+  "version": "0.0.0",
+  "private": true,
+  "description": "UI-Komponenten im Stil der Cardassianischen Union (in Planung)",
+  "type": "module"
+}

@@ -1,0 +1,47 @@
+/* #################### RESPONSIVE #################### */
+
+/* Narrow screens: sidebar becomes a row of buttons above the content */
+@media (max-width: 720px) {
+  .rom-panel {
+    grid-template-columns: minmax(0, 1fr);
+    padding: calc(var(--rom-panel-padding) * 0.6);
+  }
+
+  .rom-stack {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+  }
+
+  .rom-stack > * {
+    width: auto;
+    flex: 1 1 5rem;
+  }
+
+  .rom-stack > .rom-btn,
+  .rom-stack > .rom-block {
+    height: calc(var(--rom-panel-segment-height) * 0.8);
+    min-height: 0;
+  }
+
+  .rom-stack > .rom-block[data-fill] {
+    display: none;
+  }
+
+  .rom-title {
+    font-size: calc(var(--rom-panel-title-size) * 0.75);
+    letter-spacing: 0.15em;
+  }
+
+  .rom-grid {
+    grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+  }
+
+  .rom-alert {
+    padding: 0.7rem 2.4rem;
+  }
+
+  .rom-alert-title {
+    font-size: 1.8rem;
+  }
+}

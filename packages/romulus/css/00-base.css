@@ -1,0 +1,51 @@
+/* Romulanisches Design: leuchtende Linien auf dunklem Grund, abgeschrägte Ecken,
+   Rauten statt Kreise. Keine mitgelieferte Schrift – "Michroma" (Google Fonts)
+   passt gut, sonst greifen Eurostile/Bahnschrift/Arial Narrow. */
+
+[class*="rom-"] {
+  box-sizing: border-box;
+}
+
+.rom-btn, .rom-panel, .rom-bar, .rom-block, .rom-title, .rom-number,
+.rom-tab, .rom-field, .rom-input, .rom-keypad-display, .rom-cascade,
+.rom-readout, .rom-gauge, .rom-status, .rom-alert {
+  font-family: var(--rom-font-family);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1;
+}
+
+/* Abschrägung oben links + unten rechts: --rom-c = Größe der Schräge.
+   Die schrägen Kanten zeichnen zwei Verläufe nach (die geraden Kanten ein inset-Schatten). */
+.rom-btn, .rom-block, .rom-panel, .rom-panel::before, .rom-sensor, .rom-sensor::before,
+.rom-keypad-display {
+  clip-path: polygon(
+    var(--rom-c) 0, 100% 0,
+    100% calc(100% - var(--rom-c)), calc(100% - var(--rom-c)) 100%,
+    0 100%, 0 var(--rom-c)
+  );
+}
+
+@keyframes rom-pulse {
+  from { opacity: 1; }
+  to   { opacity: 0.45; }
+}
+
+@keyframes rom-blink {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0.2; }
+}
+
+@keyframes rom-flicker {
+  0%, 100% { opacity: 1; }
+  3%       { opacity: 0.35; }
+  6%       { opacity: 1; }
+  52%      { opacity: 0.8; }
+  54%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="rom-"], [class*="rom-"]::before, [class*="rom-"]::after {
+    animation: none !important;
+  }
+}

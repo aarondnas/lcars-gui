@@ -1,0 +1,9 @@
+/* Theme-Extras: Warbird – D'deridex-Klasse (TNG)
+   Wird als @lcars-gui/romulus/themes/warbird.css veröffentlicht.
+   Feine Scanlines auf den Panels, wie auf den grünen Brückenschirmen. */
+
+[data-theme="warbird"] .rom-panel {
+  background-image:
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--rom-colors-color1) 7%, transparent) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, color-mix(in srgb, var(--rom-colors-color1) 9%, var(--rom-colors-surface)), var(--rom-colors-surface) 40%);
+}
