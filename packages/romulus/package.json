@@ -39,14 +39,6 @@
     "./global.js": "./dist/index.global.js",
     "./ui.css": "./dist/ui.css",
     "./themes/*.css": "./dist/themes/*.css",
-    "./themes/*/react": {
-      "types": "./dist/themes/*/react.d.ts",
-      "import": "./dist/themes/*/react.js"
-    },
-    "./themes/*": {
-      "types": "./dist/themes/*/index.d.ts",
-      "import": "./dist/themes/*/index.js"
-    },
     "./tokens/*": "./tokens/*"
   },
   "files": [
