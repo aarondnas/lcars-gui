@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lcars-gui</title>
+  <meta name="description" content="Star-Trek-UI-Komponenten für React und reines HTML/CSS/JS – Föderation (LCARS) und Romulus." />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" />
+  <link rel="stylesheet" href="../../../packages/federation/dist/ui.css" />
+  <link rel="stylesheet" href="../../../packages/romulus/dist/ui.css" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 32px 16px;
+      background: #000;
+      color: #fff;
+      font-family: 'Antonio', 'Arial Narrow', sans-serif;
+    }
+
+    .intro {
+      max-width: 1100px;
+      margin: 0 auto 32px;
+    }
+
+    .intro h1 {
+      margin: 0 0 8px;
+      font-weight: normal;
+      font-size: 2.6rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--colors-color1);
+    }
+
+    .intro p {
+      margin: 0;
+      font-size: 1.15rem;
+      color: #ccc;
+    }
+
+    .intro code {
+      color: var(--colors-color4);
+    }
+
+    .factions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+      gap: 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .faction-text {
+      margin: 0 0 12px;
+      font-size: 1.1rem;
+    }
+
+    .rom-panel .faction-text { font-family: var(--rom-font-family); font-size: 0.8rem; line-height: 1.6; letter-spacing: 0.05em; }
+  </style>
+</head>
+<body>
+  <header class="intro">
+    <h1>lcars-gui</h1>
+    <p>Star-Trek-UI-Komponenten für React und reines HTML/CSS/JS – eine Bibliothek pro Fraktion.</p>
+  </header>
+
+  <main class="factions">
+    <!-- Föderation -->
+    <div class="lcar-frame">
+      <div class="lcar-frame-top">
+        <div class="lcar-elbow" data-corner="tl" data-color="1">47-1138</div>
+        <div class="lcar-bar" data-color="1"></div>
+        <h2 class="lcar-title" data-color="1">Föderation</h2>
+        <div class="lcar-bar" data-color="1" data-cap="right" data-length="xs"></div>
+      </div>
+      <div class="lcar-stack">
+        <a href="federation.html" class="lcar-btn-std" data-color="2" data-shape="rect" data-align="br">Demo</a>
+        <a href="federation.html?theme=ds9" class="lcar-btn-std" data-color="4" data-shape="rect" data-align="br">DS9</a>
+        <a href="federation.html?alert=red" class="lcar-btn-std" data-color="6" data-shape="rect" data-align="br">Red Alert</a>
+        <div class="lcar-block" data-color="1" data-fill></div>
+      </div>
+      <div class="lcar-frame-content">
+        <p class="faction-text">LCARS – runde Elbows, Kapsel-Buttons, Themes TNG, DS9 und Picard.</p>
+        <div class="lcar-cascade" data-columns="6" data-rows="4"></div>
+        <div class="row">
+          <code>npm install @lcars-gui/federation</code>
+        </div>
+      </div>
+      <div class="lcar-frame-bottom">
+        <div class="lcar-elbow" data-corner="bl" data-color="1"></div>
+        <div class="lcar-bar" data-color="1" data-cap="right"></div>
+      </div>
+    </div>
+
+    <!-- Romulus -->
+    <section class="rom-panel">
+      <div class="rom-panel-header">
+        <span class="rom-panel-code">R-7734</span>
+        <h2 class="rom-title">Romulus</h2>
+        <div class="rom-bar" data-cap="right"></div>
+      </div>
+      <nav class="rom-stack rom-panel-sidebar">
+        <a href="romulus.html" class="rom-btn" data-align="start">Demo</a>
+        <a href="romulus.html?theme=tal-shiar" class="rom-btn" data-color="6" data-align="start">Tal Shiar</a>
+        <a href="romulus.html?alert=red" class="rom-btn" data-color="4" data-align="start">Red Alert</a>
+        <div class="rom-block" data-fill></div>
+      </nav>
+      <div class="rom-panel-content">
+        <p class="faction-text">Abgeschrägte Ecken, leuchtende Linien, Rauten – Themes Warbird, Tal Shiar und Free State.</p>
+        <div class="rom-cascade" data-columns="5" data-rows="4"></div>
+        <div class="row">
+          <code style="color: var(--rom-colors-color4)">npm install @lcars-gui/romulus</code>
+        </div>
+      </div>
+      <div class="rom-panel-footer">
+        <div class="rom-bar" data-segmented></div>
+        <div class="rom-bar" data-length="s" data-cap="right"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../../packages/federation/dist/index.global.js"></script>
+  <script src="../../../packages/romulus/dist/index.global.js"></script>
+  <script>
+    LcarsFederation.fillCascades(document.querySelector(".lcar-frame"));
+    LcarsRomulus.fillCascades(document.querySelector(".rom-panel"));
+  </script>
+</body>
+</html>
