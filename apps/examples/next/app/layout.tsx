@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         style={{
           background: "var(--colors-background)",
           color: "var(--colors-text2)",
-          fontFamily: "Antonio, sans-serif",
+          fontFamily: "'Aaron Compressed', sans-serif",
           padding: 40,
         }}
       >

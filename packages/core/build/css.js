@@ -9,8 +9,19 @@
 //   fonts/                    fonts (optional)                  → dist/fonts/
 //
 // Output: dist/ui.css (+ dist/themes/*.css, dist/fonts/).
+import crypto from "crypto";
 import fs from "fs";
 import path from "path";
+
+// Appends a content hash to font URLs so browsers reload changed fonts
+function bustFontCache(css, root) {
+  return css.replace(/url\('\.\/(fonts\/[^'?]+)'\)/g, (match, rel) => {
+    const file = path.join(root, rel);
+    if (!fs.existsSync(file)) return match;
+    const hash = crypto.createHash("md5").update(fs.readFileSync(file)).digest("hex").slice(0, 8);
+    return `url('./${rel}?v=${hash}')`;
+  });
+}
 
 // Helper function: camelCase → kebab-case
 const kebab = (str) =>
@@ -104,7 +115,7 @@ export function buildCss({ root, defaultTheme, prefix = "lcar", varPrefix = "" }
     readComponentStyles(path.join(root, "css"));
 
   fs.mkdirSync(distDir, { recursive: true });
-  fs.writeFileSync(path.join(distDir, "ui.css"), finalCss);
+  fs.writeFileSync(path.join(distDir, "ui.css"), bustFontCache(finalCss, root));
 
   // Theme extras
   const themesDir = path.join(root, "themes");

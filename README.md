@@ -54,4 +54,4 @@ by GitHub Actions on every push to `main`.
 ## License
 
 [MIT](LICENSE). Star Trek and LCARS are trademarks of CBS Studios / Paramount; this is an unofficial fan project.
-The bundled font [Antonio](https://github.com/googlefonts/antonioFont) is licensed under the SIL Open Font License 1.1.
+The bundled font Aaron Compressed is part of this project and also MIT licensed.

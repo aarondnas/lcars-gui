@@ -50,6 +50,7 @@
   ],
   "scripts": {
     "build": "node build.js && tsup",
+    "build:font": "python font-src/build_font.py",
     "dev": "tsup --watch"
   },
   "dependencies": {

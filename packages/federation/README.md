@@ -52,7 +52,16 @@ below and makes the bars pulse.
 
 ## Font
 
-The package bundles [Antonio](https://github.com/googlefonts/antonioFont) (SIL Open Font License 1.1, see `dist/fonts/Antonio/OFL.txt`).
+The package bundles **Aaron Compressed**, an original compressed grotesque made for this project (MIT, see `dist/fonts/AaronCompressed/`).
+`ui.css` loads it automatically. To use it elsewhere, reference the family name:
+
+```css
+font-family: 'Aaron Compressed', 'Arial Narrow', sans-serif;
+```
+
+It covers Latin-1 (A–Z, a–z, tabular figures, punctuation, accented letters such as ÄÖÜ ß É Ñ Ç).
+The font is generated from [`font-src/build_font.py`](https://github.com/aarondnas/lcars-gui/blob/main/packages/federation/font-src/build_font.py)
+(`pip install -r font-src/requirements.txt`, then `npm run build:font`).
 
 ## License
 
