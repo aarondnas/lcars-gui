@@ -1,6 +1,6 @@
 {
   "name": "@lcars-gui/core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Shared foundation for all lcars-gui factions: sound engine, plain HTML/JS behavior, CSS build",
   "keywords": [
     "lcars",

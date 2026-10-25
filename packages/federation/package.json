@@ -1,6 +1,6 @@
 {
   "name": "@lcars-gui/federation",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "LCARS UI components in the style of the Federation (TNG, DS9, Picard) for React and plain HTML/CSS/JS",
   "keywords": [
     "lcars",
